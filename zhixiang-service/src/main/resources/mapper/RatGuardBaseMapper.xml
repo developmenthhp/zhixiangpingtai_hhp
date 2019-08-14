@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.ratGuardBase.RatGuardBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.ratGuardBase.RatGuardBase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ratplate_area" property="ratPlateArea" jdbcType="INTEGER" />
+    <result column="ratplate_sensor" property="ratPlateSensor" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="ratplate_rultions_time" property="ratPlateRultionsTime" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ratplate_area, ratplate_sensor, status, ratplate_rultions_time, sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="ratPlateArea != null and ratPlateArea != ''" >
+        ratplate_area,
+      </if>
+      <if test="ratPlateSensor != null and ratPlateSensor != ''" >
+        ratplate_sensor,
+      </if>
+      <if test="status != null and status != ''" >
+        status,
+      </if>
+      <if test="ratPlateRultionsTime != null and ratPlateRultionsTime != ''" >
+        ratplate_rultions_time,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="ratPlateArea != null and ratPlateArea != ''" >
+        #{ratPlateArea},
+      </if>
+      <if test="ratPlateSensor != null and ratPlateSensor != ''" >
+        #{ratPlateSensor},
+      </if>
+      <if test="status != null and status != ''" >
+        #{status},
+      </if>
+      <if test="ratPlateRultionsTime != null and ratPlateRultionsTime != ''" >
+        #{ratPlateRultionsTime},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="ratPlateArea != null and ratPlateArea != ''" >
+        ratplate_area = #{ratPlateArea,jdbcType=VARCHAR},
+      </if>
+      <if test="ratPlateSensor != null and ratPlateSensor != ''" >
+        ratplate_sensor = #{ratPlateSensor,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ratPlateRultionsTime != null and ratPlateRultionsTime != ''" >
+        ratplate_rultions_time = #{ratPlateRultionsTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 查询站点有没有装挡鼠板 start -->
+  <select id="findAllRGBase" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		ratplate_ulsonic_base
+		WHERE status &lt; 3
+	</select>
+  <!-- 查询站点有没有装挡鼠板 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

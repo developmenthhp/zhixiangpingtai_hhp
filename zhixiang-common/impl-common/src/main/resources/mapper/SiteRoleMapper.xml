@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.siteRole.SiteRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.module.siteRole.SiteRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="descpt" property="descpt" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="insert_uid" property="insertUid" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_name, descpt, code, insert_uid, insert_time, update_time,sdid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from siteRole
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from siteRole
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zhixiangmain.module.role.Role" >
+    insert into siteRole
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="descpt != null" >
+        descpt,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="insertUid != null" >
+        insert_uid,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="descpt != null" >
+        #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="insertUid != null" >
+        #{insertUid,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhixiangmain.module.siteRole.SiteRole" >
+    update siteRole
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="descpt != null" >
+        descpt = #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="insertUid != null" >
+        insert_uid = #{insertUid,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhixiangmain.module.role.Role" >
+    update siteRole
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      descpt = #{descpt,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      insert_uid = #{insertUid,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zhixiangmain.module.siteRole.SiteRole" >
+    insert into siteRole (id, role_name, descpt,
+    code, insert_uid, insert_time,
+    update_time,sdid)
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{descpt,jdbcType=VARCHAR},
+    #{code,jdbcType=VARCHAR}, #{insertUid,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP},#{sdId,jdbcType=INTEGER})
+  </insert>
+  <!--=Start findList 分页查询角色列表-->
+  <select id="findSiteRoleList" resultMap="BaseResultMap">
+    select
+      id,
+      role_name,
+      descpt,
+      code,
+      insert_time,
+      sdid
+    from siteRole
+    <where>
+      <if test="sdId!=null">
+        AND sdid = #{sdId}
+      </if>
+      <if test="roleName!=null and roleName!=''">
+        AND role_name like CONCAT(CONCAT('%',#{roleName}),
+        '%')
+      </if>
+      <if test="code!=null and code!=''">
+        AND code = #{code}
+      </if>
+    </where>
+  </select>
+  <!--=End findList 分页查询角色列表-->
+
+  <!--=Start findRoleAndPerms 查询角色列表-->
+  <resultMap id="rolePerms" type="com.zhixiangmain.module.siteRole.vo.SiteRoleVO" >
+    <id column="id" property="id" />
+    <result column="role_name" property="roleName"/>
+    <result column="code" property="code"/>
+    <result column="descpt" property="descpt"/>
+    <result column="insert_uid" property="insertUid"/>
+    <result column="insert_time" property="insertTime"/>
+    <result column="sdid" property="sdId"/>
+    <collection property="siteRolePerms" ofType="com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey">
+      <result  column="siteRole_id" property="siteRoleId"/>
+      <result column="site_id" property="siteId"/>
+    </collection>
+  </resultMap>
+
+  <select id="findSiteRoleAndSites" resultMap="rolePerms">
+    select
+    r.*,ssr.site_id,ssr.siteRole_id
+    from siteRole r
+    INNER JOIN site_siteRole ssr ON r.id=ssr.siteRole_id
+    WHERE r.id=#{id}
+  </select>
+  <!--=End findRoleAndPerms 查询角色列表-->
+
+  <!--=Start getRoleByUserId 根据用户id查询角色数据-->
+  <select id="getRoleByUserId" resultType="com.zhixiangmain.module.role.Role">
+    select
+    ur.role_id id,r.role_name,r.code
+    from user_role ur
+    INNER JOIN role r ON r.id=ur.role_id
+    WHERE ur.user_id=#{userId}
+  </select>
+  <!--=End getRoleByUserId 根据用户id查询角色数据-->
+
+  <!--=Start getRoles 查询角色列表-->
+  <select id="findSiteRoles" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from siteRole
+    <where>
+      <if test="sdId!=null">
+        AND sdid = #{sdId}
+      </if>
+    </where>
+  </select>
+  <!--=End getRoles 查询角色列表-->
+</mapper>

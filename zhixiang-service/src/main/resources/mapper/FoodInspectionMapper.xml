@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.scgl.sckjgl.FoodInspectionMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.scgl.sckjgl.FoodInspection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="supplierid" property="supplierId" jdbcType="VARCHAR" />
+    <result column="foodstuffn" property="foodStuffName" jdbcType="VARCHAR" />
+    <result column="measurementn" property="inspectionName" jdbcType="VARCHAR" />
+    <result column="mstcontext" property="mstContext" jdbcType="VARCHAR" />
+    <result column="mstdate" property="mstDate" jdbcType="VARCHAR" />
+    <result column="warn" property="warn" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="handler" property="handler" jdbcType="VARCHAR" />
+    <result column="handlingtime" property="handlingTime" jdbcType="VARCHAR" />
+    <result column="handlerevidence" property="handlerEvidence" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, supplierid, foodstuffn, measurementn,mstcontext,mstdate,warn,status,handler,handlingtime,handlerevidence,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="supplierId != null" >
+        supplierid,
+      </if>
+      <if test="foodStuffName != null and foodStuffName != ''" >
+        foodstuffn,
+      </if>
+      <if test="inspectionName != null and inspectionName != ''" >
+        measurementn,
+      </if>
+      <if test="mstContext != null and mstContext != ''" >
+        mstcontext,
+      </if>
+      <if test="mstDate != null and mstDate != ''" >
+        mstdate,
+      </if>
+      <if test="warn != null and warn != ''" >
+        warn,
+      </if>
+      <if test="status != null and status != ''" >
+        status,
+      </if>
+      <if test="handler != null and handler != ''" >
+        handler,
+      </if>
+      <if test="handlingTime != null and handlingTime != ''" >
+        handlingtime,
+      </if>
+      <if test="handlerEvidence != null and handlerEvidence != ''" >
+        handlerevidence,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="supplierId != null" >
+        #{supplierId},
+      </if>
+      <if test="foodStuffName != null and foodStuffName != ''" >
+        #{foodStuffName},
+      </if>
+      <if test="inspectionName != null and inspectionName != ''" >
+        #{inspectionName},
+      </if>
+      <if test="mstContext != null and mstContext != ''" >
+        #{mstContext},
+      </if>
+      <if test="mstDate != null and mstDate != ''" >
+        #{mstDate},
+      </if>
+      <if test="warn != null and warn != ''" >
+        #{warn},
+      </if>
+      <if test="status != null and status != ''" >
+        #{status},
+      </if>
+      <if test="handler != null and handler != ''" >
+        #{handler},
+      </if>
+      <if test="handlingTime != null and handlingTime != ''" >
+        #{handlingTime},
+      </if>
+      <if test="handlerEvidence != null and handlerEvidence != ''" >
+        #{handlerEvidence},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="supplierId != null" >
+        supplierid = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="foodStuffName != null and foodStuffName != ''" >
+        foodstuffn = #{foodStuffName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionName != null and inspectionName != ''" >
+        measurementn = #{inspectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="mstContext != null and mstContext != ''" >
+        mstcontext = #{mstContext,jdbcType=VARCHAR},
+      </if>
+      <if test="mstDate != null and mstDate != ''" >
+        mstdate = #{mstDate,jdbcType=VARCHAR},
+      </if>
+      <if test="warn != null and warn != ''" >
+        warn = #{warn,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="handler != null and handler != ''" >
+        handler = #{handler,jdbcType=VARCHAR},
+      </if>
+      <if test="handlingTime != null and handlingTime != ''" >
+        handlingtime = #{handlingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="handlerEvidence != null and handlerEvidence != ''" >
+        handlerevidence = #{handlerEvidence,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 查询食材快检信息，本周记录（周日到周六） start -->
+  <select id="findByWeek" resultType="java.util.Map">
+    SELECT
+    msu.id,
+    msu.foodstuffn foodStuffName,
+    msu.measurementn inspectionName,
+    msu.mstcontext mstContext,
+    msu.status,
+    /*msu.handler,*/
+    /*msu.handlingtime handlingTime,*/
+    msu.mstdate mstDate,
+    msu.sdid sdId,
+    /*isu.suppliername supplierName,*/
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM msurement msu
+    /*LEFT JOIN
+    ingredientsupp isu
+    ON
+    msu.supplierid = isu.id*/
+    WHERE YEARWEEK( date_format( mstdate, '%Y-%m-%d ' ) ) = YEARWEEK( now( ) ) AND msu.sdid = #{sdId}
+  </select>
+  <!-- 查询食材快检信息，本周记录 end -->
+
+  <!--平台当前月入库食材快检数量数据 start-->
+  <select id="findFInsBySdId" resultType="java.util.Map">
+    SELECT
+    COUNT(id) dataCount,
+    DATE_FORMAT( mstdate, '%Y-%m-%d' ) createTime
+    FROM
+    msurement
+    <where>
+      <if test="warn != null and warn != ''">
+        AND warn = #{warn}
+      </if>
+      AND DATE_FORMAT( mstdate, '%Y%m' ) =  #{selectYearMonth}
+      GROUP BY DATE_FORMAT(mstdate, '%Y-%m-%d')
+      ORDER BY createTime ASC
+    </where>
+  </select>
+  <!--平台当前月入库食材种类数量数据 end-->
+
+  <!--平台当前日期票据，卫生证，合格证数量 start-->
+  <select id="findCTByDateSdId" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id) dataCount
+    FROM
+    warehousdetails
+    <where>
+      <if test="notePictures != null">
+        AND notepictures != ''
+      </if>
+      <if test="sanitaryCertificate != null">
+        AND sanitarycertificate != ''
+      </if>
+      <if test="certificateOfSoundness != null">
+        AND certificateofsoundness != ''
+      </if>
+      AND DATE_FORMAT(cttime, '%Y-%m-%d') = DATE_FORMAT(#{exitDate}, '%Y-%m-%d')
+    </where>
+  </select>
+  <!--平台当前日期票据，卫生证，合格证数量 end-->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

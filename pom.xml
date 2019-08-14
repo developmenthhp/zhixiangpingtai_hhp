@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+	<modules>
+		<module>zhixiang-api</module>
+		<module>zhixiang-common</module>
+		<module>zhixiang-web</module>
+		<module>zhixiang-service</module>
+		<module>zhixiang-nettysocketio</module>
+        <module>zhixiang-quartz</module>
+        <module>zhixiang-serviceFee</module>
+		<module>zhixiang-serviceFee-api</module>
+	</modules>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.1.RELEASE</version>
+		<relativePath/><!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.zhixiangmain</groupId>
+	<artifactId>zhixiangpingtai</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>zhixiangpingtai</name>
+	<description>zhixaingpingtai</description>
+
+	<!-- 设置我们项目的一些版本属性 -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<dubbo.version>2.5.5</dubbo.version>
+		<zkclient.version>0.10</zkclient.version>
+		<lombok.version>1.16.18</lombok.version>
+		<aliyun-java-sdk-core.version>4.0.6</aliyun-java-sdk-core.version>
+		<aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
+		<shiro.version>1.4.0</shiro.version>
+		<shiro-ehcache>1.2.6</shiro-ehcache>
+		<thymeleaf-extras-shiro.version>1.2.1</thymeleaf-extras-shiro.version>
+		<netty-socketio.version>1.7.7</netty-socketio.version>
+		<httpclient.version>4.5.3</httpclient.version>
+		<net.sf.oval.version>1.86</net.sf.oval.version>
+		<commons-lang3.version>3.6</commons-lang3.version>
+		<commons-io.version>2.5</commons-io.version>
+		<commons-codec.version>1.11</commons-codec.version>
+		<spring-boot.version>2.0.5.RELEASE</spring-boot.version>
+	</properties>
+
+	<!-- 声明一些项目依赖管理，方便我们的依赖版本管理 -->
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Springboot依赖 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter</artifactId>
+				<version>${spring-boot.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<!--<scope>provided</scope>-->
+			</dependency>
+
+			<!-- Dubbo依赖 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.version}</version>
+			</dependency>
+
+			<!-- zookeeper的客户端依赖 -->
+			<dependency>
+				<groupId>com.101tec</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${zkclient.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>${aliyun-java-sdk-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>${aliyun-java-sdk-dysmsapi.version}</version>
+			</dependency>
+
+			<!--spring boot 整合shiro依赖-->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<!--shiro添加ehcache缓存 -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro-ehcache}</version>
+			</dependency>
+
+			<!-- websocket -->
+			<!--<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-websocket</artifactId>
+				<version>${spring-boot-starter-websocket.version}</version>
+			</dependency>-->
+
+			<!-- oval 参数校验 -->
+			<dependency>
+				<groupId>net.sf.oval</groupId>
+				<artifactId>oval</artifactId>
+				<version>${net.sf.oval.version}</version>
+			</dependency>
+
+			<!-- Apache工具组件 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.corundumstudio.socketio</groupId>
+				<artifactId>netty-socketio</artifactId>
+				<version>${netty-socketio.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- 避免引起 interface is not visible from class loader 问题 -->
+		<!--<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--<scope>provided</scope>-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--jsp页面使用jstl标签-->
+		<!-- servlet 依赖包 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<!--<scope>provided</scope>-->
+		</dependency>
+
+		<!-- JSTL (JSP standard Tag Library) JSP 标准标签库 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<!--用于编译jsp-->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<!--<scope>provided</scope>--><!-- idea不能识别 -->
+		</dependency>
+
+		<!-- zookeeper的客户端依赖 -->
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${zkclient.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>${aliyun-java-sdk-core.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+			<version>${aliyun-java-sdk-dysmsapi.version}</version>
+		</dependency>
+
+		<!--spring boot 整合shiro依赖-->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<!--shiro添加ehcache缓存 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro-ehcache}</version>
+		</dependency>
+		<!--
+                   包含支持UI模版（Velocity，FreeMarker，JasperReports），
+                   邮件服务，
+                   脚本服务(JRuby)，
+                   缓存Cache（EHCache），
+                   任务计划Scheduling（uartz）。
+        -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!--thymeleaf-shiro标签-->
+		<dependency>
+			<groupId>com.github.theborakompanioni</groupId>
+			<artifactId>thymeleaf-extras-shiro</artifactId>
+			<version>${thymeleaf-extras-shiro.version}</version>
+		</dependency>
+
+		<!-- httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+
+		<!-- 提供FileBody、StringBody和MultipartEntity 使用httpClient上传文件需要的类 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+
+		<!-- oval 参数校验 -->
+		<dependency>
+			<groupId>net.sf.oval</groupId>
+			<artifactId>oval</artifactId>
+			<version>${net.sf.oval.version}</version>
+		</dependency>
+
+		<!-- Apache工具组件 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.corundumstudio.socketio</groupId>
+			<artifactId>netty-socketio</artifactId>
+			<version>${netty-socketio.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

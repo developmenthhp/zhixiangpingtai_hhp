@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.ThreeWallAlert.ThreeWallAlertMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.fromwallAlert.FromwallAlert">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="fromwall_area" jdbcType="VARCHAR" property="fromwallArea" />
+		<result column="fromwall_sensor" jdbcType="VARCHAR" property="fromwallSensor" />
+		<result column="ratplate_starttime" jdbcType="VARCHAR" property="ratplateStartTime" />
+		<result column="ratplate_status" jdbcType="VARCHAR" property="ratplateStatus" />
+		<result column="ratplate_description" jdbcType="VARCHAR" property="ratplateDescription" />
+		<result column="ratplate_rultions_time" jdbcType="VARCHAR" property="ratplateRultionsTime" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, fromwall_area, fromwall_sensor, ratplate_starttime, ratplate_status, ratplate_description,ratplate_rultions_time,sdid
+	</sql>
+
+	<select id="findWarningTotal" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		fromwall_alert
+		<where>
+			AND ratplate_status = '1'
+		</where>
+		LIMIT 0,1
+	</select>
+</mapper>

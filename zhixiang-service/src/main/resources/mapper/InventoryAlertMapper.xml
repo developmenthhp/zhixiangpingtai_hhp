@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.inventoryAlert.InventoryAlertMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.inventoryAlert.InventoryAlert">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="expcontext" jdbcType="VARCHAR" property="expconText" />
+		<result column="occurtime" jdbcType="VARCHAR" property="occurTime" />
+		<result column="undertaker" jdbcType="VARCHAR" property="underTaker" />
+		<result column="undertakerid" jdbcType="VARCHAR" property="underTakerId" />
+		<result column="affirmant" jdbcType="VARCHAR" property="affirmant" />
+		<result column="alertstatus" jdbcType="VARCHAR" property="alertStatus" />
+		<result column="handletime" jdbcType="VARCHAR" property="handleTime" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId"/>
+		<result column="alerttype" jdbcType="VARCHAR" property="alertType" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, expcontext, occurtime, undertaker, undertakerid, affirmant,alertstatus,handletime,sdid,
+		alerttype
+	</sql>
+
+	<!-- 定义sql片段，且唯一 动态insert start -->
+	<sql id="insertAllKey">
+		<trim suffixOverrides=",">
+			<if test="expconText != null and expconText != ''" >
+				expcontext,
+			</if>
+			<if test="occurTime != null and occurTime != ''" >
+				occurtime,
+			</if>
+			<if test="underTaker != null and underTaker != ''" >
+				undertaker,
+			</if>
+			<if test="underTakerId != null and underTakerId != ''" >
+				undertakerid,
+			</if>
+			<if test="affirmant != null and affirmant != ''" >
+				affirmant,
+			</if>
+			<if test="alertStatus != null and alertStatus != ''" >
+				alertstatus,
+			</if>
+			<if test="handleTime != null and handleTime != ''" >
+				handletime,
+			</if>
+			<if test="alertType != null and alertType != ''" >
+				alerttype,
+			</if>
+			<if test="sdId != null" >
+				sdid,
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 动态insert end -->
+
+	<!-- 定义sql片段，且唯一 value值 start -->
+	<sql id="insertAllValue">
+		<trim suffixOverrides=",">
+			<if test="expconText != null and expconText != ''" >
+				#{expconText},
+			</if>
+			<if test="occurTime != null and occurTime != ''" >
+				#{occurTime},
+			</if>
+			<if test="underTaker != null and underTaker != ''" >
+				#{underTaker},
+			</if>
+			<if test="underTakerId != null and underTakerId != ''" >
+				#{underTakerId},
+			</if>
+			<if test="affirmant != null and affirmant != ''" >
+				#{affirmant},
+			</if>
+			<if test="alertStatus != null and alertStatus != ''" >
+				#{alertStatus},
+			</if>
+			<if test="handleTime != null and handleTime != ''" >
+				#{handleTime},
+			</if>
+			<if test="alertType != null and alertType != ''" >
+				#{alertType},
+			</if>
+			<if test="sdId != null" >
+				#{sdId},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 value值 end -->
+
+	<!-- 定义更新sql片段，且唯一 value值 start -->
+	<sql id="updateAllValue">
+		<trim suffixOverrides=",">
+			<if test="expconText != null and expconText != ''" >
+				expcontext = #{expconText,jdbcType=VARCHAR},
+			</if>
+			<if test="occurTime != null and occurTime != ''" >
+				occurtime = #{occurTime,jdbcType=VARCHAR},
+			</if>
+			<if test="underTaker != null and underTaker != ''" >
+				undertaker = #{underTaker,jdbcType=VARCHAR},
+			</if>
+			<if test="underTakerId != null and underTakerId != ''" >
+				undertakerid = #{underTakerId,jdbcType=VARCHAR},
+			</if>
+			<if test="affirmant != null and affirmant != ''" >
+				affirmant = #{affirmant,jdbcType=VARCHAR},
+			</if>
+			<if test="alertStatus != null and alertStatus != ''" >
+				alertstatus = #{alertStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="handleTime != null and handleTime != ''" >
+				handletime = #{handleTime,jdbcType=VARCHAR},
+			</if>
+			<if test="alertType != null and alertType != ''" >
+				alerttype = #{alertType,jdbcType=VARCHAR},
+			</if>
+			<if test="sdId != null" >
+				sdid = #{sdId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义更新sql片段，且唯一 value值 end -->
+
+	<select id="findToFcznCon" resultType="com.zhixiangmain.api.module.inventoryAlert.InventoryAlert">
+		SELECT
+			id,
+			occurtime,
+			expcontext,
+			undertaker,
+			sdid
+		FROM
+			inventoryalert
+		<where>
+			AND alertstatus='1'
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY occurtime
+		DESC
+		LIMIT 1
+	</select>
+
+	<!-- 通知消息每个点放两条 start -->
+	<select id="findTopInventoryAlerts" resultType="java.util.Map">
+    SELECT
+	CASE
+
+  	WHEN alerttype = '1' THEN
+			'库存过期'
+	WHEN alerttype = '2' THEN
+			'库存即将过期'
+	WHEN alerttype = '2' THEN
+			'.库存不足'
+	END AS noticeType,
+	undertaker noticeTitle,
+	expcontext noticeContent,
+	occurtime noticeTime,
+	sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+	FROM
+	inventoryalert
+	<where>
+		AND alertstatus = '1'
+		AND occurtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+		AND occurtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</where>
+    LIMIT 0,2
+  </select>
+	<!-- 通知消息每个点放两条 end -->
+
+	<!--平台当前月入库食材临期种类数量数据 start-->
+	<select id="findCTCBySdId" resultType="java.util.Map">
+		SELECT
+		GROUP_CONCAT(DISTINCT ingredientid) ingredientId,
+		COUNT(DISTINCT(ingredientid)) dataCount,
+		DATE_FORMAT( cttime, '%Y-%m-%d' ) createTime
+		FROM
+		inventoryalert
+		<where>
+			DATE_FORMAT( cttime, '%Y%m' ) = DATE_FORMAT( CURDATE( ), '%Y%m' )
+			GROUP BY DATE_FORMAT(cttime, '%Y-%m-%d')
+			ORDER BY createTime ASC
+		</where>
+	</select>
+	<!--平台当前月入库食材种类数量数据 end-->
+
+</mapper>

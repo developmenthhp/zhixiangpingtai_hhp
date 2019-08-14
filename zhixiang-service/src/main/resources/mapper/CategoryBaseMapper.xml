@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.base.CategoryBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.base.CategoryBase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="categoryname" property="categoryName" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, categoryname, pid, sdid,deletestatus
+  </sql>
+
+  <!-- 根据pid查询类别 start -->
+  <select id="findCategoryBaseByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer" resultType="com.zhixiangmain.api.module.base.CategoryBase">
+    select 
+    id,
+    categoryname
+    from categorybase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+    AND pid = #{pid,jdbcType=INTEGER} AND deletestatus = 1
+    </where>
+  </select>
+  <!-- 根据pid查询类别 end -->
+
+  <!-- 根据pidSdId查询类别 start -->
+  <select id="findCategoryBaseByPidSdId" resultType="java.util.Map">
+    select
+    id,
+    categoryname categoryName,
+    sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    from categorybase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND pid = #{pId,jdbcType=INTEGER} AND deletestatus = 1
+    </where>
+  </select>
+  <!-- 根据pidSdId查询类别 end -->
+
+</mapper>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.scycg.MainLibraryPurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.scycg.MainLibraryPurchase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sitenum" property="siteNum" jdbcType="VARCHAR" />
+    <result column="sitename" property="siteName" jdbcType="VARCHAR" />
+    <result column="billsnum" property="billsNum" jdbcType="INTEGER" />
+    <result column="totalstation" property="totalStation" jdbcType="INTEGER" />
+    <result column="documenttime" property="documentTime" jdbcType="VARCHAR" />
+    <result column="documentmaker" property="documentMaker" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sitenum, sitename, billsnum,totalstation,documenttime,documentmaker,sdid,status,reason
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="siteNum != null and siteNum != ''" >
+        sitenum,
+      </if>
+      <if test="siteName != null and siteName != ''" >
+        sitename,
+      </if>
+      <if test="billsNum != null" >
+        billsnum,
+      </if>
+      <if test="totalStation != null" >
+        totalstation,
+      </if>
+      <if test="documentTime != null and documentTime != ''" >
+        documenttime,
+      </if>
+      <if test="documentMaker != null and documentMaker != ''" >
+        documentmaker,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="siteNum != null and siteNum != ''" >
+        #{siteNum,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null and siteName != ''" >
+        #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="billsNum != null" >
+        #{billsNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStation != null" >
+        #{totalStation,jdbcType=INTEGER},
+      </if>
+      <if test="documentTime != null and documentTime != ''" >
+        #{documentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="documentMaker != null and documentMaker != ''" >
+        #{documentMaker,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="siteNum != null and siteNum != ''" >
+        sitenum = #{siteNum,jdbcType=VARCHAR},
+      </if>
+      <if test="siteName != null and siteName != ''" >
+        sitename = #{siteName,jdbcType=VARCHAR},
+      </if>
+      <if test="billsNum != null" >
+        billsnum = #{billsNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStation != null" >
+        totalstation = #{totalStation,jdbcType=INTEGER},
+      </if>
+      <if test="documentTime != null and documentTime != ''" >
+        documenttime = #{documentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="documentMaker != null and documentMaker != ''" >
+        documentmaker = #{documentMaker,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 查询所有未处理的预采购的订单 '../images/Lv60chaungguan.png' fromUserIcon, start -->
+  <select id="findAllByStatus" resultType="com.zhixiangmain.api.module.message.vo.MessageVO">
+    SELECT
+    id,
+    '您有新的预采购订单需要审核，制单人:' content,
+    documentmaker fromUserName,
+    documenttime msgTimestamp,
+    sdid sdId,
+    totalstation totalStation
+    FROM librarypurchasehead
+    WHERE status = 1 AND sdid=#{sdId}
+    ORDER BY id DESC
+    LIMIT 10
+  </select>
+  <!-- 查询所有未处理的预采购的订单 end -->
+
+  <!-- 查询所有未处理的预采购的订单条数 start -->
+  <select id="findAllTotalByStatus" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id)
+    FROM librarypurchasehead
+    WHERE status = 1 AND sdid=#{sdId}
+  </select>
+  <!-- 查询所有未处理的预采购的订单条数 end -->
+
+  <!-- 查找所有预采购数据 start -->
+  <select id="findMainLPList" resultType="java.util.Map">
+    SELECT
+      id,
+      sitenum siteNum,
+      sitename siteName,
+      billsnum billsNum,
+      totalstation totalStation,
+      documenttime documentTime,
+      documentmaker documentMaker,
+      sdid sdId,
+      status,
+      reason,
+      #{siteName} as siteName,
+      #{sitePhoto} as sitePhoto
+    FROM
+      librarypurchasehead
+    <where>
+      <if test="status==null">
+        AND status &gt; 0
+      </if>
+      <if test="status!=null">
+        AND status = #{status}
+      </if>
+      <if test="totalStation!=null">
+        AND totalstation = #{totalStation}
+      </if>
+    </where>
+    LIMIT #{start},#{end}
+  </select>
+  <!-- 查找所有预采购数据 end -->
+
+  <!-- 查找所有预采购数据条数 start -->
+  <select id="findMainLPListTotal" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id)
+    FROM
+    librarypurchasehead
+    <where>
+      <if test="status==null">
+        AND status &gt; 0
+      </if>
+      <if test="status!=null">
+        AND status = #{status}
+      </if>
+      <if test="totalStation!=null">
+        AND totalstation = #{totalStation}
+      </if>
+    </where>
+  </select>
+  <!-- 查找所有预采购数据条数 end -->
+
+  <!-- 更新某个站点预采购单审核状态 start -->
+  <update id="updateStatusByIdSdId" parameterType="com.zhixiangmain.api.module.cgcc.scycg.MainLibraryPurchase" >
+    update
+      librarypurchasehead
+    set
+      status = #{status,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and sdid = #{sdId,jdbcType=INTEGER}
+  </update>
+  <!-- 更新某个站点预采购单审核状态 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="findFoodBaseById" resultType="java.util.Map">
+    SELECT
+    fb.id,
+    fb.scspimgpath scspImgPath,
+    fb.foodname foodName,
+    fb.menutype menuType,
+    fb.meteringname meteringName,
+    fb.price,
+    fb.weight,
+    fb.check_status checkStatus,
+    fb.foodcontext foodContext
+    FROM foodbase fb
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 根据id删除食材 start -->
+  <delete id="delFoodBaseById">
+    DELETE
+    FROM
+    foodbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </delete>
+  <!-- 根据id删除食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="getBasicInfoFoodByIds" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    meteringname meteringName,edTerm,
+    maincategoryid mainCategoryId,
+    smallcategoryid smallCategoryId,
+    scspimgpath scspimgPath,
+    ratedterm ratedTerm
+    ratedtermdw ratedTermDW,
+    check_status checkStatus,
+    baseprice basePrice,
+    inventorylimit inventoryLimit,
+    ggxh,
+    ggxhdw,
+    suppid suppId,
+    whouseid whouseId,
+    boomtype boomType,
+    bigcategory bigCategory,
+    level level
+    FROM
+    ingredientbase
+    <where>
+      id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+
+</mapper>

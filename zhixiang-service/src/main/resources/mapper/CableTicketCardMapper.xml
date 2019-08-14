@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.scgl.spszgl.CableTicketCardMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.scgl.spszgl.WarehousDetails" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="batchnum" property="batchNum" jdbcType="VARCHAR" />
+    <result column="ingredientid" property="ingredientId" jdbcType="INTEGER" />
+    <result column="warehoucount" property="warehouseCount" jdbcType="DECIMAL" />
+    <result column="unitprice" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="totalprice" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="productiondate" property="productionDate" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="revenueweight" property="revenueWeight" jdbcType="DECIMAL" />
+    <result column="ingredientwhouseid" property="ingredientWhouseId" jdbcType="INTEGER" />
+    <result column="mainaccountid" property="mainAccountId" jdbcType="INTEGER" />
+    <result column="ingredientsuppid" property="ingredientSuppId" jdbcType="INTEGER" />
+    <result column="cttime" property="ctTime" jdbcType="VARCHAR" />
+    <result column="modelsinfo" property="modelsInfo" jdbcType="VARCHAR" />
+    <result column="sourceoperation" property="sourceOperation" jdbcType="VARCHAR" />
+    <result column="sourceinfo" property="sourceInfo" jdbcType="VARCHAR" />
+    <result column="sourcehandle" property="sourceHandle" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="inventorybalance" property="inventoryBalance" jdbcType="DECIMAL" />
+    <result column="inventorystatus" property="inventoryStatus" jdbcType="VARCHAR" />
+    <result column="inventorytimehour" property="inventoryTimeHour" jdbcType="VARCHAR" />
+    <result column="foodpictures" property="foodPictures" jdbcType="VARCHAR" />
+    <result column="notepictures" property="notePictures" jdbcType="VARCHAR" />
+    <result column="sanitarycertificate" property="sanitaryCertificate" jdbcType="VARCHAR" />
+    <result column="certificateofsoundness" property="certificateOfSoundness" jdbcType="VARCHAR" />
+    <result column="objectcardunify" property="objectCardUnify" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, batchnum, ingredientid, warehoucount,unitprice,totalprice,productiondate,weight,revenueweight,
+    ingredientwhouseid,mainaccountid,ingredientsuppid,cttime,modelsinfo,sourceoperation,sourceinfo,sourcehandle,
+    sdid,inventorybalance,inventorystatus,inventorytimehour,foodpictures,notepictures,sanitarycertificate,
+    certificateofsoundness,objectcardunify
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="batchNum != null and batchNum != ''" >
+        batchnum,
+      </if>
+      <if test="ingredientId != null" >
+        ingredientid,
+      </if>
+      <if test="warehouseCount != null" >
+        warehoucount,
+      </if>
+      <if test="unitPrice != null" >
+        unitprice,
+      </if>
+      <if test="totalPrice != null" >
+        totalprice,
+      </if>
+      <if test="productionDate != null and productionDate != ''" >
+        productiondate,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="revenueWeight != null" >
+        revenueweight,
+      </if>
+      <if test="ingredientWhouseId != null" >
+        ingredientwhouseid,
+      </if>
+      <if test="mainAccountId != null" >
+        mainaccountid,
+      </if>
+      <if test="ingredientSuppId != null" >
+        ingredientsuppid,
+      </if>
+      <if test="ctTime != null and ctTime != ''" >
+        cttime,
+      </if>
+      <if test="modelsInfo != null and modelsInfo != ''" >
+        modelsinfo,
+      </if>
+      <if test="sourceOperation != null and sourceOperation != ''" >
+        sourceoperation,
+      </if>
+      <if test="sourceInfo != null and sourceInfo != ''" >
+        sourceinfo,
+      </if>
+      <if test="sourceHandle != null and sourceHandle != ''" >
+        sourcehandle,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+      <if test="inventoryBalance != null" >
+        inventorybalance,
+      </if>
+      <if test="inventoryStatus != null and inventoryStatus != ''" >
+        inventorystatus,
+      </if>
+      <if test="inventoryTimeHour != null and inventoryTimeHour != ''" >
+        inventorytimehour,
+      </if>
+      <if test="foodPictures != null and foodPictures != ''" >
+        foodpictures,
+      </if>
+      <if test="notePictures != null and notePictures != ''" >
+        notepictures,
+      </if>
+      <if test="sanitaryCertificate != null and sanitaryCertificate != ''" >
+        sanitarycertificate,
+      </if>
+      <if test="certificateOfSoundness != null and certificateOfSoundness != ''" >
+        certificateofsoundness,
+      </if>
+      <if test="objectCardUnify != null" >
+        objectcardunify,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="batchNum != null and batchNum != ''" >
+        #{batchNum},
+      </if>
+      <if test="ingredientId != null" >
+        #{ingredientId},
+      </if>
+      <if test="warehouseCount != null" >
+        #{warehouseCount},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice},
+      </if>
+      <if test="productionDate != null and productionDate != ''" >
+        #{productionDate},
+      </if>
+      <if test="weight != null" >
+        #{weight},
+      </if>
+      <if test="revenueWeight != null" >
+        #{revenueWeight},
+      </if>
+      <if test="ingredientWhouseId != null" >
+        #{ingredientWhouseId},
+      </if>
+      <if test="mainAccountId != null" >
+        #{mainAccountId},
+      </if>
+      <if test="ingredientSuppId != null" >
+        #{ingredientSuppId},
+      </if>
+      <if test="ctTime != null and ctTime != ''" >
+        #{ctTime},
+      </if>
+      <if test="modelsInfo != null and modelsInfo != ''" >
+        #{modelsInfo},
+      </if>
+      <if test="sourceOperation != null and sourceOperation != ''" >
+        #{sourceOperation},
+      </if>
+      <if test="sourceInfo != null and sourceInfo != ''" >
+        #{sourceInfo},
+      </if>
+      <if test="sourceHandle != null and sourceHandle != ''" >
+        #{sourceHandle},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+      <if test="inventoryBalance != null" >
+        #{inventoryBalance},
+      </if>
+      <if test="inventoryStatus != null and inventoryStatus != ''" >
+        #{inventoryStatus},
+      </if>
+      <if test="inventoryTimeHour != null and inventoryTimeHour != ''" >
+        #{inventoryTimeHour},
+      </if>
+      <if test="foodPictures != null and foodPictures != ''" >
+        #{foodPictures},
+      </if>
+      <if test="notePictures != null and notePictures != ''" >
+        #{notePictures},
+      </if>
+      <if test="sanitaryCertificate != null and sanitaryCertificate != ''" >
+        #{sanitaryCertificate},
+      </if>
+      <if test="certificateOfSoundness != null and certificateOfSoundness != ''" >
+        #{certificateOfSoundness},
+      </if>
+      <if test="objectCardUnify != null" >
+        #{objectCardUnify},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="batchNum != null and batchNum != ''" >
+        batchnum = #{batchNum,jdbcType=VARCHAR},
+      </if>
+      <if test="ingredientId != null" >
+        ingredientid = #{ingredientId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCount != null" >
+        warehoucount = #{warehouseCount,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null" >
+        unitprice = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        totalprice = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productionDate != null and productionDate != ''" >
+        productiondate = #{productionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="revenueWeight != null" >
+        revenueweight = #{revenueWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="ingredientWhouseId != null" >
+        ingredientwhouseid = #{ingredientWhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="mainAccountId != null" >
+        mainaccountid = #{mainAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="ingredientSuppId != null" >
+        ingredientsuppid = #{ingredientSuppId,jdbcType=INTEGER},
+      </if>
+      <if test="ctTime != null and ctTime != ''" >
+        cttime = #{ctTime,jdbcType=VARCHAR},
+      </if>
+      <if test="modelsInfo != null and modelsInfo != ''" >
+        modelsinfo = #{modelsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOperation != null and sourceOperation != ''" >
+        sourceoperation = #{sourceOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceInfo != null and sourceInfo != ''" >
+        sourceinfo = #{sourceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceHandle != null and sourceHandle != ''" >
+        sourcehandle = #{sourceHandle,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryBalance != null" >
+        inventorybalance = #{inventoryBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryStatus != null and inventoryStatus != ''" >
+        inventorystatus = #{inventoryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryTimeHour != null and inventoryTimeHour != ''" >
+        inventorytimehour = #{inventoryTimeHour,jdbcType=VARCHAR},
+      </if>
+      <if test="foodPictures != null and foodPictures != ''" >
+        foodpictures = #{foodPictures,jdbcType=VARCHAR},
+      </if>
+      <if test="notePictures != null and notePictures != ''" >
+        notepictures = #{notePictures,jdbcType=VARCHAR},
+      </if>
+      <if test="sanitaryCertificate != null and sanitaryCertificate != ''" >
+        sanitarycertificate = #{sanitaryCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateOfSoundness != null and certificateOfSoundness != ''" >
+        certificateofsoundness = #{certificateOfSoundness,jdbcType=VARCHAR},
+      </if>
+      <if test="objectCardUnify != null" >
+        objectcardunify = #{recomTemper,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!--平台当前月入库食材种类数量数据 start-->
+  <select id="findCTCBySdId" resultType="java.util.Map">
+    SELECT
+      GROUP_CONCAT(DISTINCT ingredientid) ingredientId,
+      COUNT(DISTINCT(ingredientid)) dataCount,
+      DATE_FORMAT( cttime, '%Y-%m-%d' ) createTime
+    FROM
+      warehousdetails
+    <where>
+      DATE_FORMAT( cttime, '%Y%m' ) =  #{selectYearMonth}
+      GROUP BY DATE_FORMAT(cttime, '%Y-%m-%d')
+      ORDER BY createTime ASC
+    </where>
+  </select>
+  <!--平台当前月入库食材种类数量数据 end-->
+
+  <!--平台当前日期票据，卫生证，合格证数量 start-->
+  <select id="findCTByDateSdId" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id) dataCount
+    FROM
+    warehousdetails
+    <where>
+      <if test="notePictures != null">
+        AND notepictures != ''
+      </if>
+      <if test="sanitaryCertificate != null">
+        AND sanitarycertificate != ''
+      </if>
+      <if test="certificateOfSoundness != null">
+        AND certificateofsoundness != ''
+      </if>
+      AND DATE_FORMAT(cttime, '%Y-%m-%d') = DATE_FORMAT(#{exitDate}, '%Y-%m-%d')
+    </where>
+  </select>
+  <!--平台当前日期票据，卫生证，合格证数量 end-->
+
+  <!--平台今日体温合格/不合格数据 start-->
+  <select id="findQualifiedTotal" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id) count
+    FROM
+    pepoletemp
+    <where>
+      <!-- 大于somtempStart为不合格数据 -->
+      <if test="somtempStart != null and somtempStart != ''">
+        AND somtemp &gt; #{somtempStart}
+      </if>
+      <!-- 小于等于somtempEnd为合格数据 -->
+      <if test="somtempEnd != null and somtempEnd != ''">
+        AND somtemp &lt;= #{somtempEnd}
+      </if>
+      AND DATE_FORMAT( date, '%Y%m%d' ) = DATE_FORMAT( CURDATE( ) , '%Y%m%d' )
+      /*GROUP BY DATE_FORMAT(date, '%Y-%m-%d')
+      ORDER BY date ASC*/
+    </where>
+    /*where detection_status = '2' AND type = '1' detection_status = '2' AND type = '1' AND createtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+    AND createtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')*/
+  </select>
+  <!--平台今日体温合格/不合格数据 start-->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findByIdSdId" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changetime changetTime,
+    lc.changemode changeMode
+    FROM librarychange lc
+    LEFT JOIN
+      ingredientbase ib
+    ON
+      lc.ingredientbaseid = ib.id
+    WHERE lc.id=#{id} AND lc.sdid = #{sdId}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

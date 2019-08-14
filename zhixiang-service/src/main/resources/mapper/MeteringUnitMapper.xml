@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.base.metering.MeteringUnitMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.base.metering.MeteringUnit" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="meteringname" property="meteringName" jdbcType="VARCHAR" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, meteringname, deletestatus
+  </sql>
+
+  <!-- 根据pid查询类别 start -->
+  <select id="findAllMeteringUnit" parameterType="com.zhixiangmain.api.module.base.metering.MeteringUnit" resultType="java.util.Map">
+    SELECT
+    id,
+    meteringname meteringName
+    FROM meteringunit
+    <where>
+      <if test="deleteStatus!=null and deleteStatus!=''">
+        AND deletestatus =#{deleteStatus}
+      </if>
+      <if test="meteringName != null and meteringName != ''">
+        AND meteringname like CONCAT('%', #{meteringName} , '%')
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 根据pid查询类别 end -->
+
+</mapper>

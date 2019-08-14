@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.lygl.lyglxq.KeepSampleServiceDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.lygl.lyglxq.KeepSampleDetail">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="lymainid" jdbcType="INTEGER" property="lyMainId" />
+		<result column="lyfoodbaseid" jdbcType="INTEGER" property="lyFoodBaseId" />
+		<result column="lyfoodname" jdbcType="VARCHAR" property="lyFoodName" />
+		<result column="lyitemlabel" jdbcType="VARCHAR" property="lyItemLabel" />
+		<result column="lytypes" jdbcType="VARCHAR" property="lyTypes" />
+		<result column="lytime" jdbcType="VARCHAR" property="lyTime" />
+		<result column="lylabelimg" jdbcType="VARCHAR" property="lyLabelImg" />
+		<result column="cytime" jdbcType="VARCHAR" property="cyTime"/>
+		<result column="cylabelimg" jdbcType="VARCHAR" property="cyLabelImg" />
+		<result column="cytypes" jdbcType="VARCHAR" property="cyTypes" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+		<result column="isprint" jdbcType="INTEGER" property="isPrint" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, lymainid, lyfoodbaseid, lyfoodname, lyitemlabel, lytypes,lytime,lylabelimg,cytime,
+		cylabelimg,cytypes,sdid,isprint
+	</sql>
+
+	<!-- 定义sql片段，且唯一 动态insert start -->
+	<sql id="insertAllKey">
+		<trim suffixOverrides=",">
+			<if test="lyMainId != null" >
+				lymainid,
+			</if>
+			<if test="lyFoodBaseId != null" >
+				lyfoodbaseid,
+			</if>
+			<if test="lyFoodName != null and lyFoodName != ''" >
+				lyfoodname,
+			</if>
+			<if test="lyItemLabel != null and lyItemLabel != ''" >
+				lyitemlabel,
+			</if>
+			<if test="lyTypes != null and lyTypes != ''" >
+				lytypes,
+			</if>
+			<if test="lyTime != null and lyTime != ''" >
+				lytime,
+			</if>
+			<if test="lyLabelImg != null and lyLabelImg != ''" >
+				lylabelimg,
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				cytime,
+			</if>
+			<if test="cyLabelImg != null and cyLabelImg != ''" >
+				cylabelimg,
+			</if>
+			<if test="cyTypes != null and cyTypes != ''" >
+				cytypes,
+			</if>
+			<if test="sdId != null" >
+				sdid,
+			</if>
+			<if test="isPrint != null" >
+				isprint,
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 动态insert end -->
+
+	<!-- 定义sql片段，且唯一 value值 start -->
+	<sql id="insertAllValue">
+		<trim suffixOverrides=",">
+			<if test="lyMainId != null" >
+				#{lyMainId},
+			</if>
+			<if test="lyFoodBaseId != null" >
+				#{lyFoodBaseId},
+			</if>
+			<if test="lyFoodName != null and lyFoodName != ''" >
+				#{lyFoodName},
+			</if>
+			<if test="lyItemLabel != null and lyItemLabel != ''" >
+				#{lyItemLabel},
+			</if>
+			<if test="lyTypes != null and lyTypes != ''" >
+				#{lyTypes},
+			</if>
+			<if test="lyTime != null and lyTime != ''" >
+				#{lyTime},
+			</if>
+			<if test="lyLabelImg != null and lyLabelImg != ''" >
+				#{lyLabelImg},
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				#{cyTime},
+			</if>
+			<if test="cyLabelImg != null and cyLabelImg != ''" >
+				#{cyLabelImg},
+			</if>
+			<if test="cyTypes != null and cyTypes != ''" >
+				#{cyTypes},
+			</if>
+			<if test="sdId != null" >
+				#{sdId},
+			</if>
+			<if test="isPrint != null" >
+				#{sdId},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 value值 end -->
+
+	<!-- 定义更新sql片段，且唯一 value值 start -->
+	<sql id="updateAllValue">
+		<trim suffixOverrides=",">
+			<if test="lyMainId != null" >
+				lymainid = #{lyMainId,jdbcType=INTEGER},
+			</if>
+			<if test="lyFoodBaseId != null" >
+				lyfoodbaseid = #{lyFoodBaseId,jdbcType=INTEGER},
+			</if>
+			<if test="lyFoodName != null and lyFoodName != ''" >
+				lyfoodname = #{lyFoodName,jdbcType=VARCHAR},
+			</if>
+			<if test="lyItemLabel != null and lyItemLabel != ''" >
+				lyitemlabel = #{lyItemLabel,jdbcType=VARCHAR},
+			</if>
+			<if test="lyTypes != null and lyTypes != ''" >
+				lytypes = #{lyTypes,jdbcType=VARCHAR},
+			</if>
+			<if test="lyTime != null and lyTime != ''" >
+				lytime = #{lyTime,jdbcType=VARCHAR},
+			</if>
+			<if test="lyLabelImg != null and lyLabelImg != ''" >
+				lylabelimg = #{lyLabelImg,jdbcType=VARCHAR},
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				cytime = #{cyTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cyLabelImg != null and cyLabelImg != ''" >
+				cylabelimg = #{cyLabelImg,jdbcType=VARCHAR},
+			</if>
+			<if test="cyTypes != null and cyTypes != ''" >
+				cytypes = #{cyTypes,jdbcType=VARCHAR},
+			</if>
+			<if test="sdId != null" >
+				sdid = #{sdId,jdbcType=INTEGER},
+			</if>
+			<if test="isPrint != null" >
+				isprint = #{isPrint,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义更新sql片段，且唯一 value值 end -->
+
+	<!-- 查找所有消毒数据 start FROM_UNIXTIME 时间戳转换成标准时间格式 因为是13位，需要除1000转换成10位 才可进行时间戳转标准时间-->
+	<!-- 这里时间段 endtime对应数据库endtime由于这里为空，暂时让endtime对应starttime -->
+	<select id="findDetailByIdSdId" resultType="java.util.Map">
+		SELECT
+		lyfoodname lyFoodName,
+		lyitemlabel lyItemLabel,
+		lytypes lyTypes,
+		lytime lyTime,
+		lylabelimg lyLabelImg,
+		cytypes cyTypes,
+		cytime cyTime,
+		cylabelimg cyLabelImg
+		FROM
+		lyitems
+		WHERE
+		lymainid = #{lyMainId}
+	</select>
+	<!-- 查找所有消毒数据 end -->
+
+</mapper>

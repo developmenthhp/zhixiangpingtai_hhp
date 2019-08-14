@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.site.SiteMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.module.site.Site" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="zindex" property="zindex" jdbcType="INTEGER" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="lng" property="lng" jdbcType="DECIMAL" />
+    <result column="lat" property="lat" jdbcType="DECIMAL" />
+    <result column="warning_time" property="warningTime" jdbcType="TIMESTAMP" />
+    <result column="over_time" property="overTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, pid, sdid,zindex, address, photo, insert_time, update_time,lng,lat,warning_time,over_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from site
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from site
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhixiangmain.module.site.Site" >
+    insert into site (id, name, pid,
+      zindex, address,
+      photo, insert_time,
+      update_time,sdid,lng,lat,warning_time,over_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{zindex,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
+      #{photo,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},#{sdId,jdbcType=INTEGER},#{lng},#{lat},#{warningTime},#{overTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhixiangmain.module.site.Site" >
+    insert into site
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="zindex != null" >
+        zindex,
+      </if>
+      <if test="istype != null" >
+        istype,
+      </if>
+      <if test="descpt != null" >
+        descpt,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="page != null" >
+        page,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="zindex != null" >
+        #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="istype != null" >
+        #{istype,jdbcType=INTEGER},
+      </if>
+      <if test="descpt != null" >
+        #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null" >
+        #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhixiangmain.module.site.Site" >
+    update site
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="zindex != null" >
+        zindex = #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="warningTime != null" >
+        warning_time = #{warningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overTime != null" >
+        over_time = #{overTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhixiangmain.module.permission.Permission" >
+    update site
+    set name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      zindex = #{zindex,jdbcType=INTEGER},
+      istype = #{istype,jdbcType=INTEGER},
+      descpt = #{descpt,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      page = #{page,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      warning_time = #{warningTime,jdbcType=TIMESTAMP},
+      over_time = #{overTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--=Start findAll 查找所有权限-->
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    ORDER BY id
+  </select>
+  <!--=End findAll 查找所有权限-->
+
+  <!--=Start findChildPerm 查找所有子节点权限-->
+  <select id="findChildSite" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    where pid=#{pid}
+  </select>
+  <!--=End findChildPerm 查找所有子节点权限-->
+
+  <!--=Start findPerms 查找权限树列表-->
+  <resultMap id="findPermission" type="com.zhixiangmain.module.permission.vo.PermissionVO">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="pid" column="pid"/>
+    <result property="istype" column="istype"/>
+    <result property="code" column="code"/>
+    <result property="page" column="page"/>
+
+    <collection property="children" column="pid" ofType="com.zhixiangmain.module.permission.Permission">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="pid" column="pid"/>
+      <result property="istype" column="istype"/>
+      <result property="code" column="code"/>
+      <result property="page" column="page"/>
+    </collection>
+  </resultMap>
+
+  <sql id="PermColumn" >
+    id, name,pid pId, zindex
+  </sql>
+  <!--=Start findSites 查找站点权限树列表-->
+  <select id="findSites" resultType="com.zhixiangmain.module.site.vo.SiteVO" parameterType="java.lang.Integer">
+    select
+    <include refid="PermColumn" />
+    from site
+    <where>
+      <if test="flag==1">
+        AND id != 4
+      </if>
+    </where>
+  </select>
+  <!--=End findSites 查找站点权限树列表-->
+
+  <!--=Start findPermsByRole 根据角色ID查找权限树列表-->
+  <select id="findPermsByRole" resultType="com.zhixiangmain.module.permission.Permission">
+    select
+    <include refid="PermColumn" />
+    from site p
+    LEFT JOIN role_permission rp ON rp.permit_id=p.id
+    WHERE rp.role_id=#{roleId}
+  </select>
+  <!--=End findPermsByRole 根据角色ID查找权限树列表-->
+  <!--=Start findUserSites 根据用户ID查找权限树列表-->
+  <select id="findUserSites" resultType="com.zhixiangmain.module.site.vo.SiteVO">
+    select
+    p.id, p.name,p.pid pId, p.zindex, p.address, p.photo, p.lng, p.lat,p.sdid
+    from site p
+    LEFT JOIN site_siteRole rp ON rp.site_id=p.id
+    LEFT JOIN siteRole r ON r.id=rp.siteRole_id
+    LEFT JOIN user_siteRole ur ON ur.siteRole_id=r.id
+    WHERE ur.user_id=#{userId}
+    GROUP BY p.id
+    order by p.zindex
+  </select>
+  <!--=End findUserSites 根据用户ID查找权限树列表-->
+
+  <!--=Start findSites 查找站点权限树列表-->
+  <select id="findSiteBySdId" resultType="com.zhixiangmain.module.site.vo.SiteVO" parameterType="java.lang.Integer">
+    select
+    <include refid="PermColumn" />
+    from site
+    <where>
+      AND sdid = #{sdId}
+    </where>
+  </select>
+  <!--=End findSites 查找站点权限树列表-->
+
+  <!--=Start findSites 查找站点权限树列表-->
+  <select id="findSitesByPId" resultType="com.zhixiangmain.module.site.vo.SiteVO" parameterType="java.lang.Integer">
+    select
+    <include refid="PermColumn" />
+    from site
+    <where>
+      AND pid = #{id}
+    </where>
+  </select>
+  <!--=End findSites 查找站点权限树列表 findSitesByPId-->
+
+  <!--=Start findUserSites 根据用户ID查找所有sdId  start-->
+  <select id="findSdIdByUserSites" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    p.sdid
+    from site p
+    LEFT JOIN site_siteRole rp ON rp.site_id=p.id
+    LEFT JOIN siteRole r ON r.id=rp.siteRole_id
+    LEFT JOIN user_siteRole ur ON ur.siteRole_id=r.id
+    WHERE ur.user_id=#{userId}
+    GROUP BY p.id
+  </select>
+  <!--=End findUserSites 根据用户ID查找所有sdId end-->
+
+  <!--=Start findPhotoBySdId 查找站点图标-->
+  <select id="findPhotoBySdId" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT
+    photo
+    FROM site
+    WHERE sdid = #{sdId}
+  </select>
+  <!--=End findSites 查找站点权限树列表 findSitesByPId-->
+
+  <!-- 根据试点array得到站点信息 start -->
+  <select id="findSitesBySdIdArray" resultType="com.zhixiangmain.module.site.vo.SiteVO">
+    SELECT
+    p.id, p.name,p.photo,p.sdid
+    from site p
+    <where>
+      <if test="sdIds!=null">
+        and p.sdid in
+        <foreach collection="sdIds" item="sdid" separator="," open="(" close=")">
+          #{sdid}
+        </foreach>
+      </if>
+    </where>
+    ORDER BY zindex DESC
+  </select>
+  <!-- 根据试点array得到站点信息 end -->
+
+  <!-- 根据试点id获取临期过期时间 start -->
+  <select id="findOverTimeSiteId" resultType="java.util.Map">
+    SELECT
+    warning_time advanceTime,
+    over_time overTime
+    FROM site
+    WHERE sdid = #{sdId}
+  </select>
+  <!-- 根据试点id获取临期过期时间 end -->
+
+</mapper>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.zhck.hwhsgl.HumitureMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.zhck.hwhsgl.Humiture" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="temperature_area" property="temperatureArea" jdbcType="VARCHAR" />
+    <result column="temperature_val" property="temperatureVal" jdbcType="VARCHAR" />
+    <result column="humidity_val" property="humidityVal" jdbcType="VARCHAR" />
+    <result column="temperature_sensor" property="temperatureSensor" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="stat" property="stat" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, temperature_area, temperature_val, humidity_val,temperature_sensor,time,stat,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="temperatureArea != null and temperatureArea != ''" >
+        temperature_area,
+      </if>
+      <if test="temperatureVal != null and temperatureVal != ''" >
+        temperature_val,
+      </if>
+      <if test="humidityVal != null and humidityVal != ''" >
+        humidity_val,
+      </if>
+      <if test="temperatureSensor != null and temperatureSensor != ''" >
+        temperature_sensor,
+      </if>
+      <if test="time != null and time != ''" >
+        time,
+      </if>
+      <if test="stat != null" >
+        stat,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="temperatureArea != null and temperatureArea != ''" >
+        #{temperatureArea},
+      </if>
+      <if test="temperatureVal != null and temperatureVal != ''" >
+        #{temperatureVal},
+      </if>
+      <if test="humidityVal != null and humidityVal != ''" >
+        #{humidityVal},
+      </if>
+      <if test="temperatureSensor != null and temperatureSensor != ''" >
+        #{temperatureSensor},
+      </if>
+      <if test="time != null and time != ''" >
+        #{time},
+      </if>
+      <if test="stat != null" >
+        #{stat},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="temperatureArea != null and temperatureArea != ''" >
+        temperature_area = #{temperatureArea,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatureVal != null and temperatureVal != ''" >
+        temperature_val = #{temperatureVal,jdbcType=VARCHAR},
+      </if>
+      <if test="humidityVal != null and humidityVal != ''" >
+        humidity_val = #{humidityVal,jdbcType=VARCHAR},
+      </if>
+      <if test="temperatureSensor != null and temperatureSensor != ''" >
+        temperature_sensor = #{temperatureSensor,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null and time != ''" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="stat != null" >
+        stat = #{stat,jdbcType=INTEGER},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!--平台当前月入库食材快检数量数据 start-->
+  <select id="findHumMonthBySdId" resultType="java.util.Map">
+    SELECT
+    COUNT(id) dataCount,
+    DATE_FORMAT( time, '%Y-%m-%d' ) createTime
+    FROM
+    temperature_data
+    <where>
+      <if test="status != null and status == '1'.toString()">
+        AND stat = #{status}
+      </if>
+      <if test="status == null and status == '2'.toString()">
+        AND stat &gt;= #{status}
+      </if>
+      AND DATE_FORMAT( time, '%Y%m' ) = #{selectYearMonth}
+      GROUP BY DATE_FORMAT(time, '%Y-%m-%d')
+    </where>
+  </select>
+  <!--平台当前月入库食材种类数量数据 end-->
+
+  <!--平台当前日期票据，卫生证，合格证数量 start-->
+  <select id="findCTByDateSdId" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id)
+    FROM
+    temperature_data
+    <where>
+      <if test="status != null and status == '1'.toString()">
+        AND stat = #{status}
+      </if>
+      <if test="status == null and status == '2'.toString()">
+        AND stat &gt;= #{status}
+      </if>
+      AND DATE_FORMAT(time, '%Y-%m-%d') = DATE_FORMAT(#{choseDate}, '%Y-%m-%d')
+    </where>
+  </select>
+  <!--平台当前日期票据，卫生证，合格证数量 end-->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

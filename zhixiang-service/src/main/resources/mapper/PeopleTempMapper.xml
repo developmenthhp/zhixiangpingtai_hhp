@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.rlzb.tgjc.PepoleTempMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.rlzb.tgjc.PepoleTemp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userId" jdbcType="INTEGER" />
+    <result column="username" property="userName" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="sceneimg" property="sceneImg" jdbcType="VARCHAR" />
+    <result column="somtemp" property="somTemp" jdbcType="VARCHAR" />
+    <result column="recomtemper" property="recomTemper" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, username, date,sceneimg,somtemp,recomtemper,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="userId != null" >
+        userid,
+      </if>
+      <if test="userName != null and userName != ''" >
+        username,
+      </if>
+      <if test="date != null and date != ''" >
+        date,
+      </if>
+      <if test="sceneImg != null and sceneImg != ''" >
+        sceneimg,
+      </if>
+      <if test="somTemp != null and somTemp != ''" >
+        somtemp,
+      </if>
+      <if test="recomTemper != null and recomTemper != ''" >
+        recomtemper,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="userId != null" >
+        #{userId},
+      </if>
+      <if test="userName != null and userName != ''" >
+        #{userName},
+      </if>
+      <if test="date != null and date != ''" >
+        #{date},
+      </if>
+      <if test="sceneImg != null and sceneImg != ''" >
+        #{sceneImg},
+      </if>
+      <if test="somTemp != null and somTemp != ''" >
+        #{somTemp},
+      </if>
+      <if test="recomTemper != null and recomTemper != ''" >
+        #{recomTemper},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="userId != null" >
+        userid = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null and userName != ''" >
+        username = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null and date != ''" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneImg != null and sceneImg != ''" >
+        sceneimg = #{sceneImg,jdbcType=VARCHAR},
+      </if>
+      <if test="somTemp != null and somTemp != ''" >
+        somtemp = #{somTemp,jdbcType=VARCHAR},
+      </if>
+      <if test="recomTemper != null and recomTemper != ''" >
+        recomtemper = #{recomTemper,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findTotalZoneAlarm" resultType="java.lang.Integer">
+    SELECT
+        COUNT(id)
+    FROM pepoletemp
+    WHERE somtemp &gt; 37.2 AND date &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND date &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!--平台当前月数据 start-->
+  <select id="findTemperatureBySdId" resultType="java.util.Map">
+    SELECT
+      COUNT(id) dataCount,
+      DATE_FORMAT(date, '%Y-%m-%d') createTime
+    FROM
+      pepoletemp
+    <where>
+      <if test="somtempStart != null and somtempStart != ''">
+        AND somtemp &gt; #{somtempStart}
+      </if>
+      <if test="somtempEnd != null and somtempEnd != ''">
+        AND somtemp &lt;= #{somtempEnd}
+      </if>
+      AND DATE_FORMAT( date, '%Y%m' ) = #{selectYearMonth}
+      GROUP BY DATE_FORMAT(date, '%Y-%m-%d')
+    </where>
+  </select>
+  <!--平台当前月数据 start-->
+
+  <!--平台今日体温合格/不合格数据 start-->
+  <select id="findQualifiedTotal" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id) count
+    FROM
+    pepoletemp
+    <where>
+      <!-- 大于somtempStart为不合格数据 -->
+      <if test="somtempStart != null and somtempStart != ''">
+        AND somtemp &gt; #{somtempStart}
+      </if>
+      <!-- 小于等于somtempEnd为合格数据 -->
+      <if test="somtempEnd != null and somtempEnd != ''">
+        AND somtemp &lt;= #{somtempEnd}
+      </if>
+      AND DATE_FORMAT( date, '%Y%m%d' ) = #{selectYearMonth}
+    </where>
+  </select>
+  <!--平台今日体温合格/不合格数据 start-->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findByIdSdId" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changetime changetTime,
+    lc.changemode changeMode
+    FROM librarychange lc
+    LEFT JOIN
+      ingredientbase ib
+    ON
+      lc.ingredientbaseid = ib.id
+    WHERE lc.id=#{id} AND lc.sdid = #{sdId}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

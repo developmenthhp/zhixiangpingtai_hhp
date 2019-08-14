@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.disinfectionRcd.DisinfectionRcdMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.disinfectionRcd.DisinfectionRcd">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="disin_endtime" jdbcType="VARCHAR" property="disinEndTime" />
+		<result column="disin_starttime" jdbcType="VARCHAR" property="disinStartTime" />
+		<result column="disin_pjtid" jdbcType="INTEGER" property="disinPjtId" />
+		<result column="disin_person" jdbcType="VARCHAR" property="disinPerson" />
+		<result column="disin_actualtime" jdbcType="VARCHAR" property="disinActualTime" />
+		<result column="disin_personimg" jdbcType="VARCHAR" property="disinPersonImg" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+		<result column="disin_personid" jdbcType="INTEGER" property="disinPersonId"/>
+		<result column="disin_regulatime" jdbcType="VARCHAR" property="disinRegulaTime" />
+		<result column="disin_sensornum" jdbcType="VARCHAR" property="disinSensorNum" />
+		<result column="disin_status" jdbcType="VARCHAR" property="disinStatus" />
+		<result column="disin_typ" jdbcType="VARCHAR" property="disinTyp" />
+		<result column="disin_reason" jdbcType="VARCHAR" property="disinReason" />
+		<result column="disin_temperature" jdbcType="VARCHAR" property="disinTemperature" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, disin_endtime, disin_starttime, disin_pjtid, disin_person, disin_actualtime,disin_personimg,sdid,disin_personid,
+		disin_regulatime,disin_sensornum,disin_status,disin_typ,disin_reason,disin_temperature
+	</sql>
+	<select id="findToAll" resultType="com.zhixiangmain.api.module.disinfectionRcd.DisinfectionRcd">
+		SELECT
+			id,
+			disin_personimg,
+			disin_starttime,
+			disin_person,
+			sdid
+		FROM
+			disinfection_rcd
+		<where>
+			AND disin_status='2' AND disin_reason ='违规预警'
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY disin_starttime
+		DESC
+		LIMIT 1
+	</select>
+
+	<select id="findTotalEmploymentViolation" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+			disinfection_rcd
+		where disin_reason = '2' AND disin_endtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND disin_endtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</select>
+
+	<!--平台当前月入库食材快检数量数据 start   FROM_UNIXTIME 时间戳转换成标准时间格式 因为是13位，需要除1000转换成10位 才可进行时间戳转标准时间-->
+	<select id="findDisMonthBySdId" resultType="java.util.Map">
+		SELECT
+		COUNT(id) dataCount,
+		FROM_UNIXTIME( disin_endtime / 1000, '%Y-%m-%d' ) createTime
+		FROM
+		disinfection_rcd
+		<where>
+			<if test="disinReason != null and disinReason != ''">
+				AND disin_reason = #{disinReason}
+			</if>
+			AND DATE_FORMAT( disin_endtime / 1000, '%Y%m' ) = DATE_FORMAT( CURDATE( ), '%Y%m' )
+			GROUP BY DATE_FORMAT(disin_endtime / 1000, '%Y-%m-%d')
+		</where>
+	</select>
+	<!--平台当前月入库食材种类数量数据 end-->
+
+	<!--平台当前日期票据，卫生证，合格证数量 start-->
+	<select id="findCTByDateSdId" resultType="java.lang.Integer">
+		SELECT
+		COUNT(id)
+		FROM
+		temperature_data
+		<where>
+			<if test="status != null and status == '1'.toString()">
+				AND stat = #{status}
+			</if>
+			<if test="status == null and status == '2'.toString()">
+				AND stat &gt;= #{status}
+			</if>
+			AND DATE_FORMAT(time, '%Y-%m-%d') = DATE_FORMAT(#{choseDate}, '%Y-%m-%d')
+		</where>
+	</select>
+	<!--平台当前日期票据，卫生证，合格证数量 end-->
+
+	<!-- 查找所有消毒记录条数 start -->
+	<select id="findPaginationDataTotal" resultType="java.lang.Integer">
+		SELECT
+		COUNT(id)
+		FROM
+		disinfection_rcd
+		<where>
+			<if test="startTime != null and startTime != ''">
+				AND disin_starttime &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				AND disin_starttime &lt;= #{endTime}
+			</if>
+			<if test="disinReason != null and disinReason != ''">
+				AND disin_reason = #{disinReason}
+			</if>
+		</where>
+	</select>
+	<!-- 查找所有消毒记录条数 end -->
+
+	<!-- 查找所有消毒数据 start FROM_UNIXTIME 时间戳转换成标准时间格式 因为是13位，需要除1000转换成10位 才可进行时间戳转标准时间-->
+	<!-- 这里时间段 endtime对应数据库endtime由于这里为空，暂时让endtime对应starttime -->
+	<select id="findPaginationData" resultType="java.util.Map">
+		SELECT
+		dr.id id,
+		FROM_UNIXTIME( dr.disin_starttime / 1000, '%Y-%m-%d %H:%i:%s') disTime,
+		dr.disin_person disPersion,
+		dr.disin_reason disReason,
+		dr.disin_typ disTyp,
+		dr.disin_actualtime disActualTime,
+		dr.disin_regulatime disRegulation,
+		dr.disin_personimg disPersionImg,
+		dr.sdid sdId,
+		dp.disinfection_name disName,
+		dp.disinfectiontemperature disinfectionTemperature,
+		#{siteName} siteName,
+		#{sitePhoto} sitePhoto
+		FROM
+		disinfection_rcd dr
+		INNER JOIN
+		disinfection_pjt dp
+		ON
+		dr.disin_pjtid = dp.id
+		<where>
+			<if test="startTime != null and startTime != ''">
+				AND dr.disin_starttime &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				AND dr.disin_starttime &lt;= #{endTime}
+			</if>
+			<if test="disinReason != null and disinReason != ''">
+				AND dr.disin_reason = #{disinReason}
+			</if>
+		</where>
+		ORDER BY dr.id
+		LIMIT #{start},#{end}
+	</select>
+	<!-- 查找所有消毒数据 end -->
+
+</mapper>

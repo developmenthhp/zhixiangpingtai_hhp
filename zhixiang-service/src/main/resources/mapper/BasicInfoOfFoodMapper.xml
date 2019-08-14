@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.scjcxx.BasicInfoOfFoodMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.BasicInfoFood.BasicInfoFood" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ingredientname" property="ingredientName" jdbcType="VARCHAR" />
+    <result column="meteringname" property="meteringName" jdbcType="VARCHAR" />
+    <result column="maincategoryid" property="mainCategoryId" jdbcType="INTEGER" />
+    <result column="smallcategoryid" property="smallCategoryId" jdbcType="INTEGER" />
+    <result column="scspimgpath" property="scspimgPath" jdbcType="VARCHAR" />
+    <result column="ratedterm" property="ratedTerm" jdbcType="INTEGER" />
+    <result column="ratedtermdw" property="ratedTermDW" jdbcType="VARCHAR" />
+    <result column="createdate" property="createDate" jdbcType="VARCHAR" />
+    <result column="check_status" property="checkStatus" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="baseprice" property="basePrice" jdbcType="DECIMAL" />
+    <result column="inventorylimit" property="inventoryLimit" jdbcType="DECIMAL" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+    <result column="ggxh" property="ggxh" jdbcType="VARCHAR" />
+    <result column="ggxhdw" property="ggxhdw" jdbcType="VARCHAR" />
+    <result column="suppid" property="suppId" jdbcType="INTEGER" />
+    <result column="whouseid" property="whouseId" jdbcType="INTEGER" />
+    <result column="boomtype" property="boomType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ingredientname, meteringname, maincategoryid,smallcategoryid,scspimgpath,ratedterm,ratedtermdw,createdate,check_status,unit,
+    baseprice,inventorylimit,sdid,deletestatus,ggxh,ggxhdw,suppid,whouseid,boomtype,bigcategory,level
+  </sql>
+
+  <!-- 定义sql查询片段，且唯一 动态查询 start -->
+  <sql id="selectAllKey">
+    <trim suffixOverrides=",">
+      <if test="ingredientName != null and ingredientName != ''" >
+        ingredientname ingredientName,
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        meteringname meteringName,
+      </if>
+      <if test="mainCategoryId != null" >
+        maincategoryid mainCategoryId,
+      </if>
+      <if test="smallCategoryId != null" >
+        smallcategoryid smallCategoryId,
+      </if>
+      <if test="scspimgPath != null and scspimgPath != ''" >
+        scspimgpath scspimgPath,
+      </if>
+      <if test="ratedTerm != null and ratedTerm != ''" >
+        ratedterm ratedTerm,
+      </if>
+      <if test="ratedTermDW != null and ratedTermDW != ''" >
+        ratedtermdw ratedTermDW,
+      </if>
+      <if test="createDate != null and createDate != ''" >
+        createdate createDate,
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        check_status checkStatus,
+      </if>
+      <if test="unit != null and unit != ''" >
+        unit,
+      </if>
+      <if test="basePrice != null" >
+        baseprice basePrice,
+      </if>
+      <if test="inventoryLimit != null" >
+        inventorylimit,
+      </if>
+      <if test="sdId != null" >
+        sdid sdId,
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus deleteStatus,
+      </if>
+      <if test="ggxh != null and ggxh != ''" >
+        ggxh,
+      </if>
+      <if test="ggxhdw != null and ggxhdw != ''" >
+        ggxhdw,
+      </if>
+      <if test="suppId != null" >
+        suppid suppId,
+      </if>
+      <if test="whouseId != null" >
+        whouseid whouseId,
+      </if>
+      <if test="boomType != null" >
+        boomtype boomType,
+      </if>
+      <if test="bigCategory != null" >
+        bigcategory bigCategory,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="foodCode != null" >
+        foodcode foodCode,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="ingredientName != null and ingredientName != ''" >
+        ingredientname,
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        meteringname,
+      </if>
+      <if test="mainCategoryId != null" >
+        maincategoryid,
+      </if>
+      <if test="smallCategoryId != null" >
+        smallcategoryid,
+      </if>
+      <if test="scspimgPath != null and scspimgPath != ''" >
+        scspimgpath,
+      </if>
+      <if test="ratedTerm != null and ratedTerm != ''" >
+        ratedterm,
+      </if>
+      <if test="ratedTermDW != null and ratedTermDW != ''" >
+        ratedtermdw,
+      </if>
+      <if test="createDate != null and createDate != ''" >
+        createdate,
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        check_status,
+      </if>
+      <if test="unit != null and unit != ''" >
+        unit,
+      </if>
+      <if test="basePrice != null" >
+        baseprice,
+      </if>
+      <if test="inventoryLimit != null" >
+        inventorylimit,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus,
+      </if>
+      <if test="ggxh != null and ggxh != ''" >
+        ggxh,
+      </if>
+      <if test="ggxhdw != null and ggxhdw != ''" >
+        ggxhdw,
+      </if>
+      <if test="suppId != null" >
+        suppid,
+      </if>
+      <if test="whouseId != null" >
+        whouseid,
+      </if>
+      <if test="boomType != null" >
+        boomtype,
+      </if>
+      <if test="bigCategory != null" >
+        bigcategory,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="foodCode != null" >
+        foodcode,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientName != null and ingredientName != ''" >
+        #{ingredientName,jdbcType=VARCHAR},
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        #{meteringName,jdbcType=VARCHAR},
+      </if>
+      <if test="mainCategoryId != null" >
+        #{mainCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="smallCategoryId != null" >
+        #{smallCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="scspimgPath != null and scspimgPath != ''" >
+        #{scspimgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="ratedTerm != null and ratedTerm != ''" >
+        #{ratedTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="ratedTermDW != null and ratedTermDW != ''" >
+        #{ratedTermDW,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null and createDate != ''" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        #{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null and unit != ''" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="basePrice != null" >
+        #{basePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryLimit != null" >
+        #{inventoryLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="sdId != null" >
+        #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ggxh != null and ggxh != ''" >
+        #{ggxh,jdbcType=VARCHAR},
+      </if>
+      <if test="ggxhdw != null and ggxhdw != ''" >
+        #{ggxhdw,jdbcType=VARCHAR},
+      </if>
+      <if test="suppId != null" >
+        #{suppId,jdbcType=INTEGER},
+      </if>
+      <if test="whouseId != null" >
+        #{whouseId,jdbcType=INTEGER},
+      </if>
+      <if test="boomType != null" >
+        #{boomType,jdbcType=INTEGER},
+      </if>
+      <if test="bigCategory != null" >
+        #{bigCategory,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="foodCode != null" >
+        #{foodCode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 开放的分页查询 start -->
+  <select id="findBIOFoodList" parameterType="com.zhixiangmain.api.module.cgcc.BasicInfoFood.dto.BasicInfoFoodDTO" resultType="java.util.Map">
+    SELECT
+    ib.id,
+    ib.scspimgpath scspimgPath,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    cb1.categoryname mainCategoryName,
+    cb2.categoryname smallCategoryName,
+    ib.baseprice basePrice,
+    ib.ratedterm ratedTerm,
+    ib.ratedtermdw ratedTermDW,
+    ib.inventorylimit inventoryLimit,
+    ib.check_status checkStatus,
+    ib.bigcategory bigCategory,
+    ib.level level,
+    ib.foodcode foodCode
+    FROM ingredientbase ib
+    LEFT JOIN
+      categorybase cb1
+    ON
+      ib.maincategoryid = cb1.id
+    LEFT JOIN
+      categorybase cb2
+    ON
+      ib.smallcategoryid = cb2.id
+    <where>
+      AND ib.deletestatus = '1'
+      <if test="sdIds!=null">
+        and ib.sdid in
+        <foreach collection="sdIds" item="sdid" separator="," open="(" close=")">
+          #{sdid}
+        </foreach>
+      </if>
+      <if test="mainCategoryId!=null and mainCategoryId!=''">
+        AND ib.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null and smallCategoryId!=''">
+        AND ib.smallcategoryid =#{smallCategoryId}
+      </if>
+      <if test="ingredientName != null and ingredientName != ''">
+        AND ib.ingredientname like CONCAT('%', #{ingredientName} , '%')
+      </if>
+
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 开放的分页查询 end -->
+
+    <!-- 不开放的分页查询 start -->
+    <select id="findInsideBIOFoodList" parameterType="com.zhixiangmain.api.module.cgcc.BasicInfoFood.dto.BasicInfoFoodDTO" resultType="java.util.Map">
+        SELECT
+        ib.id,
+        ib.scspimgpath scspimgPath,
+        ib.ingredientname ingredientName,
+        ib.meteringname meteringName,
+        cb1.categoryname mainCategoryName,
+        cb2.categoryname smallCategoryName,
+        ib.baseprice basePrice,
+        ib.ratedterm ratedTerm,
+        ib.ratedtermdw ratedTermDW,
+        ib.inventorylimit inventoryLimit,
+        ib.check_status checkStatus,
+        ib.bigcategory bigCategory,
+        ib.level level,
+        ib.foodcode foodCode
+        FROM ingredientbase ib
+        LEFT JOIN
+        categorybase cb1
+        ON
+        ib.maincategoryid = cb1.id
+        LEFT JOIN
+        categorybase cb2
+        ON
+        ib.smallcategoryid = cb2.id
+        <where>
+            AND ib.deletestatus = '1'
+            <if test="mainCategoryId!=null and mainCategoryId!=''">
+                AND ib.maincategoryid =#{mainCategoryId}
+            </if>
+            <if test="smallCategoryId!=null and smallCategoryId!=''">
+                AND ib.smallcategoryid =#{smallCategoryId}
+            </if>
+            <if test="levelDTO!=null and levelDTO!=''">
+                AND ib.level =#{levelDTO}
+            </if>
+            <if test="bigCategoryDTO!=null and bigCategoryDTO!=''">
+                AND ib.bigcategory =#{bigCategoryDTO}
+            </if>
+            <if test="ingredientName != null and ingredientName != ''">
+                AND ib.ingredientname like CONCAT('%', #{ingredientName} , '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <!-- 不开放的分页查询 end -->
+
+  <!-- 校验食材名是否存在 start -->
+  <select id="checkNameTotal" parameterType="com.zhixiangmain.api.module.cgcc.BasicInfoFood.BasicInfoFood" resultType="java.lang.Object">
+    SELECT
+      IFNULL(id,0)
+    FROM
+      ingredientbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND ingredientname = #{ingredientName} AND deletestatus = '1'
+    </where>
+  </select>
+  <!-- 校验食材名是否存在 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addBasicInfoFood" parameterType="com.zhixiangmain.api.module.cgcc.BasicInfoFood.BasicInfoFood" >
+    insert into ingredientbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateBasicInfoFood" parameterType="com.zhixiangmain.api.module.cgcc.BasicInfoFood.BasicInfoFood" >
+    update ingredientbase
+    <set >
+      <if test="ingredientName != null and ingredientName != ''" >
+        ingredientname=#{ingredientName,jdbcType=VARCHAR},
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        meteringname=#{meteringName,jdbcType=VARCHAR},
+      </if>
+      <if test="mainCategoryId != null" >
+        maincategoryid=#{mainCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="smallCategoryId != null" >
+        smallcategoryid=#{smallCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="scspimgPath != null and scspimgPath != ''" >
+        scspimgpath=#{scspimgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="ratedTerm != null and ratedTerm != ''" >
+        ratedterm=#{ratedTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="ratedTermDW != null and ratedTermDW != ''" >
+        ratedtermdw=#{ratedTermDW,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null and createDate != ''" >
+        createdate=#{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        check_status=#{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null and unit != ''" >
+        unit=#{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="basePrice != null" >
+        baseprice=#{basePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryLimit != null" >
+        inventorylimit=#{inventoryLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="sdId != null" >
+        sdid=#{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus=#{deleteStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ggxh != null and ggxh != ''" >
+        ggxh=#{ggxh,jdbcType=VARCHAR},
+      </if>
+      <if test="ggxhdw != null and ggxhdw != ''" >
+        ggxhdw=#{ggxhdw,jdbcType=VARCHAR},
+      </if>
+      <if test="suppId != null" >
+        suppid=#{suppId,jdbcType=INTEGER},
+      </if>
+      <if test="whouseId != null" >
+        whouseid=#{whouseId,jdbcType=INTEGER},
+      </if>
+      <if test="boomType != null" >
+        boomtype=#{boomType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="findBasicInfoFoodById" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    meteringname meteringName,
+    maincategoryid mainCategoryId,
+    smallcategoryid smallCategoryId,
+    scspimgpath scspimgPath,
+    ratedterm ratedTerm,
+    ratedtermdw ratedTermDW,
+    check_status checkStatus,
+    baseprice basePrice,
+    inventorylimit inventoryLimit,
+    ggxh,
+    ggxhdw,
+    suppid suppId,
+    whouseid whouseId,
+    boomtype boomType,
+    bigcategory bigCategory,
+    level level
+    FROM
+    ingredientbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 根据id删除食材 start -->
+  <delete id="delBasicInfoFoodById">
+    DELETE
+    FROM
+    ingredientbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </delete>
+  <!-- 根据id删除食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="getBasicInfoFoodByIds" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    meteringname meteringName,edTerm,
+    maincategoryid mainCategoryId,
+    smallcategoryid smallCategoryId,
+    scspimgpath scspimgPath,
+    ratedterm ratedTerm
+    ratedtermdw ratedTermDW,
+    check_status checkStatus,
+    baseprice basePrice,
+    inventorylimit inventoryLimit,
+    ggxh,
+    ggxhdw,
+    suppid suppId,
+    whouseid whouseId,
+    boomtype boomType,
+    bigcategory bigCategory,
+    level level
+    FROM
+    ingredientbase
+    <where>
+      id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 查询所有食材 start -->
+  <select id="findAll" resultType="java.util.Map">
+    SELECT
+    id,
+    ingredientname ingredientName,
+    boomtype boomType
+    FROM ingredientbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND deletestatus = '1'
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 查询所有食材 end -->
+
+  <!-- 根据食材名修改食材单价 -->
+  <update id="updateBasePriceBySdIdName" parameterType="com.zhixiangmain.module.excel.ReadDataBase" >
+    update ingredientbase
+    <set >
+      <if test="price != null" >
+        baseprice=#{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ingredientname = #{name} AND deletestatus = 1
+  </update>
+  <!-- -->
+
+  <!-- 查找所有食材 start -->
+  <select id="findBaseInfoOfFoodBySdId" resultType="java.util.Map">
+    SELECT
+    id,
+    ingredientname ingredientName,
+    sdid sdId
+    FROM
+    ingredientbase
+    <where>
+      AND deletestatus = '1' AND sdid = #{sdId}
+    </where>
+  </select>
+  <!-- 查找所有食材 end -->
+
+  <!--平台当前月入库食材种类数量数据 start-->
+  <select id="findMonthBySdId" resultType="java.util.Map">
+    SELECT
+    GROUP_CONCAT(DISTINCT ingredientid) ingredientId,
+    COUNT(DISTINCT(ingredientid)) dataCount,
+    DATE_FORMAT( cttime, '%Y-%m-%d' ) createTime
+    FROM
+    ingredientbase
+    <where>
+      DATE_FORMAT( cttime, '%Y%m' ) = DATE_FORMAT( CURDATE( ), '%Y%m' )
+      GROUP BY DATE_FORMAT(cttime, '%Y-%m-%d')
+      ORDER BY createTime ASC
+    </where>
+  </select>
+  <!--平台当前月入库食材种类数量数据 end-->
+
+  <!-- 查找所有食材名 start -->
+  <select id="findAllIngBNameBySdId" resultType="java.util.Map">
+    SELECT
+    ingredientname
+    FROM
+    ingredientbase
+    <where>
+      <if test="ingredientName!=null and ingredientName!=''">
+        AND ingredientname = #{ingredientName}
+      </if>
+    </where>
+    ORDER BY id DESC
+    LIMIT #{start},#{end}
+  </select>
+  <!-- 查找所有食材名 end-->
+
+  <!-- 查找所有食材名count start -->
+  <select id="findPaginationDataTotal" resultType="java.lang.Integer">
+    SELECT
+      COUNT(id)
+    FROM
+    ingredientbase
+    <where>
+      <if test="ingredientName!=null and ingredientName!=''">
+        AND ingredientname = #{ingredientName}
+      </if>
+    </where>
+  </select>
+  <!-- 查找所有食材名count end-->
+
+  <!--<select id="findByName" resultType="java.util.Map">
+    SELECT
+    <include refid="selectAllKey"/>
+    FROM
+    ingredientbase
+    WHERE
+    ingredientname = #{ingredientName}
+  </select>-->
+
+  <!-- 根据名称查找id start -->
+  <select id="findByName" resultType="java.util.Map">
+    SELECT
+      id,
+      meteringname meteringName,
+      ggxh,
+      ggxhdw
+    FROM
+    ingredientbase
+    WHERE
+    ingredientname = #{ingredientName}
+  </select>
+  <!-- 查找所有食材名count end-->
+
+</mapper>

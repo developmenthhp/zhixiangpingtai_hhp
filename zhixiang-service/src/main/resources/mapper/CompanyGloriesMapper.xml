@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.jygs.gsry.CompanyGloriesMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.jygs.gsry.CompanyGlories">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="certificateimg" jdbcType="VARCHAR" property="certificateImg" />
+		<result column="zhengpaiimg" jdbcType="VARCHAR" property="zhengPaiImg" />
+		<result column="accountid" jdbcType="VARCHAR" property="accountId" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, certificateimg, zhengpaiimg, accountid, sdid
+	</sql>
+
+	<select id="findSlipperyAlerts" resultType="java.util.Map">
+		SELECT
+		  id,
+		  certificateimg certificateImg,
+		  zhengpaiimg zhengPaiImg,
+		  sdid sdId
+		FROM
+			companyhonor
+		<where>
+			<!--<if test="ratplateSensor != null and ratplateSensor != ''">
+				AND ratplate_sensor = #{ratplateSensor}
+			</if>
+			<if test="ratplateStatus != null and ratplateStatus != ''">
+				AND ratplate_status = #{ratplateStatus}
+			</if>-->
+		</where>
+		ORDER BY id DESC
+		LIMIT #{start},#{count}
+	</select>
+	<select id="findCompanyGloriesTotal" resultType="java.lang.Integer">
+		SELECT
+		  count(id)
+		FROM
+		  companyhonor
+		<where>
+			<!--<if test="ratplateSensor != null and ratplateSensor != ''">
+				AND ratplate_sensor = #{ratplateSensor}
+			</if>
+			<if test="ratplateStatus != null and ratplateStatus != ''">
+				AND ratplate_status = #{ratplateStatus}
+			</if>-->
+		</where>
+	</select>
+
+</mapper>

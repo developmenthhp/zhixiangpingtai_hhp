@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.lygl.lygl.KeepSampleMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.lygl.lygl.KeepSample">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="menuorder" jdbcType="VARCHAR" property="menuOrder" />
+		<result column="specimealstatus" jdbcType="VARCHAR" property="status" />
+		<result column="deposittime" jdbcType="VARCHAR" property="depositTime" />
+		<result column="depositoperator" jdbcType="VARCHAR" property="depositOperator" />
+		<result column="depositimg" jdbcType="VARCHAR" property="depositImg" />
+		<result column="cytime" jdbcType="VARCHAR" property="cyTime" />
+		<result column="cyoperator" jdbcType="VARCHAR" property="cyOperator" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId"/>
+		<result column="simplescopes" jdbcType="VARCHAR" property="simpleScopes" />
+		<result column="doornumber" jdbcType="INTEGER" property="doorNumber" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, menuorder, specimealstatus, deposittime, depositoperator, depositimg,cytime,cyoperator,cyoperatorimg,
+		sdid,simplescopes,doornumber
+	</sql>
+
+	<!-- 定义sql片段，且唯一 动态insert start -->
+	<sql id="insertAllKey">
+		<trim suffixOverrides=",">
+			<if test="menuOrder != null and menuOrder != ''" >
+				menuorder,
+			</if>
+			<if test="status != null and status != ''" >
+				specimealstatus,
+			</if>
+			<if test="depositTime != null and depositTime != ''" >
+				deposittime,
+			</if>
+			<if test="depositOperator != null and depositOperator != ''" >
+				depositoperator,
+			</if>
+			<if test="depositImg != null and depositImg != ''" >
+				depositimg,
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				cytime,
+			</if>
+			<if test="cyOperator != null and cyOperator != ''" >
+				cyoperator,
+			</if>
+			<if test="cyOperatorImg != null and cyOperatorImg != ''" >
+				cyoperatorimg,
+			</if>
+			<if test="sdId != null" >
+				sdid,
+			</if>
+			<if test="simpleScopes != null and simpleScopes != ''" >
+				simplescopes,
+			</if>
+			<if test="doorNumber != null" >
+				doornumber,
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 动态insert end -->
+
+	<!-- 定义sql片段，且唯一 value值 start -->
+	<sql id="insertAllValue">
+		<trim suffixOverrides=",">
+			<if test="menuOrder != null and menuOrder != ''" >
+				#{menuOrder},
+			</if>
+			<if test="status != null and status != ''" >
+				#{status},
+			</if>
+			<if test="depositTime != null and depositTime != ''" >
+				#{depositTime},
+			</if>
+			<if test="depositOperator != null and depositOperator != ''" >
+				#{depositOperator},
+			</if>
+			<if test="depositImg != null and depositImg != ''" >
+				#{depositImg},
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				#{cyTime},
+			</if>
+			<if test="cyOperator != null and cyOperator != ''" >
+				#{cyOperator},
+			</if>
+			<if test="cyOperatorImg != null and cyOperatorImg != ''" >
+				#{cyOperatorImg},
+			</if>
+			<if test="sdId != null" >
+				#{sdId},
+			</if>
+			<if test="simpleScopes != null and simpleScopes != ''" >
+				#{simpleScopes},
+			</if>
+			<if test="doorNumber != null" >
+				#{doorNumber},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 value值 end -->
+
+	<!-- 定义更新sql片段，且唯一 value值 start -->
+	<sql id="updateAllValue">
+		<trim suffixOverrides=",">
+			<if test="menuOrder != null and menuOrder != ''" >
+				menuorder = #{menuOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null and status != ''" >
+				specimealstatus = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="depositTime != null and depositTime != ''" >
+				deposittime = #{depositTime,jdbcType=VARCHAR},
+			</if>
+			<if test="depositOperator != null and depositOperator != ''" >
+				depositoperator = #{depositOperator,jdbcType=VARCHAR},
+			</if>
+			<if test="depositImg != null and depositImg != ''" >
+				depositimg = #{depositImg,jdbcType=VARCHAR},
+			</if>
+			<if test="cyTime != null and cyTime != ''" >
+				cytime = #{cyTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cyOperator != null and cyOperator != ''" >
+				cyoperator = #{cyOperator,jdbcType=VARCHAR},
+			</if>
+			<if test="cyOperatorImg != null and cyOperatorImg != ''" >
+				cyoperatorimg = #{cyOperatorImg,jdbcType=VARCHAR},
+			</if>
+			<if test="sdId != null" >
+				sdid = #{sdId,jdbcType=INTEGER},
+			</if>
+			<if test="simpleScopes != null and simpleScopes != ''" >
+				simplescopes = #{simpleScopes,jdbcType=VARCHAR},
+			</if>
+			<if test="doorNumber != null" >
+				doornumber = #{doorNumber,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义更新sql片段，且唯一 value值 end -->
+
+	<!-- 查找所有消毒记录条数 start -->
+	<select id="findPaginationDataTotal" resultType="java.lang.Integer">
+		SELECT
+		COUNT(id)
+		FROM
+		lymain
+		<where>
+			<if test="menuOrder != null and menuOrder != ''">
+				AND menuorder = #{menuOrder}
+			</if>
+			<if test="status != null and status != ''">
+				AND specimealstatus = #{status}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				AND deposittime &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				AND deposittime &lt;= #{endTime}
+			</if>
+		</where>
+	</select>
+	<!-- 查找所有消毒记录条数 end -->
+
+	<!-- 查找所有消毒数据 start FROM_UNIXTIME 时间戳转换成标准时间格式 因为是13位，需要除1000转换成10位 才可进行时间戳转标准时间-->
+	<!-- 这里时间段 endtime对应数据库endtime由于这里为空，暂时让endtime对应starttime -->
+	<select id="findPaginationData" resultType="java.util.Map">
+		SELECT
+		lm.id id,
+		DATE_FORMAT(lm.deposittime,'%Y-%m-%d') depositTime,
+		lm.menuorder menuOrder,
+		lm.specimealstatus status,
+		lm.cytime cyTime,
+		lm.depositoperator depositOperator,
+		lm.depositimg depositImg,
+		lm.cyoperator cyOperator,
+		lm.cyoperatorimg cyOperatorImg,
+		lm.sdid sdId,
+		COUNT(lt.id) foodCount,
+		#{siteName} siteName,
+		#{sitePhoto} sitePhoto
+		FROM
+		lymain lm
+		LEFT JOIN
+		lyitems lt
+		ON lm.id = lt.lymainid
+		<where>
+			<if test="menuOrder != null and menuOrder != ''">
+				AND menuorder = #{menuOrder}
+			</if>
+			<if test="status != null and status != ''">
+				AND specimealstatus = #{status}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				AND deposittime &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				AND deposittime &lt;= #{endTime}
+			</if>
+		</where>
+		GROUP BY
+		lm.id
+		LIMIT #{start},#{end}
+	</select>
+	<!-- 查找所有消毒数据 end -->
+
+</mapper>

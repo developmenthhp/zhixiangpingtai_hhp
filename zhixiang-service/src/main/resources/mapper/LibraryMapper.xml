@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.sckc.LibraryMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.StockOMaterials.Library" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ingredientbaseid" property="ingredientBaseId" jdbcType="INTEGER" />
+    <result column="librarysurplus" property="librarySurplus" jdbcType="DECIMAL" />
+    <result column="libraryexpired" property="libraryExpired" jdbcType="DECIMAL" />
+    <result column="replenishmentstatus" property="replenishmentStatus" jdbcType="VARCHAR" />
+    <result column="librarystatus" property="libraryStatus" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ingredientbaseid, librarysurplus, libraryexpired,replenishmentstatus,librarystatus,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        ingredientbaseid,
+      </if>
+      <if test="librarySurplus != null" >
+        librarysurplus,
+      </if>
+      <if test="libraryExpired != null" >
+        libraryexpired,
+      </if>
+      <if test="replenishmentStatus != null and replenishmentStatus != ''" >
+        replenishmentstatus,
+      </if>
+      <if test="libraryStatus != null and libraryStatus != ''" >
+        librarystatus,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        #{ingredientBaseId,jdbcType=INTEGER},
+      </if>
+      <if test="librarySurplus != null" >
+        #{librarySurplus,jdbcType=DECIMAL},
+      </if>
+      <if test="libraryExpired != null" >
+        #{libraryExpired,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishmentStatus != null and replenishmentStatus != ''" >
+        #{replenishmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="libraryStatus != null and libraryStatus != ''" >
+        #{libraryStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        ingredientbaseid = #{ingredientBaseId,jdbcType=INTEGER},
+      </if>
+      <if test="librarySurplus != null" >
+        librarysurplus = #{librarySurplus,jdbcType=DECIMAL},
+      </if>
+      <if test="libraryExpired != null" >
+        libraryexpired = #{libraryExpired,jdbcType=DECIMAL},
+      </if>
+      <if test="replenishmentStatus != null and replenishmentStatus != ''" >
+        replenishmentstatus = #{replenishmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="libraryStatus != null and libraryStatus != ''" >
+        librarystatus = #{libraryStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 分页查询库存信息 start -->
+  <select id="findLibraries" resultType="java.util.Map">
+    SELECT
+    libra.id,
+    ingBase.ingredientname ingredientName,
+    cb1.categoryname mainCategoryName,
+    cb2.categoryname smallCategoryName,
+    ingBase.inventorylimit inventoryLimit,
+    ingBase.meteringname meteringName,
+    libra.librarysurplus librarySurplus,
+    libra.libraryexpired libraryExpired,
+    libra.replenishmentstatus replenishmentStatus,
+    libra.librarystatus libraryStatus,
+    libra.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarys libra
+    LEFT JOIN
+      ingredientbase ingBase
+    ON
+      libra.ingredientbaseid = ingBase.id
+    LEFT JOIN
+      categorybase cb1
+    ON
+      ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+      categorybase cb2
+    ON
+      ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND ingBase.id =#{ingredientBaseId}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+    ORDER BY libra.id DESC
+    LIMIT #{start},#{count}
+  </select>
+  <!-- 分页查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibrariesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(libra.id)
+    FROM librarys libra
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    libra.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND ingBase.id =#{ingredientBaseId}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+
+</mapper>

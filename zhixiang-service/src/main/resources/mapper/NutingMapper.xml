@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.qksj.yyfx.NutingMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.qksj.yyfx.Nuting" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="clas" property="clas" jdbcType="INTEGER" />
+    <result column="carid" property="carId" jdbcType="VARCHAR" />
+    <result column="menudate" property="menuDate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sex, age,grade,clas,carid,menudate,status,phone,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="name != null and name != ''" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="clas != null" >
+        clas,
+      </if>
+      <if test="carId != null and carId != ''" >
+        carid,
+      </if>
+      <if test="menuDate != null and menuDate != ''" >
+        menudate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="phone != null and phone != ''" >
+        phone,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="name != null and name != ''" >
+        #{name},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="age != null" >
+        #{age},
+      </if>
+      <if test="grade != null" >
+        #{grade},
+      </if>
+      <if test="clas != null" >
+        #{clas},
+      </if>
+      <if test="carId != null and carId != ''" >
+        #{carId},
+      </if>
+      <if test="menuDate != null and menuDate != ''" >
+        #{menuDate},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="phone != null and phone != ''" >
+        #{phone},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="name != null and name != ''" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="clas != null" >
+        clas = #{clas,jdbcType=INTEGER},
+      </if>
+      <if test="carId != null and carId != ''" >
+        carid = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDate != null and menuDate != ''" >
+        menudate = #{menuDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null and phone != ''" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findPaginationDataTotal" resultType="java.lang.Integer">
+    SELECT
+      COUNT(nut.id)
+    FROM
+      nuting nut
+    LEFT JOIN
+      havedinner hd
+    ON nut.id = hd.nutid
+    <where>
+      <if test="type != null and type == 1">
+        to_days(nut.menudate) = to_days(now())
+      </if>
+      <!--本周 1 是配置参数 定义星期一为一周的第一天（mysql默认第一天是周日，最后一天为周一，0为周日，6为周一） -->
+      <if test="type != null and type == 2">
+        YEARWEEK( date_format( nut.menudate,'%Y-%m-%d' ),1 ) = YEARWEEK( now( ) ,1)
+      </if>
+      <if test="type != null and type == 3">
+        DATE_FORMAT( nut.menudate, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      </if>
+      <if test="type != null and type == 4">
+        QUARTER(nut.menudate)=QUARTER(now())
+      </if>
+      <if test="type != null and type == 5">
+        YEAR( nut.menudate ) = YEAR( NOW( ) )
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND nut.menudate &gt;= #{startTime}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND nut.menudate &lt;= #{endTime}
+      </if>
+    </where>
+    GROUP BY nut.carid
+    ORDER BY calorie DESC
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!--平台当前月数据 start-->
+  <select id="findTemperatureBySdId" resultType="java.util.Map">
+    SELECT
+      COUNT(id) dataCount,
+      DATE_FORMAT(date, '%Y-%m-%d') createTime
+    FROM
+      pepoletemp
+    <where>
+      <if test="somtempStart != null and somtempStart != ''">
+        AND somtemp &gt; #{somtempStart}
+      </if>
+      <if test="somtempEnd != null and somtempEnd != ''">
+        AND somtemp &lt;= #{somtempEnd}
+      </if>
+      AND DATE_FORMAT( date, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      GROUP BY DATE_FORMAT(date, '%Y-%m-%d')
+      ORDER BY createTime ASC
+    </where>
+		/*where detection_status = '2' AND type = '1' detection_status = '2' AND type = '1' AND createtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND createtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')*/
+  </select>
+  <!--平台当前月数据 start-->
+
+  <!--平台今日体温合格/不合格数据 start-->
+  <select id="findQualifiedTotal" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id) count
+    FROM
+    pepoletemp
+    <where>
+      <!-- 大于somtempStart为不合格数据 -->
+      <if test="somtempStart != null and somtempStart != ''">
+        AND somtemp &gt; #{somtempStart}
+      </if>
+      <!-- 小于等于somtempEnd为合格数据 -->
+      <if test="somtempEnd != null and somtempEnd != ''">
+        AND somtemp &lt;= #{somtempEnd}
+      </if>
+      AND DATE_FORMAT( date, '%Y%m%d' ) = DATE_FORMAT( CURDATE( ) , '%Y%m%d' )
+      /*GROUP BY DATE_FORMAT(date, '%Y-%m-%d')
+      ORDER BY date ASC*/
+    </where>
+    /*where detection_status = '2' AND type = '1' detection_status = '2' AND type = '1' AND createtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+    AND createtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')*/
+  </select>
+  <!--平台今日体温合格/不合格数据 start-->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findRankingListBySdId" resultType="com.zhixiangmain.api.module.qksj.yyfx.vo.NutingVO">
+    SELECT
+    name,
+    SUM( hd.calorie ) calorie,
+    #{siteName} siteName,
+    #{sitePhoto} sitePhoto
+    FROM
+    nuting nut
+    LEFT JOIN
+    havedinner hd
+    ON nut.id = hd.nutid
+    <where>
+      <if test="type != null and type == 1">
+        to_days(nut.menudate) = to_days(now())
+      </if>
+      <!--本周 1 是配置参数 定义星期一为一周的第一天（mysql默认第一天是周日，最后一天为周一，0为周日，6为周一） -->
+      <if test="type != null and type == 2">
+        YEARWEEK( date_format( nut.menudate,'%Y-%m-%d' ),1 ) = YEARWEEK( now( ) ,1)
+      </if>
+      <if test="type != null and type == 3">
+        DATE_FORMAT( nut.menudate, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      </if>
+      <if test="type != null and type == 4">
+        QUARTER(nut.menudate)=QUARTER(now())
+      </if>
+      <if test="type != null and type == 5">
+        YEAR( nut.menudate ) = YEAR( NOW( ) )
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND nut.menudate &gt;= #{startTime}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND nut.menudate &lt;= #{endTime}
+      </if>
+    </where>
+    GROUP BY nut.carid
+    ORDER BY calorie DESC
+    LIMIT #{start},#{end}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

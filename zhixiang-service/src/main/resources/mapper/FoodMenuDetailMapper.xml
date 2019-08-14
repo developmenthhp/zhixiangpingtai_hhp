@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cpjs.cpmx.FoodMenuDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cpjs.cpmx.FoodMenuDetails" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="foodmenuid" property="foodMenuId" jdbcType="INTEGER" />
+    <result column="foodid" property="foodId" jdbcType="INTEGER" />
+    <result column="simplescopes" property="simpleScopes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, foodmenuid, foodid, simplescopes
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="foodMenuId != null" >
+        foodmenuid,
+      </if>
+      <if test="foodId != null" >
+        foodid,
+      </if>
+      <if test="simpleScopes != null" >
+        simplescopes,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="foodMenuId != null" >
+        #{foodMenuId,jdbcType=INTEGER},
+      </if>
+      <if test="foodId != null" >
+        #{foodId,jdbcType=INTEGER},
+      </if>
+      <if test="simpleScopes != null" >
+        #{simpleScopes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="foodMenuId != null" >
+        foodmenuid = #{foodMenuId,jdbcType=INTEGER},
+      </if>
+      <if test="foodId != null" >
+        foodid = #{foodId,jdbcType=INTEGER},
+      </if>
+      <if test="simpleScopes != null" >
+        simplescopes = #{simpleScopes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 查找所有发布的菜谱的明细 start -->
+  <select id="findBySdIdFoodMenuId" resultType="java.util.Map">
+    SELECT
+      fd.id,
+      fd.simplescopes simpleScopes,
+      fd.foodid foodId,
+    <trim suffixOverrides=",">
+      <if test="siteName != null and siteName != ''" >
+        #{siteName},
+      </if>
+      <if test="sitePhoto != null and sitePhoto!=''" >
+        #{sitePhoto},
+      </if>
+    </trim>
+      fb.scspimgpath scspImgPath
+    FROM
+      foodmenudetails fd
+    LEFT JOIN
+      foodbase fb
+    ON
+      fd.foodid = fb.id
+    <where>
+      AND fd.foodmenuid = #{foodMenuId}
+    </where>
+    ORDER BY fd.id DESC
+  </select>
+  <!-- 查找所有发布的菜谱的明细 end -->
+
+  <!-- 新增菜谱明细 start -->
+  <insert id="insertFoodMenuDetail" parameterType="com.zhixiangmain.api.module.cpjs.cpmx.FoodMenuDetails" >
+    insert into foodmenudetails(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增菜谱明细 end -->
+
+  <!-- 更新菜谱明细 start -->
+  <update id="updateFoodMenuDetail" parameterType="com.zhixiangmain.api.module.cpjs.cpmx.FoodMenuDetails" >
+    update foodmenudetails
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新菜谱明细 end -->
+
+  <!-- 删除菜谱明细 start -->
+  <delete id="deleteFoodMenuDetail" parameterType="java.lang.Integer">
+    DELETE
+    FROM
+    foodmenudetails
+    where id=#{id}
+  </delete>
+  <!-- 删除菜谱明细 end -->
+
+</mapper>

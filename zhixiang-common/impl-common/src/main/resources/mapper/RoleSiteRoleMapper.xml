@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.roleSiteRole.RoleSiteRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey" >
+    <id column="site_id" property="siteId" jdbcType="INTEGER" />
+    <id column="siteRole_id" property="siteRoleId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey" >
+    delete from site_siteRole
+    where site_id = #{siteId,jdbcType=INTEGER}
+      and siteRole_id = #{siteRoleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey" >
+    insert into site_siteRole (site_id, siteRole_id)
+    values (#{siteId,jdbcType=INTEGER}, #{siteRoleId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhixiangmain.module.rolePermission.RolePermissionKey" >
+    insert into site_siteRole
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="permitId != null" >
+        permit_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="permitId != null" >
+        #{permitId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--=Start findByRole 根据角色查询中间表数据-->
+  <select id="findByRole" resultType="com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey">
+    SELECT site_id,siteRole_id
+    from site_siteRole
+    WHERE siteRole_id=#{siteRoleId}
+  </select>
+  <!--=End findByRole 根据角色查询中间表数据-->
+</mapper>

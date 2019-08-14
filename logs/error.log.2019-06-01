@@ -1,0 +1,51 @@
+2019-06-01-15-00 [main] [org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter] [ERROR] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+  2019-06-01-15-01 [main] [org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter] [ERROR] - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+  2019-06-01-16-42 [DubboServerHandler-192.168.137.1:20880-thread-2] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-01-16-42 [DubboServerHandler-192.168.137.1:20880-thread-3] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-01-16-42 [DubboServerHandler-192.168.137.1:20880-thread-4] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.auth.AuthServiceImpl.getUserPerms(Integer)
+  2019-06-01-16-42 [DubboServerHandler-192.168.137.1:20880-thread-5] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.site.SiteServiceImpl.getUserSites(Integer)
+  2019-06-01-16-46 [DubboServerHandler-192.168.137.1:20880-thread-15] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.auth.AuthServiceImpl.permList()
+  2019-06-01-16-46 [DubboServerHandler-192.168.137.1:20880-thread-16] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> Permission com.zhixiangmain.impl.auth.AuthServiceImpl.getPermission(int)
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-17] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> int com.zhixiangmain.impl.auth.AuthServiceImpl.updatePerm(Permission)
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-18] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.auth.AuthServiceImpl.permList()
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-19] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-20] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-21] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.auth.AuthServiceImpl.getUserPerms(Integer)
+  2019-06-01-16-47 [DubboServerHandler-192.168.137.1:20880-thread-22] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.site.SiteServiceImpl.getUserSites(Integer)
+  

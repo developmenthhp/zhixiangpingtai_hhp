@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.zhck.slgl.ThreeLeaveBaseMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.zhck.slgl.ThreeLeaveBase">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="fromwall_area" jdbcType="VARCHAR" property="fromWallArea" />
+		<result column="fromwall_sensor" jdbcType="VARCHAR" property="fromWallSensor" />
+		<result column="maximumdistance" jdbcType="VARCHAR" property="maximumDistance" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, fromwall_area, fromwall_sensor, maximumdistance, status, sdid
+	</sql>
+
+	<!-- 定义sql片段，且唯一 动态insert start -->
+	<sql id="insertAllKey">
+		<trim suffixOverrides=",">
+			<if test="fromWallArea != null and fromWallArea !=''" >
+				fromwall_area,
+			</if>
+			<if test="fromWallSensor != null and fromWallSensor != ''" >
+				fromwall_sensor,
+			</if>
+			<if test="maximumDistance != null and maximumDistance != ''" >
+				maximumdistance,
+			</if>
+			<if test="status != null and status != ''" >
+				status,
+			</if>
+			<if test="sdId != null" >
+				sdid,
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 动态insert end -->
+
+	<!-- 定义sql片段，且唯一 value值 start -->
+	<sql id="insertAllValue">
+		<trim suffixOverrides=",">
+			<if test="fromWallArea != null and fromWallArea !=''" >
+				#{fromWallArea},
+			</if>
+			<if test="fromWallSensor != null and fromWallSensor != ''" >
+				#{fromWallSensor},
+			</if>
+			<if test="maximumDistance != null and maximumDistance != ''" >
+				#{maximumDistance},
+			</if>
+			<if test="status != null and status != ''" >
+				#{status},
+			</if>
+			<if test="sdId != null" >
+				#{sdId},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 value值 end -->
+
+	<!-- 定义更新sql片段，且唯一 value值 start -->
+	<sql id="updateAllValue">
+		<trim suffixOverrides=",">
+			<if test="fromWallArea != null and fromWallArea !=''" >
+				fromwall_area = #{fromWallArea,jdbcType=VARCHAR},
+			</if>
+			<if test="fromWallSensor != null and fromWallSensor != ''" >
+				fromwall_sensor = #{fromWallSensor,jdbcType=VARCHAR},
+			</if>
+			<if test="maximumDistance != null and maximumDistance != ''" >
+				maximumdistance = #{maximumDistance,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null and status != ''" >
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="sdId != null" >
+				sdid = #{sdId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义更新sql片段，且唯一 value值 end -->
+
+	<!-- 查询站点有没有装三离 start -->
+	<select id="findAllFWallBase" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		fromwall_base
+		WHERE status &lt; 3
+	</select>
+	<!-- 查询站点有没有装三离 end -->
+</mapper>

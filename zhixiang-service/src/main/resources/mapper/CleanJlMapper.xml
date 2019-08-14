@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cleanJl.CleanJlMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cleanRecord.CleanRecord">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="clean_type" jdbcType="INTEGER" property="cleanType" />
+		<result column="czr_name" jdbcType="VARCHAR" property="czrName" />
+		<result column="czr_id" jdbcType="INTEGER" property="czrId" />
+		<result column="sj_time" jdbcType="VARCHAR" property="sjTime" />
+		<result column="gd_time" jdbcType="VARCHAR" property="gdTime" />
+		<result column="start_time" jdbcType="VARCHAR" property="startTime" />
+		<result column="end_time" jdbcType="INTEGER" property="endTime" />
+		<result column="imgs" jdbcType="INTEGER" property="imgs"/>
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="gd_water" jdbcType="VARCHAR" property="gdWater" />
+		<result column="cgq_bh" jdbcType="VARCHAR" property="cgqBh" />
+		<result column="stop_yy" jdbcType="VARCHAR" property="stopYy" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+		<result column="real_water" jdbcType="VARCHAR" property="realWater" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, clean_type, czr_name, czr_id, sj_time, gd_time,start_time,end_time,imgs,
+		status,gd_water,cgq_bh,stop_yy,sdid,real_water
+	</sql>
+	<select id="findAlertOneCleanJl" resultType="com.zhixiangmain.api.module.cleanRecord.CleanRecord">
+		SELECT
+			id,
+			imgs,
+			start_time,
+			czr_name,
+			sdid
+		FROM
+			clean_record
+		<where>
+			AND status=2 AND stop_yy='时间违规'
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY id
+		DESC
+		LIMIT 1
+	</select>
+
+</mapper>

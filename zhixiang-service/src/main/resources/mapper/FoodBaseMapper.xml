@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cpjs.zdcpbom.FoodBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="menutype" property="menuType" jdbcType="VARCHAR" />
+    <result column="foodname" property="foodName" jdbcType="VARCHAR" />
+    <result column="meteringname" property="meteringName" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="scspimgpath" property="scspImgPath" jdbcType="VARCHAR" />
+    <result column="foodcontext" property="foodContext" jdbcType="CLOB" />
+    <result column="gmt_date" property="gmtDate" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="check_status" property="checkStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, menutype, foodname, meteringname,weight,scspimgpath,foodcontext,gmt_date,sdid,deletestatus,price,
+    check_status
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="menuType != null and menuType != ''" >
+        menutype,
+      </if>
+      <if test="foodName != null and foodName != ''" >
+        foodname,
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        meteringname,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="scspImgPath != null and scspImgPath != ''" >
+        scspimgpath,
+      </if>
+      <if test="foodContext != null and foodContext != ''" >
+        foodcontext,
+      </if>
+      <if test="gmtDate != null and gmtDate != ''" >
+        gmt_date,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        check_status,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="menuType != null and menuType != ''" >
+        #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null and foodName != ''" >
+        #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        #{meteringName,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="scspImgPath != null and scspImgPath != ''" >
+        #{scspImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="foodContext != null and foodContext != ''" >
+        #{foodContext,jdbcType=CLOB},
+      </if>
+      <if test="gmtDate != null and gmtDate != ''" >
+        #{gmtDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        #{checkStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="menuType != null and menuType != ''" >
+        menutype = #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="foodName != null and foodName != ''" >
+        foodname = #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="meteringName != null and meteringName != ''" >
+        meteringname = #{meteringName,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="scspImgPath != null and scspImgPath != ''" >
+        scspimgpath = #{scspImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="foodContext != null and foodContext != ''" >
+        foodcontext = #{foodContext,jdbcType=CLOB},
+      </if>
+      <if test="gmtDate != null and gmtDate != ''" >
+        gmt_date = #{gmtDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus = #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        check_status = #{checkStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 开放的分页查询 start -->
+  <select id="findFoodBaseList" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.dto.FoodBaseDTO" resultType="java.util.Map">
+    SELECT
+    fb.id,
+    fb.scspimgpath scspImgPath,
+    fb.foodname foodName,
+    fb.menutype menuType,
+    fb.meteringname meteringName,
+    fb.price,
+    fb.weight,
+    fb.check_status checkStatus
+    FROM foodbase fb
+    <where>
+      AND fb.deletestatus = '1'
+      <if test="menuTypeDto!=null and menuTypeDto!=''">
+        AND fb.menutype =#{menuTypeDto}
+      </if>
+      <if test="foodNameDto != null and foodNameDto != ''">
+        AND ib.foodname like CONCAT('%', #{foodNameDto} , '%')
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 开放的分页查询 end -->
+
+    <!-- 不开放的分页查询 start -->
+    <select id="findInsideFoodBaseList" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.dto.FoodBaseDTO" resultType="java.util.Map">
+      SELECT
+      fb.id,
+      fb.scspimgpath scspImgPath,
+      fb.foodname foodName,
+      fb.menutype menuType,
+      fb.meteringname meteringName,
+      fb.price,
+      fb.weight,
+      fb.check_status checkStatus
+      FROM foodbase fb
+      <where>
+        AND fb.deletestatus = '1'
+        <if test="menuTypeDto!=null and menuTypeDto!=''">
+          AND fb.menutype &amp; #{menuTypeDto}
+        </if>
+        <if test="foodNameDto != null and foodNameDto != ''">
+          AND fb.foodname like CONCAT('%', #{foodNameDto} , '%')
+        </if>
+      </where>
+      ORDER BY id DESC
+    </select>
+    <!-- 不开放的分页查询 end -->
+
+  <!-- 校验食材名是否存在 start -->
+  <select id="checkNameTotal" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" resultType="java.lang.Object">
+    SELECT
+      IFNULL(id,0)
+    FROM
+      foodbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND foodname = #{foodName} AND deletestatus = '1'
+    </where>
+  </select>
+  <!-- 校验食材名是否存在 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="findFoodBaseById" resultType="java.util.Map">
+    SELECT
+    fb.id,
+    fb.scspimgpath scspImgPath,
+    fb.foodname foodName,
+    fb.menutype menuType,
+    fb.meteringname meteringName,
+    fb.price,
+    fb.weight,
+    fb.check_status checkStatus,
+    fb.foodcontext foodContext
+    FROM foodbase fb
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 根据id删除食材 start -->
+  <delete id="delFoodBaseById">
+    DELETE
+    FROM
+    foodbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </delete>
+  <!-- 根据id删除食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="getBasicInfoFoodByIds" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    meteringname meteringName,edTerm,
+    maincategoryid mainCategoryId,
+    smallcategoryid smallCategoryId,
+    scspimgpath scspimgPath,
+    ratedterm ratedTerm
+    ratedtermdw ratedTermDW,
+    check_status checkStatus,
+    baseprice basePrice,
+    inventorylimit inventoryLimit,
+    ggxh,
+    ggxhdw,
+    suppid suppId,
+    whouseid whouseId,
+    boomtype boomType,
+    bigcategory bigCategory,
+    level level
+    FROM
+    ingredientbase
+    <where>
+      id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 查找所有菜品 start -->
+  <select id="getAllFood" resultType="java.util.Map">
+    SELECT
+    fb.id,
+    fb.scspimgpath scspImgPath,
+    fb.foodname foodName,
+    fb.meteringname meteringName,
+    fb.price
+    FROM foodbase fb
+    <where>
+      AND deletestatus=1
+      <!-- 因为蓝天的基础食材没有分 早中晚夜宵，故sql不加该条件,这里在蓝天的前端不传menuType-->
+      <if test="menuType!=null and menuType!=''">
+        AND fb.menutype &amp; #{menuType}
+      </if>
+    </where>
+  </select>
+  <!-- 查找所有菜品 end -->
+
+  <!-- 查找所有菜品的id和name start -->
+  <select id="findAllFoodIdName" resultType="java.util.Map">
+    SELECT
+    id,
+    foodname foodName,
+    sdid sdId
+    FROM foodbase
+    <where>
+      AND deletestatus=1
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      <if test="id!=null">
+        AND id = #{id}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND maincategoryid = #{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND smallcategoryid = #{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 查找所有菜品的id和name end -->
+
+  <!-- 查找所有食材名count start -->
+  <select id="findPaginationDataTotal" resultType="java.lang.Integer">
+    SELECT
+    COUNT(id)
+    FROM
+    foodbase
+    <where>
+      AND deletestatus = '1'
+      <if test="foodName!=null and foodName!=''">
+        AND foodname = #{foodName}
+      </if>
+    </where>
+  </select>
+  <!-- 查找所有食材名count end-->
+
+  <!-- 查找所有食材名 start -->
+  <select id="findAllFoodBBySdId" resultType="java.util.Map">
+    SELECT
+      id,
+      foodname foodName,
+      sdid sdId,
+      #{siteName} siteName
+    FROM
+      foodbase
+    <where>
+      AND deletestatus = '1'
+      <if test="foodName!=null and foodName!=''">
+        AND foodname = #{foodName}
+      </if>
+    </where>
+    ORDER BY id DESC
+    LIMIT #{start},#{end}
+  </select>
+  <!-- 查找所有食材名 end-->
+
+</mapper>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>智飨科技-大屏-食品餐饮安全网管理后台</title>
+    <!--告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。  -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="智飨科技-食品餐饮安全网 " />
+    <meta name="author" content="hhp" />
+    <!-- 网站关键字，排名关键 -->
+    <meta name="keyword" content="智能化餐饮,智飨科技,物联网,食品安全,智能厨房,家宴,餐饮标准化管理" />
+    <!-- 设置标签栏公司logo -->
+    <link rel="icon" href="/images/logo1.png" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/style.css"  rel="stylesheet" type="text/css" media="all" />
+    <script src="js/jquery-3.2.0.min.js" charset="utf-8"></script>
+    <script src="js/common.js"></script>
+    <script src="js/echarts.min.js" charset="utf-8"></script>
+    <script src="js/dataTool.js"></script>
+    <script src="js/index.js" charset="utf-8"></script>
+    <script src="js/china.js"></script>
+
+    <style>
+        #chart_map{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+<div class="wpbox">
+    <div class="bnt">
+        <div class="topbnt_left fl">
+            <ul><li class="active"><a href="#">首页</a></li>
+                <li><a href="#">经营公司</a></li>
+                <li><a href="#">明厨亮灶</a></li>
+                <li><a href="#">站点巡查</a></li>
+            </ul>
+        </div>
+        <h1 class="tith1 fl">智飨科技监管平台</h1>
+        <div class=" fr topbnt_right">
+            <ul>
+                <li><a href="#">返回</a></li>
+                <li><a href="#">实时预警</a></li>
+                <li><a href="#">菜品解析</a></li>
+                <li><a href="#">食材快检</a></li>
+            </ul>
+            </ul>
+        </div>
+    </div>
+    <!-- bnt end -->
+    <div class="left1">
+        <div class="aleftboxttop"><h2 class="tith2">人员体感数据统计</h2>
+            <div class="lefttoday_tit" style=" height:8%"><p class="fl">地区：所有</p><p class="fr">2018-07-06</p></div>
+            <div class="lefttoday_number">
+                <div class="widget-inline-box text-center fl">
+                    <p>总人数</p>
+                    <h3 class="ceeb1fd">62</h3>
+                    <h4 class="text-muted pt6">同比昨日<img src="images/iconup.png" height="16" />2%</h4>
+                </div>
+                <div class="widget-inline-box text-center fl">
+                    <p>正常体感</p>
+                    <h3 class="c24c9ff">54</h3>
+                    <h4 class="text-muted pt6">同比昨日<img src="images/icondown.png" height="16" />3%</h4>
+                </div>
+                <div class="widget-inline-box text-center fl">
+                    <p>体感异常</p>
+                    <h3 class="cffff00">4</h3>
+                    <h4 class="text-muted pt6">同比昨日<img src="images/icondown.png" height="16" />3%</h4>
+                </div>
+                <div class="widget-inline-box text-center fl">
+                    <p>未测体感</p>
+                    <h3 class="c11e2dd">4</h3>
+                    <h4 class="text-muted pt6">同比昨日<img src="images/icondown.png" height="16" />3%</h4>
+                </div>
+            </div>
+            <!-- lefttoday_number end -->
+        </div>
+        <div class="aleftboxtmidd">
+            <h2 class="tith2">今日留样数据分析</h2>
+            <div class="lefttoday_tit height ht"><p class="fl">2018-07-06</p><p class="fr"></p></div>
+            <div id="aleftboxtmidd" class="aleftboxtmiddcont"></div>
+        </div>
+        <div class="aleftboxtbott">
+            <h2 class="tith2">今日消样数据分析</h2>
+            <div class="lefttoday_tit height"><p class="fl">2018-07-06</p><p class="fr"></p></div>
+            <div id="aleftboxtbott" class="aleftboxtbott_cont" ></div>
+        </div>
+    </div>
+    <!--  left1 end -->
+    <div class="mrbox">
+        <div class="mrbox_topmidd" style="width: 69%;">
+            <div class="amiddboxttop" style="height: 60%;">
+                <h2 class="tith2 pt1">站点分布</h2>
+                <div class="amiddboxttop_map" style="background:none;width:100%;height:100%;" id="chart_map">
+                    <!--<span class="camera_l"  style=" top:34%;left:32%"></span>
+                    <span class="camera_l" style=" top:10%;left:10%"></span>
+                    <span class="camera_l" style=" top:5%;left:40%"></span>
+                    <span class="camera_l" style=" top:10%;left:50%"></span>
+                    <span style=" top:30%;left:75%"></span>
+                    <span style=" top:5%;left:92%"></span>
+                    <span style=" top:40%;left:83%"></span>-->
+                </div>
+            </div>
+            <!--  amiddboxttop end-->
+            <div class="amidd_bott" style="height: 35%;">
+                <div class="amiddboxtbott1 fl" >
+                    <h2 class="tith2 pt1">操作违规(清洗、消毒、浸泡)</h2>
+                    <div id="amiddboxtbott1" class="amiddboxtbott1content" ></div>
+                </div>
+                <div class="amiddboxtbott2 fl"><h2 class="tith2 pt1">食材库存预警</h2>
+                    <div id="amiddboxtbott2" class="amiddboxtbott2content"></div>
+                </div>
+            </div>
+            <!-- amidd_bott end -->
+        </div>
+        <!-- mrbox_top end -->
+        <div class="mrbox_top_right">
+            <div class="arightboxtop"><h2 class="tith2">今日快检</h2>
+                <div class="lefttoday_tit"><p class="fl">状态：已调节</p><p class="fr">时间段：2018-06-10</p></div>
+                <div class="left2_table">
+                    <!--<div class="message_scroll_box">
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                        <div class="message_scroll">
+                            <div class="scroll_top">
+                                <span class="scroll_title">数据流量警示</span>
+                                <span class="scroll_level scroll_level01">一级</span>
+                                <a class="localize"></a>
+                                <span class="scroll_timer">17-09-13/9:52</span>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_title">下载大量视频</a>
+                            </div>
+                            <div class="msg_cage">
+                                <a class="localize_msg">xxx视频网站</a>
+                            </div>
+                        </div>
+                    </div>-->
+                    <ul class="message_scroll_box">
+                        <li class="message_scroll">
+                            <p class="fl"><b>食材供应商-苏州速运</b><br>
+                                长豇豆检测农残，结果：无农残-苏州移动<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll bg">
+                            <p class="fl"><b>食材供应商-苏州速运</b><br>
+                                菠菜检测农残，结果：无农残-苏州移动<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll">
+                            <p class="fl"><b>食材供应商-苏州速运</b><br>
+                                韭菜检测农残，结果：无农残-万亚快餐<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll bg">
+                            <p class="fl"><b>食材供应商-苏州速运</b><br>
+                                小白菜检测农残，结果：无农残-万亚快餐<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll">
+                            <p class="fl"><b>食材供应商-速达</b><br>
+                                红薯检测农残，结果：无农残-鸿达餐饮<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll bg">
+                            <p class="fl"><b>食材供应商-速达</b><br>
+                                番茄检测农残，结果：无农残-鸿达餐饮<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll">
+                            <p class="fl"><b>食材供应商-速达</b><br>
+                                玉米检测农残，结果：无农残-鸿达餐饮<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                        <li class="message_scroll bg">
+                            <p class="fl"><b>食材供应商-速达</b><br>
+                                土豆检测农残，结果：无农残-鸿达餐饮<br>
+                            </p>
+                            <p class="fr pt17">2019-07-10</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="arightboxbott"><h2 class="tith2 ">今日领料数据分析</h2>
+                <div class="lefttoday_tit"><p class="fl">状态：已调节</p><p class="fr">时间：2018-06-14</p></div>
+                <div id="arightboxbott" class="arightboxbottcont" style=""></div>
+            </div>
+        </div>
+        <!-- mrbox_top_right end -->
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('aleftboxtmidd'));
+    option = {
+        color:['#76c4bf','#e5ffc7','#508097','#4d72d9'],
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left:10,
+            right:40,
+            top:20,
+            bottom:0,
+            containLabel: true
+        },
+        // legend: {
+        //     x : 'center',
+        //     y : '70%',
+        //     textStyle:{
+        //       fontSize: 10,
+        //       color:'rgba(255,255,255,.7)'
+        //     },
+        //     data:['康定市','丹巴县','甘孜县','理塘县']
+        // },
+        calculable : true,
+        series : [
+
+            {
+                name:'面积模式',
+                type:'pie',
+                radius : [5, 60],
+                center : ['50%', '55%'],
+                roseType : 'area',
+                data:[
+                    {value:10, name:'苏州移动'},
+                    {value:5, name:'绍兴'},
+                    {value:15, name:'鸿达'},
+                    {value:25, name:'万亚'}
+                ]
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('aleftboxtbott'));
+    option = {
+        color:['#7ecef4'],
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left:20,
+            right:20,
+            top:13,
+            bottom:6,
+            containLabel: true
+        },
+
+        xAxis: {
+            type: 'value',
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,0)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,0)"
+            },
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.5)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,.5)"
+            },
+            data: ['未调节','调节中','未调节']
+        },
+        series: [
+            {
+                name: '2011年',
+                type: 'bar',
+                barWidth :30,
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            1, 0, 0, 1,
+                            [
+                                {offset: 0, color: 'rgba(230,253,139,.7)'},
+                                {offset: 1, color: 'rgba(41,220,205,.7)'}
+                            ]
+                        )
+                    }
+                },
+                data: [18203, 23489, 29034]
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('amiddboxtbott1'));
+
+    var data3333 = [];
+    option = {
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left:40,
+            right:40,
+            top:50,
+            bottom:40
+        },
+        title: {
+            top: 5,
+            left:20,
+            textStyle:{
+                fontSize:10,
+                color:'rgba(255,255,255,.6)'
+            },
+            text: '环比类型：日环比'
+        },
+        legend: {
+            right: 10,
+            top: 5,
+            textStyle:{
+                fontSize:10,
+                color:'rgba(255,255,255,.6)'
+            },
+            data: ['1990', '2015']
+        },
+        xAxis: {
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,.7)"
+            }
+        },
+        yAxis: {
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,.7)"
+            },
+            scale: true
+        },
+        series: [{
+            name: '1990',
+            data: data3333[0],
+            type: 'scatter',
+            symbolSize: function (data) {
+                return Math.sqrt(data[2]) / 5e2;
+            },
+            label: {
+                emphasis: {
+                    show: true,
+                    formatter: function (param) {
+                        return param.data[3];
+                    },
+                    position: 'top'
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(120, 36, 50, 0.5)',
+                    shadowOffsetY: 5,
+                    color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                        offset: 0,
+                        color: 'rgb(251, 118, 123)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(204, 46, 72)'
+                    }])
+                }
+            }
+        }, {
+            name: '2015',
+            data: data3333[1],
+            type: 'scatter',
+            symbolSize: function (data) {
+                return Math.sqrt(data[2]) / 5e2;
+            },
+            label: {
+                emphasis: {
+                    show: true,
+                    formatter: function (param) {
+                        return param.data[3];
+                    },
+                    position: 'top'
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(25, 100, 150, 0.5)',
+                    shadowOffsetY: 5,
+                    color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                        offset: 0,
+                        color: 'rgb(129, 227, 238)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(25, 183, 207)'
+                    }])
+                }
+            }
+        }]
+    };
+    myChart.setOption(option);
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('amiddboxtbott2'));
+    option = {
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left:60,
+            right:60,
+            top:50,
+            bottom:40
+        },
+
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            top:10,
+            textStyle:{
+                fontSize: 10,
+                color:'rgba(255,255,255,.7)'
+            },
+            data:['2017年','2018年','同比增速']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.2)'
+                    }
+                },
+                splitLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.1)'
+                    }
+                },
+                axisLabel:{
+                    color:"rgba(255,255,255,.7)"
+                },
+
+                data: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '',
+                min: 0,
+                max: 250,
+                interval: 50,
+                axisLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.3)'
+                    }
+                },
+                splitLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.01)'
+                    }
+                },
+
+                axisLabel: {
+                    formatter: '{value} ml'
+                }
+            },
+            {
+                type: 'value',
+                name: '',
+                max: 25,
+                interval: 5,
+                axisLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.3)'
+                    }
+                },
+                splitLine:{
+                    lineStyle:{
+                        color:'rgba(255,255,255,.1)'
+                    }
+                },
+                axisLabel: {
+                    formatter: '{value} °C'
+                }
+            }
+        ],
+        series: [
+
+            {
+                name:'2017年',
+                type:'bar',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#b266ff'},
+                                {offset: 1, color: '#121b87'}
+                            ]
+                        )
+                    }
+                },
+                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            },
+            {
+                name:'2018年',
+                type:'bar',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#00f0ff'},
+                                {offset: 1, color: '#032a72'}
+                            ]
+                        )
+                    }
+                },
+                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            },
+            {
+                name:'同比增速',
+                type:'line',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#fffb34'},
+                                {offset: 1, color: '#fffb34'}
+                            ]
+                        )
+                    }
+                },
+                yAxisIndex: 1,
+                data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('arightboxbott'));
+    option = {
+        color:['#7de494','#7fd7b1', '#5578cf', '#5ebbeb', '#d16ad8','#f8e19a',  '#00b7ee', '#81dabe','#5fc5ce'],
+        backgroundColor: 'rgba(1,202,217,.2)',
+
+        grid: {
+            left: '5%',
+            right: '8%',
+            bottom: '7%',
+            top:'8%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,.7)"
+            },
+            data: ['6-08','6-09','6-10','6-11','6-12','6-13','6-14']
+        },
+        yAxis: {
+            type: 'value',
+            axisLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine:{
+                lineStyle:{
+                    color:'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel:{
+                color:"rgba(255,255,255,.7)"
+            },
+        },
+        series: [
+            {
+                name:'2014年',
+                type:'line',
+                stack: '总量',
+                areaStyle: {normal: {}},
+                data:[120, 132, 101, 134, 90, 230, 210]
+            }
+
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.sccg.LibraryPurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.sccg.LibraryPurchase" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ingredientbaseid" property="ingredientBaseId" jdbcType="INTEGER" />
+    <result column="purchcount" property="purchCount" jdbcType="DECIMAL" />
+    <result column="lowestunitprice" property="lowestUnitPrice" jdbcType="DECIMAL" />
+    <result column="highestunitprice" property="highestUnitPrice" jdbcType="DECIMAL" />
+    <result column="authorizedprice" property="authorizedPrice" jdbcType="DECIMAL" />
+    <result column="purchstatus" property="purchStatus" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="purchpeople" property="purchPeople" jdbcType="VARCHAR" />
+    <result column="purchtime" property="purchTime" jdbcType="VARCHAR" />
+    <result column="advicecount" property="adviceCount" jdbcType="DECIMAL" />
+    <result column="needpurchcount" property="needPurchCount" jdbcType="DECIMAL" />
+    <result column="stockcount" property="stockCount" jdbcType="DECIMAL" />
+    <result column="lchid" property="lchId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ingredientbaseid, purchcount, lowestunitprice,highestunitprice,authorizedprice,purchstatus,sdid,purchpeople,purchtime,advicecount,
+    needpurchcount,stockcount,lchid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        ingredientbaseid,
+      </if>
+      <if test="purchCount != null" >
+        purchcount,
+      </if>
+      <if test="lowestUnitPrice != null" >
+        lowestunitprice,
+      </if>
+      <if test="highestUnitPrice != null" >
+        highestunitprice,
+      </if>
+      <if test="authorizedPrice != null" >
+        authorizedprice,
+      </if>
+      <if test="purchStatus != null and purchStatus != ''" >
+        purchstatus,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+      <if test="purchPeople != null and purchPeople != ''" >
+        purchpeople,
+      </if>
+      <if test="purchTime != null and purchTime != ''" >
+        purchtime,
+      </if>
+      <if test="adviceCount != null" >
+        advicecount,
+      </if>
+      <if test="needPurchCount != null" >
+        needpurchcount,
+      </if>
+      <if test="stockCount != null" >
+        stockcount,
+      </if>
+      <if test="lchId != null" >
+        lchid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        #{ingredientBaseId},
+      </if>
+      <if test="purchCount != null" >
+        #{purchCount},
+      </if>
+      <if test="lowestUnitPrice != null" >
+        #{lowestUnitPrice},
+      </if>
+      <if test="highestUnitPrice != null" >
+        #{highestUnitPrice},
+      </if>
+      <if test="authorizedPrice != null" >
+        #{authorizedPrice},
+      </if>
+      <if test="purchStatus != null and purchStatus != ''" >
+        #{purchStatus},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+      <if test="purchPeople != null and purchPeople != ''" >
+        #{purchPeople},
+      </if>
+      <if test="purchTime != null and purchTime != ''" >
+        #{purchTime},
+      </if>
+      <if test="adviceCount != null" >
+        #{adviceCount},
+      </if>
+      <if test="needPurchCount != null" >
+        #{needPurchCount},
+      </if>
+      <if test="stockCount != null" >
+        #{stockCount},
+      </if>
+      <if test="lchId != null" >
+        #{lchId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientBaseId != null" >
+        ingredientbaseid = #{ingredientBaseId,jdbcType=INTEGER},
+      </if>
+      <if test="purchCount != null" >
+        purchcount = #{purchCount,jdbcType=DECIMAL},
+      </if>
+      <if test="lowestUnitPrice != null" >
+        lowestunitprice = #{lowestUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="highestUnitPrice != null" >
+        highestunitprice = #{highestUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="authorizedPrice != null" >
+        authorizedprice = #{authorizedPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchStatus != null and purchStatus != ''" >
+        purchstatus = #{purchStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+      <if test="purchPeople != null and purchPeople != ''" >
+        purchpeople = #{purchPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="purchTime != null and purchTime != ''" >
+        purchtime = #{purchTime,jdbcType=VARCHAR},
+      </if>
+      <if test="adviceCount != null" >
+        advicecount = #{adviceCount,jdbcType=DECIMAL},
+      </if>
+      <if test="needPurchCount != null" >
+        needpurchcount = #{needPurchCount,jdbcType=DECIMAL},
+      </if>
+      <if test="stockCount != null" >
+        stockcount = #{stockCount,jdbcType=DECIMAL},
+      </if>
+      <if test="lchId != null" >
+        lchid = #{lchId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 根据试点id主表id获取采购食材 start -->
+  <select id="findMainLPList" resultType="java.util.Map">
+    SELECT
+    lp.id,
+    lp.ingredientbaseid ingredientBaseId,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lp.purchcount purchCount,
+    lp.lowestunitprice lowestUnitPrice,
+    lp.highestunitprice highestUnitPrice,
+    lp.advicecount adviceCount,
+    lp.needpurchcount needPurchCount,
+    lp.stockcount stockCount,
+    lp.authorizedprice authorizedPrice
+    FROM librarypurchase lp
+    INNER JOIN
+      ingredientbase ib
+    ON
+      lp.ingredientbaseid = ib.id
+    <where>
+      AND lp.purchstatus = 1 AND lp.sdid = #{sdId} AND lp.lchid = #{mainId}
+    </where>
+    ORDER BY lp.id DESC
+  </select>
+  <!-- 根据试点id主表id获取采购食材 end -->
+
+  <!-- 分页查询库存信息 start -->
+  <select id="findLibraryPurchases" resultType="java.util.Map">
+    SELECT
+    lp.id,
+    lp.purchcount purchCount,
+    lp.lowestunitprice lowestUnitPrice,
+    lp.highestunitprice highestUnitPrice,
+    lp.authorizedprice authorizedPrice,
+    lp.purchpeople purchPeople,
+    lp.purchtime purchTime,
+    lp.purchstatus purchStatus,
+    lp.sdid sdId,
+    ingBase.ingredientname ingredientName,
+    ingBase.meteringname meteringName,
+    cb1.categoryname mainCategoryName,
+    cb2.categoryname smallCategoryName,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+    ORDER BY lp.id DESC
+    LIMIT #{start},#{count}
+  </select>
+  <!-- 分页查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

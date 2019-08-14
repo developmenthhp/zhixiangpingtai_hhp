@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.qxjp.qxwg.CleanRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cleanRecord.CleanRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clean_type" property="cleanType" jdbcType="INTEGER" />
+    <result column="czr_name" property="czrName" jdbcType="VARCHAR" />
+    <result column="czr_id" property="czrId" jdbcType="INTEGER" />
+    <result column="sj_time" property="sjTime" jdbcType="VARCHAR" />
+    <result column="gd_time" property="gdTime" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="imgs" property="imgs" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="gd_water" property="gdWater" jdbcType="VARCHAR" />
+    <result column="cgq_bh" property="cgqBh" jdbcType="VARCHAR" />
+    <result column="stop_yy" property="stopYy" jdbcType="VARCHAR" />
+    <result column="real_water" property="realWater" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clean_type, czr_name, czr_id,sj_time,gd_time,start_time,end_time,imgs,status,gd_water,cgq_bh,stop_yy,real_water,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="cleanType != null" >
+        clean_type,
+      </if>
+      <if test="czrName != null and czrName != ''" >
+        czr_name,
+      </if>
+      <if test="czrId != null" >
+        czr_id,
+      </if>
+      <if test="sjTime != null and sjTime != ''" >
+        sj_time,
+      </if>
+      <if test="gdTime != null and gdTime != ''" >
+        gd_time,
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        start_time,
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        end_time,
+      </if>
+      <if test="imgs != null and imgs != ''" >
+        imgs,
+      </if>
+      <if test="status != null and status != ''" >
+        status,
+      </if>
+      <if test="gdWater != null and gdWater != ''" >
+        gd_water,
+      </if>
+      <if test="cgqBh != null and cgqBh != ''" >
+        cgq_bh,
+      </if>
+      <if test="stopYy != null and stopYy != ''" >
+        stop_yy,
+      </if>
+      <if test="realWater != null and realWater != ''" >
+        real_water,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="cleanType != null" >
+        #{cleanType},
+      </if>
+      <if test="czrName != null and czrName != ''" >
+        #{czrName},
+      </if>
+      <if test="czrId != null" >
+        #{czrId},
+      </if>
+      <if test="sjTime != null and sjTime != ''" >
+        #{sjTime},
+      </if>
+      <if test="gdTime != null and gdTime != ''" >
+        #{gdTime},
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        #{startTime},
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        #{endTime},
+      </if>
+      <if test="imgs != null and imgs != ''" >
+        #{imgs},
+      </if>
+      <if test="status != null and status != ''" >
+        #{status},
+      </if>
+      <if test="gdWater != null and gdWater != ''" >
+        #{gdWater},
+      </if>
+      <if test="cgqBh != null and cgqBh != ''" >
+        #{cgqBh},
+      </if>
+      <if test="stopYy != null and stopYy != ''" >
+        #{stopYy},
+      </if>
+      <if test="realWater != null and realWater != ''" >
+        #{realWater},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="cleanType != null" >
+        clean_type = #{cleanType,jdbcType=INTEGER},
+      </if>
+      <if test="czrName != null and czrName != ''" >
+        czr_name = #{czrName,jdbcType=VARCHAR},
+      </if>
+      <if test="czrId != null" >
+        czr_id = #{czrId,jdbcType=INTEGER},
+      </if>
+      <if test="sjTime != null and sjTime != ''" >
+        sj_time = #{sjTime,jdbcType=VARCHAR},
+      </if>
+      <if test="gdTime != null and gdTime != ''" >
+        gd_time = #{gdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="imgs != null and imgs != ''" >
+        imgs = #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="gdWater != null and gdWater != ''" >
+        gd_water = #{gdWater,jdbcType=VARCHAR},
+      </if>
+      <if test="cgqBh != null and cgqBh != ''" >
+        cgq_bh = #{cgqBh,jdbcType=VARCHAR},
+      </if>
+      <if test="stopYy != null and stopYy != ''" >
+        stop_yy = #{stopYy,jdbcType=VARCHAR},
+      </if>
+      <if test="realWater != null and realWater != ''" >
+        real_water = #{realWater,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findTotalEmploymentViolation" resultType="java.lang.Integer">
+    SELECT
+        COUNT(id)
+    FROM clean_record
+    WHERE stop_yy like '%违规' AND end_time &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND end_time &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findMonthBySdId" resultType="java.util.Map">
+    SELECT
+      COUNT(id) dataCount,
+      DATE_FORMAT(end_time, '%Y-%m-%d') createTime
+    FROM clean_record
+    WHERE stop_yy like '%违规'
+      AND DATE_FORMAT( end_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      GROUP BY DATE_FORMAT(end_time, '%Y-%m-%d')
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findByIdSdId" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changetime changetTime,
+    lc.changemode changeMode
+    FROM librarychange lc
+    LEFT JOIN
+      ingredientbase ib
+    ON
+      lc.ingredientbaseid = ib.id
+    WHERE lc.id=#{id} AND lc.sdid = #{sdId}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

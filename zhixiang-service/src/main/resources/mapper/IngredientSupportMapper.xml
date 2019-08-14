@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.ghsjc.IngredientSupportMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.ghsjc.IngredientSupport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="suppliername" property="supplierName" jdbcType="VARCHAR" />
+    <result column="principalname" property="principalName" jdbcType="VARCHAR" />
+    <result column="prompttime" property="promptTime" jdbcType="VARCHAR" />
+    <result column="principaltel" property="principalTel" jdbcType="VARCHAR" />
+    <result column="suppadress" property="suppAdress" jdbcType="VARCHAR" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+    <result column="foundtime" property="foundTime" jdbcType="VARCHAR" />
+    <result column="supdocumentphoto" property="supDocumentPhoto" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="expiretime" property="expireTime" jdbcType="VARCHAR" />
+    <result column="registrationnumber" property="registRationNumber" jdbcType="VARCHAR" />
+    <result column="violationcount" property="violationCount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, suppliername, principalname, prompttime,principaltel,suppadress,deletestatus,supdocumentphoto,sdid,expiretime,registrationnumber,violationcount
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="supplierName != null and supplierName!=''" >
+        suppliername,
+      </if>
+      <if test="principalName != null and principalName != ''" >
+        principalname,
+      </if>
+      <if test="promptTime != null and promptTime!=''" >
+        prompttime,
+      </if>
+      <if test="principalTel != null and principalTel!=''" >
+        principaltel,
+      </if>
+      <if test="suppAdress != null and suppAdress != ''" >
+        suppadress,
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus,
+      </if>
+      <if test="foundTime != null and foundTime!=''" >
+        foundtime,
+      </if>
+      <if test="supDocumentPhoto != null and supDocumentPhoto != ''" >
+        supdocumentphoto,
+      </if>
+      <if test="expireTime != null and expireTime!=''" >
+        expiretime,
+      </if>
+      <if test="registRationNumber != null and registRationNumber != ''" >
+        registrationnumber,
+      </if>
+      <if test="violationCount != null and violationCount!=''" >
+        violationcount,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="supplierName != null and supplierName!=''" >
+        #{supplierName},
+      </if>
+      <if test="principalName != null and principalName != ''" >
+        #{principalName},
+      </if>
+      <if test="promptTime != null and promptTime!=''" >
+        #{promptTime},
+      </if>
+      <if test="principalTel != null and principalTel!=''" >
+        #{principalTel},
+      </if>
+      <if test="suppAdress != null and suppAdress != ''" >
+        #{suppAdress},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        #{deleteStatus},
+      </if>
+      <if test="foundTime != null and foundTime!=''" >
+        #{foundTime},
+      </if>
+      <if test="supDocumentPhoto != null and supDocumentPhoto != ''" >
+        #{supDocumentPhoto},
+      </if>
+      <if test="expireTime != null and expireTime!=''" >
+        #{expireTime},
+      </if>
+      <if test="registRationNumber != null and registRationNumber != ''" >
+        #{registRationNumber},
+      </if>
+      <if test="violationCount != null and violationCount!=''" >
+        #{violationCount},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="supplierName != null and supplierName!=''" >
+        suppliername = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="principalName != null and principalName != ''" >
+        principalname = #{principalName,jdbcType=VARCHAR},
+      </if>
+      <if test="promptTime != null and promptTime!=''" >
+        prompttime = #{promptTime,jdbcType=VARCHAR},
+      </if>
+      <if test="principalTel != null and principalTel!=''" >
+        principaltel = #{principalTel,jdbcType=VARCHAR},
+      </if>
+      <if test="suppAdress != null and suppAdress != ''" >
+        suppadress = #{suppAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''" >
+        deletestatus = #{deleteStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="foundTime != null and foundTime!=''" >
+        foundtime = #{foundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="supDocumentPhoto != null and supDocumentPhoto != ''" >
+        supdocumentphoto = #{supDocumentPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null and expireTime!=''" >
+        expiretime = #{expireTime,jdbcType=VARCHAR},
+      </if>
+      <if test="registRationNumber != null and registRationNumber != ''" >
+        registrationnumber = #{registRationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="violationCount != null and violationCount!=''" >
+        violationcount = #{violationCount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 根据试点id得到所有供货商信息 start -->
+  <select id="findAllIngSupBySdId" resultType="java.util.Map">
+    SELECT
+    id,
+    suppliername supplierName,
+    sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM ingredientsupp
+    <where>
+      AND deletestatus = '1'
+      <if test="sdId!=null">
+        AND sdid = #{sdId}
+      </if>
+    </where>
+  </select>
+  <!-- 根据试点id得到所有供货商信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

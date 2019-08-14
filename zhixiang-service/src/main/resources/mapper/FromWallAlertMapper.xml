@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.fromwallAlert.FromwallAlertMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.fromwallAlert.FromwallAlert">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="fromwall_area" jdbcType="VARCHAR" property="fromwallArea" />
+		<result column="fromwall_sensor" jdbcType="VARCHAR" property="fromwallSensor" />
+		<result column="ratplate_starttime" jdbcType="VARCHAR" property="ratplateStartTime" />
+		<result column="ratplate_status" jdbcType="VARCHAR" property="ratplateStatus" />
+		<result column="ratplate_description" jdbcType="VARCHAR" property="ratplateDescription" />
+		<result column="ratplate_rultions_time" jdbcType="VARCHAR" property="ratplateRultionsTime" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, fromwall_area, fromwall_sensor, ratplate_starttime, ratplate_status, ratplate_description,ratplate_rultions_time,sdid
+	</sql>
+	<select id="findAll" resultType="com.zhixiangmain.api.module.fromwallAlert.FromwallAlert">
+		SELECT
+			id,
+			ratplate_starttime,
+			fromwall_area,
+			ratplate_description,
+			sdid
+		FROM
+			fromwall_alert
+		<where>
+			AND ratplate_status = '1'
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY ratplate_starttime
+		DESC
+		LIMIT 1
+	</select>
+
+	<select id="findTotalZoneAlarm" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		fromwall_alert
+		WHERE ratplate_status = '1' AND ratplate_starttime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND ratplate_starttime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</select>
+
+	<select id="findMonthBySdId" resultType="java.util.Map">
+		SELECT
+		  COUNT(id) dataCount,
+      	  DATE_FORMAT(ratplate_starttime, '%Y-%m-%d') createTime
+		FROM
+		fromwall_alert
+		WHERE ratplate_status = '1'
+		AND DATE_FORMAT( ratplate_starttime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      	GROUP BY DATE_FORMAT(ratplate_starttime, '%Y-%m-%d')
+	</select>
+
+	<select id="findWarningTotal" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		fromwall_alert
+		<where>
+			<if test="ratplateStatus != null and ratplateStatus != ''">
+				<if test="ratplateStatus == '1'.toString()">
+					AND ratplate_status = #{ratplateStatus}
+				</if>
+				<if test="ratplateStatus == '2'.toString()">
+					AND ratplate_status &gt;= ${ratplateStatus}
+				</if>
+			</if>
+		</where>
+	</select>
+</mapper>

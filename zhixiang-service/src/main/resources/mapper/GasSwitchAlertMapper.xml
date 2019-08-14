@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.hjjc.mqkgbjxx.GasSwitchAlertMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.hjjc.mqkgbjxx.GasSwitchAlert" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="sensor" property="sensor" jdbcType="VARCHAR" />
+    <result column="starttime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openurlimg" property="openUrlImg" jdbcType="VARCHAR" />
+    <result column="offurlimg" property="offUrlImg" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, area, sensor, starttime,endtime,status,openurlimg,offurlimg,description,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="area != null and area != ''" >
+        area,
+      </if>
+      <if test="sensor != null and sensor != ''" >
+        sensor,
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        starttime,
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        endtime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openUrlImg != null and openUrlImg != ''" >
+        openurlimg,
+      </if>
+      <if test="offUrlImg != null and offUrlImg != ''" >
+        offurlimg,
+      </if>
+      <if test="description != null and description != ''" >
+        description,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="area != null and area != ''" >
+        #{area},
+      </if>
+      <if test="sensor != null and sensor != ''" >
+        #{sensor},
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        #{startTime},
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        #{endTime},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="openUrlImg != null and openUrlImg != ''" >
+        #{openUrlImg},
+      </if>
+      <if test="offUrlImg != null and offUrlImg != ''" >
+        #{offUrlImg},
+      </if>
+      <if test="description != null and description != ''" >
+        #{description},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="area != null and area != ''" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="sensor != null and sensor != ''" >
+        sensor = #{sensor,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null and startTime != ''" >
+        starttime = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null and endTime != ''" >
+        endtime = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openUrlImg != null and openUrlImg != ''" >
+        openurlimg = #{openUrlImg,jdbcType=VARCHAR},
+      </if>
+      <if test="offUrlImg != null and offUrlImg != ''" >
+        offurlimg = #{offUrlImg,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null and description != ''" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findTotalZoneAlarm" resultType="java.lang.Integer">
+    SELECT
+        COUNT(id)
+    FROM gasswitchalert
+    WHERE status = 1 AND startTime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND startTime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findMonthBySdId" resultType="java.util.Map">
+    SELECT
+        COUNT(id) dataCount,
+        DATE_FORMAT(startTime, '%Y-%m-%d') createTime
+    FROM gasswitchalert
+    WHERE status = 1
+      AND DATE_FORMAT( startTime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+      GROUP BY DATE_FORMAT(startTime, '%Y-%m-%d')
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findByIdSdId" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changetime changetTime,
+    lc.changemode changeMode
+    FROM librarychange lc
+    LEFT JOIN
+      ingredientbase ib
+    ON
+      lc.ingredientbaseid = ib.id
+    WHERE lc.id=#{id} AND lc.sdid = #{sdId}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

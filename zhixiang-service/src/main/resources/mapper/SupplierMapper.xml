@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.supplier.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.supplier.Supplier" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="suppliername" property="supplierName" jdbcType="VARCHAR" />
+    <result column="principalname" property="principalName" jdbcType="VARCHAR" />
+    <result column="prompttime" property="promptTime" jdbcType="VARCHAR" />
+    <result column="principaltel" property="principalTel" jdbcType="VARCHAR" />
+    <result column="suppadress" property="suppAdress" jdbcType="VARCHAR" />
+    <result column="deletestatus" property="deleteStatus" jdbcType="VARCHAR" />
+    <result column="foundtime" property="foundTime" jdbcType="VARCHAR" />
+    <result column="supdocumentphoto" property="supDocumentPhoto" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+    <result column="violationcount" property="violationCount" jdbcType="VARCHAR" />
+    <result column="expiretime" property="expireTime" jdbcType="VARCHAR" />
+    <result column="registrationnumber" property="registrationNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, suppliername, principalname, prompttime,principaltel,suppadress,deletestatus,foundtime,supdocumentphoto,sdid,violationcount,
+    expiretime,registrationnumber
+  </sql>
+
+  <!-- 根据pid查询类别 start -->
+  <select id="findAllSupplier" parameterType="com.zhixiangmain.api.module.supplier.Supplier" resultType="java.util.Map">
+    SELECT
+    id,
+    suppliername supplierName
+    FROM ingredientsupp
+    <where>
+      <if test="deleteStatus!=null and deleteStatus!=''">
+        AND deletestatus =#{deleteStatus}
+      </if>
+      <if test="principalTel!=null and principalTel!=''">
+        AND principaltel =#{principalTel}
+      </if>
+      <if test="supplierName != null and supplierName != ''">
+        AND suppliername like CONCAT('%', #{supplierName} , '%')
+      </if>
+      <if test="registrationNumber!=null and registrationNumber!=''">
+        AND registrationnumber =#{registrationNumber}
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 根据pid查询类别 end -->
+
+</mapper>

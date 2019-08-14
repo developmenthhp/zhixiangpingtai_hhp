@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.aramhealth.AramhealthMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.aramhealth.Aramhealth">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="aramtype" jdbcType="VARCHAR" property="aramType" />
+		<result column="aramcontext" jdbcType="VARCHAR" property="aramconText" />
+		<result column="aramtime" jdbcType="VARCHAR" property="aramTime" />
+		<result column="aramhandle" jdbcType="VARCHAR" property="aramHandle" />
+		<result column="aramaccountid" jdbcType="INTEGER" property="aramAccountId" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, aramtype, aramcontext, aramtime, aramhandle, aramaccountid,sdid
+	</sql>
+
+	<!-- 定义sql片段，且唯一 动态insert start -->
+	<sql id="insertAllKey">
+		<trim suffixOverrides=",">
+			<if test="aramType != null and aramType != ''" >
+				aramtype,
+			</if>
+			<if test="aramconText != null and aramconText != ''" >
+				aramcontext,
+			</if>
+			<if test="aramTime != null and aramTime != ''" >
+				aramtime,
+			</if>
+			<if test="aramHandle != null and aramHandle != ''" >
+				aramhandle,
+			</if>
+			<if test="aramAccountId != null" >
+				aramaccountid,
+			</if>
+			<if test="sdId != null" >
+				sdid,
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 动态insert end -->
+
+	<!-- 定义sql片段，且唯一 value值 start -->
+	<sql id="insertAllValue">
+		<trim suffixOverrides=",">
+			<if test="aramType != null and aramType != ''" >
+				#{aramType},
+			</if>
+			<if test="aramconText != null and aramconText != ''" >
+				#{aramconText},
+			</if>
+			<if test="aramTime != null and aramTime != ''" >
+				#{aramTime},
+			</if>
+			<if test="aramHandle != null and aramHandle != ''" >
+				#{aramHandle},
+			</if>
+			<if test="aramAccountId != null" >
+				#{aramAccountId},
+			</if>
+			<if test="sdId != null" >
+				#{sdId},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义sql片段，且唯一 value值 end -->
+
+	<!-- 定义更新sql片段，且唯一 value值 start -->
+	<sql id="updateAllValue">
+		<trim suffixOverrides=",">
+			<if test="aramType != null and aramType != ''" >
+				aramtype = #{aramType,jdbcType=VARCHAR},
+			</if>
+			<if test="aramconText != null and aramconText != ''" >
+				aramcontext = #{aramconText,jdbcType=VARCHAR},
+			</if>
+			<if test="aramTime != null and aramTime != ''" >
+				aramtime = #{aramTime,jdbcType=VARCHAR},
+			</if>
+			<if test="aramHandle != null and aramHandle != ''" >
+				aramhandle = #{aramHandle,jdbcType=VARCHAR},
+			</if>
+			<if test="aramAccountId != null" >
+				aramaccountid = #{aramAccountId,jdbcType=INTEGER},
+			</if>
+			<if test="sdId != null" >
+				sdid = #{sdId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+	<!-- 定义更新sql片段，且唯一 value值 end -->
+
+	<select id="findAll" resultType="com.zhixiangmain.api.module.aramhealth.Aramhealth">
+		SELECT
+			id,
+			aramtime,
+			aramcontext,
+			sdid
+		FROM
+			aramhealth
+		<where>
+			<if test="aramhealthg.aramType!=null and aramhealthg.aramType!=''">
+				AND aramtype=#{aramhealthg.aramType}
+			</if>
+			<if test="aramhealthg.aramHandle!=null and aramhealthg.aramHandle!=''">
+				AND aramhandle=#{aramhealthg.aramHandle}
+			</if>
+			<if test="aramhealthg.sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY aramtime
+		DESC
+		LIMIT 1
+	</select>
+
+	<!-- 通知消息每个点放两条 start -->
+	<select id="findTopAramHealths" resultType="java.util.Map">
+    SELECT
+
+	CASE
+
+	WHEN
+		ah.aramtype = '1' THEN
+		( SELECT accountinfo FROM mainaccount ma WHERE ma.id = ah.aramaccountid )
+	WHEN ah.aramtype = '2' THEN
+		( SELECT suppliername FROM ingredientsupp isu WHERE isu.id = ah.aramaccountid )
+	END as noticeTitle,
+	CASE
+
+  	WHEN ah.aramtype = '1' THEN
+			'人员健康'
+	WHEN ah.aramtype = '2' THEN
+			'货品供应商'
+	END AS noticeType,
+	ah.aramcontext noticeContent,
+	ah.aramtime noticeTime,
+	ah.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+	FROM
+	aramhealth ah
+	<where>
+		AND ah.aramhandle = '2'
+		AND ah.aramtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+		AND ah.aramtime &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</where>
+    /*ORDER BY ah.aramtime DESC*/
+    LIMIT 0,2
+  </select>
+	<!-- 通知消息每个点放两条 end -->
+
+</mapper>

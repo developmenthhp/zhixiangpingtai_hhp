@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.cgcc.scck.LibraryOutMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.cgcc.scck.LibraryOut" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="outtime" property="outTime" jdbcType="VARCHAR" />
+    <result column="outpeople" property="outPeople" jdbcType="VARCHAR" />
+    <result column="outpeopleid" property="outPeopleId" jdbcType="INTEGER" />
+    <result column="outstatus" property="outStatus" jdbcType="VARCHAR" />
+    <result column="ingredientbaseid" property="ingredientBaseId" jdbcType="INTEGER" />
+    <result column="outcount" property="outCount" jdbcType="DECIMAL" />
+    <result column="uprice" property="uPrice" jdbcType="DECIMAL" />
+    <result column="outunit" property="outUnit" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="outdientbasetime" property="outDientBaseTime" jdbcType="VARCHAR" />
+    <result column="barcodeimg" property="barCodeImg" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, outtime, outpeople, outpeopleid,outstatus,ingredientbaseid,outcount,uprice,outunit,batch,outdientbasetime,barcodeimg,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="outTime != null and outTime != ''" >
+        outtime,
+      </if>
+      <if test="outPeople != null and outPeople != ''" >
+        outpeople,
+      </if>
+      <if test="outPeopleId != null" >
+        outpeopleid,
+      </if>
+      <if test="outStatus != null and outStatus != ''" >
+        outstatus,
+      </if>
+      <if test="ingredientBaseId != null and ingredientBaseId != ''" >
+        ingredientbaseid,
+      </if>
+      <if test="outCount != null" >
+        outcount,
+      </if>
+      <if test="uPrice != null" >
+        uprice,
+      </if>
+      <if test="outUnit != null and outUnit != ''" >
+        outunit,
+      </if>
+      <if test="batch != null and batch != ''" >
+        batch,
+      </if>
+      <if test="outDientBaseTime != null and outDientBaseTime != ''" >
+        outdientbasetime,
+      </if>
+      <if test="barCodeImg != null and barCodeImg != ''" >
+        barcodeimg,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="outTime != null and outTime != ''" >
+        #{outTime},
+      </if>
+      <if test="outPeople != null and outPeople != ''" >
+        #{outPeople},
+      </if>
+      <if test="outPeopleId != null" >
+        #{outPeopleId},
+      </if>
+      <if test="outStatus != null and outStatus != ''" >
+        #{outStatus},
+      </if>
+      <if test="ingredientBaseId != null and ingredientBaseId != ''" >
+        #{ingredientBaseId},
+      </if>
+      <if test="outCount != null" >
+        #{outCount},
+      </if>
+      <if test="uPrice != null" >
+        #{uPrice},
+      </if>
+      <if test="outUnit != null and outUnit != ''" >
+        #{outUnit},
+      </if>
+      <if test="batch != null and batch != ''" >
+        #{batch},
+      </if>
+      <if test="outDientBaseTime != null and outDientBaseTime != ''" >
+        #{outDientBaseTime},
+      </if>
+      <if test="barCodeImg != null and barCodeImg != ''" >
+        #{barCodeImg},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="outTime != null and outTime != ''" >
+        outtime = #{outTime,jdbcType=VARCHAR},
+      </if>
+      <if test="outPeople != null and outPeople != ''" >
+        outpeople = #{outPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="outPeopleId != null" >
+        outpeopleid = #{outPeopleId,jdbcType=INTEGER},
+      </if>
+      <if test="outStatus != null and outStatus != ''" >
+        outstatus = #{outStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ingredientBaseId != null and ingredientBaseId != ''" >
+        ingredientbaseid = #{ingredientBaseId,jdbcType=INTEGER},
+      </if>
+      <if test="outCount != null" >
+        outcount = #{outCount,jdbcType=DECIMAL},
+      </if>
+      <if test="uPrice != null" >
+        uprice = #{uPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="outUnit != null and outUnit != ''" >
+        outunit = #{outUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null and batch != ''" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="outDientBaseTime != null and outDientBaseTime != ''" >
+        outdientbasetime = #{outDientBaseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="barCodeImg != null and barCodeImg != ''" >
+        barcodeimg = #{barCodeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 获取出库未审签单总数 start -->
+  <select id="findTrialSigningCount" resultType="java.lang.Integer">
+    SELECT
+        COUNT(id)
+    FROM libraryout
+    WHERE outstatus = '1'
+  </select>
+  <!-- 获取出库未审签单总数 end -->
+
+  <!--获取食材出库重量 start-->
+  <select id="findWeightByIngBaseId" resultType="java.lang.Double">
+    SELECT
+    IFNULL(SUM(outcount),0.0) revenueWeight
+    FROM
+    libraryout
+    <where>
+      AND ingredientbaseid = #{ingredientId} AND outstatus = '3'
+      <if test="startTime!=null and startTime!=''">
+        AND outtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND outtime &lt;= #{endTime}
+      </if>
+    </where>
+  </select>
+  <!--获取食材出库重量 end-->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findByIdSdId" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname ingredientName,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changetime changetTime,
+    lc.changemode changeMode
+    FROM librarychange lc
+    LEFT JOIN
+      ingredientbase ib
+    ON
+      lc.ingredientbaseid = ib.id
+    WHERE lc.id=#{id} AND lc.sdid = #{sdId}
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

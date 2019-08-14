@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.rlzb.aqjc.FireSafetyInspectionMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.rlzb.aqjc.FireSafetyInspection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="checkcategories" property="checkCategories" jdbcType="VARCHAR" />
+    <result column="checkform" property="checkForm" jdbcType="VARCHAR" />
+    <result column="checkperson" property="checkPerson" jdbcType="VARCHAR" />
+    <result column="checktime" property="checkTime" jdbcType="VARCHAR" />
+    <result column="areaid" property="areaId" jdbcType="INTEGER" />
+    <result column="maincategoryid" property="mainCategoryId" jdbcType="INTEGER" />
+    <result column="smallcategoryid" property="smallCategoryId" jdbcType="INTEGER" />
+    <result column="cleanisqualified" property="cleanIsQualified" jdbcType="VARCHAR" />
+    <result column="cleanisqualifiedimg" property="cleanIsQualifiedImg" jdbcType="VARCHAR" />
+    <result column="isplaceneatly" property="isPlaceNeatly" jdbcType="VARCHAR" />
+    <result column="placeneatlyimg" property="placeNeatlyImg" jdbcType="VARCHAR" />
+    <result column="fireengineaccess" property="fireEngineAccess" jdbcType="VARCHAR" />
+    <result column="fireengineaccessimg" property="fireEngineAccessImg" jdbcType="VARCHAR" />
+    <result column="fireappliancesarevalid" property="fireApplianceSarevalId" jdbcType="VARCHAR" />
+    <result column="fireappliancesarevalidimg" property="fireApplianceSarevalIdImg" jdbcType="VARCHAR" />
+    <result column="fireblanket" property="fireBlanket" jdbcType="VARCHAR" />
+    <result column="fireblanketimg" property="fireBlanketImg" jdbcType="VARCHAR" />
+    <result column="thegasswitch" property="theGasSwitch" jdbcType="VARCHAR" />
+    <result column="thegasswitchimg" property="theGasSwitchImg" jdbcType="VARCHAR" />
+    <result column="gasmonitor" property="gasMonitor" jdbcType="VARCHAR" />
+    <result column="gasmonitorimg" property="gasMonitorImg" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, checkcategories, checkform, checkperson,checktime,areaid,maincategoryid,smallcategoryid,cleanisqualified,cleanisqualifiedimg,
+    isplaceneatly,placeneatlyimg,fireengineaccess,fireengineaccessimg,fireappliancesarevalid,fireappliancesarevalidimg,
+    fireblanket,fireblanketimg,thegasswitch,thegasswitchimg,gasmonitor,gasmonitorimg,remark,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="checkCategories != null and checkCategories != ''" >
+        checkcategories,
+      </if>
+      <if test="checkForm != null and checkForm != ''" >
+        checkform,
+      </if>
+      <if test="checkPerson != null and checkPerson != ''" >
+        checkperson,
+      </if>
+      <if test="checkTime != null and checkTime != ''" >
+        checktime,
+      </if>
+      <if test="areaId != null" >
+        areaid,
+      </if>
+      <if test="mainCategoryId != null" >
+        maincategoryid,
+      </if>
+      <if test="smallCategoryId != null" >
+        smallcategoryid,
+      </if>
+      <if test="cleanIsQualified != null and cleanIsQualified != ''" >
+        cleanisqualified,
+      </if>
+      <if test="cleanIsQualifiedImg != null and cleanIsQualifiedImg != ''" >
+        cleanisqualifiedimg,
+      </if>
+      <if test="isPlaceNeatly != null and isPlaceNeatly != ''" >
+        isplaceneatly,
+      </if>
+      <if test="placeNeatlyImg != null and placeNeatlyImg != ''" >
+        placeneatlyimg,
+      </if>
+      <if test="fireEngineAccess != null and fireEngineAccess != ''" >
+        fireengineaccess,
+      </if>
+      <if test="fireEngineAccessImg != null and fireEngineAccessImg != ''" >
+        fireengineaccessimg,
+      </if>
+      <if test="fireApplianceSarevalId != null and fireApplianceSarevalId != ''" >
+        fireappliancesarevalid,
+      </if>
+      <if test="fireApplianceSarevalIdImg != null and fireApplianceSarevalIdImg != ''" >
+        fireappliancesarevalidimg,
+      </if>
+      <if test="fireBlanket != null and fireBlanket != ''" >
+        fireblanket,
+      </if>
+      <if test="fireBlanketImg != null and fireBlanketImg != ''" >
+        fireblanketimg,
+      </if>
+      <if test="theGasSwitch != null and theGasSwitch != ''" >
+        thegasswitch,
+      </if>
+      <if test="theGasSwitchImg != null and theGasSwitchImg != ''" >
+        thegasswitchimg,
+      </if>
+      <if test="gasMonitor != null and gasMonitor != ''" >
+        gasmonitor,
+      </if>
+      <if test="gasMonitorImg != null and gasMonitorImg != ''" >
+        gasmonitorimg,
+      </if>
+      <if test="remark != null and remark != ''" >
+        remark,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="checkCategories != null and checkCategories != ''" >
+        #{checkCategories
+      </if>
+      <if test="checkForm != null and checkForm != ''" >
+        #{checkForm},
+      </if>
+      <if test="checkPerson != null and checkPerson != ''" >
+        #{checkPerson},
+      </if>
+      <if test="checkTime != null and checkTime != ''" >
+        #{checkTime},
+      </if>
+      <if test="areaId != null" >
+        #{areaId},
+      </if>
+      <if test="mainCategoryId != null" >
+        #{mainCategoryId},
+      </if>
+      <if test="smallCategoryId != null" >
+        #{smallCategoryId},
+      </if>
+      <if test="cleanIsQualified != null and cleanIsQualified != ''" >
+        #{cleanIsQualified},
+      </if>
+      <if test="cleanIsQualifiedImg != null and cleanIsQualifiedImg != ''" >
+        #{cleanIsQualifiedImg},
+      </if>
+      <if test="isPlaceNeatly != null and isPlaceNeatly != ''" >
+        #{isPlaceNeatly},
+      </if>
+      <if test="placeNeatlyImg != null and placeNeatlyImg != ''" >
+        #{placeNeatlyImg},
+      </if>
+      <if test="fireEngineAccess != null and fireEngineAccess != ''" >
+        #{fireEngineAccess},
+      </if>
+      <if test="fireEngineAccessImg != null and fireEngineAccessImg != ''" >
+        #{fireEngineAccessImg},
+      </if>
+      <if test="fireApplianceSarevalId != null and fireApplianceSarevalId != ''" >
+        #{fireApplianceSarevalId},
+      </if>
+      <if test="fireApplianceSarevalIdImg != null and fireApplianceSarevalIdImg != ''" >
+        #{fireApplianceSarevalIdImg},
+      </if>
+      <if test="fireBlanket != null and fireBlanket != ''" >
+        #{fireBlanket},
+      </if>
+      <if test="fireBlanketImg != null and fireBlanketImg != ''" >
+        #{fireBlanketImg},
+      </if>
+      <if test="theGasSwitch != null and theGasSwitch != ''" >
+        #{theGasSwitch},
+      </if>
+      <if test="theGasSwitchImg != null and theGasSwitchImg != ''" >
+        #{theGasSwitchImg},
+      </if>
+      <if test="gasMonitor != null and gasMonitor != ''" >
+        #{gasMonitor},
+      </if>
+      <if test="gasMonitorImg != null and gasMonitorImg != ''" >
+        #{gasMonitorImg},
+      </if>
+      <if test="remark != null and remark != ''" >
+        #{remark},
+      </if>
+      <if test="sdId != null" >
+        #{sdId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="checkCategories != null and checkCategories != ''" >
+        checkcategories = #{checkCategories,jdbcType=VARCHAR},
+      </if>
+      <if test="checkForm != null and checkForm != ''" >
+        checkform = #{checkForm,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPerson != null and checkPerson != ''" >
+        checkperson = #{checkPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null and checkTime != ''" >
+        checktime = #{checkTime,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        areaid = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="mainCategoryId != null" >
+        maincategoryid = #{mainCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="smallCategoryId != null" >
+        smallcategoryid = #{smallCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="cleanIsQualified != null and cleanIsQualified != ''" >
+        cleanisqualified = #{cleanIsQualified,jdbcType=VARCHAR},
+      </if>
+      <if test="cleanIsQualifiedImg != null and cleanIsQualifiedImg != ''" >
+        cleanisqualifiedimg = #{cleanIsQualifiedImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isPlaceNeatly != null and isPlaceNeatly != ''" >
+        isplaceneatly = #{isPlaceNeatly,jdbcType=VARCHAR},
+      </if>
+      <if test="placeNeatlyImg != null and placeNeatlyImg != ''" >
+        placeneatlyimg = #{placeNeatlyImg,jdbcType=VARCHAR},
+      </if>
+      <if test="fireEngineAccess != null and fireEngineAccess != ''" >
+        fireengineaccess = #{fireEngineAccess,jdbcType=VARCHAR},
+      </if>
+      <if test="fireEngineAccessImg != null and fireEngineAccessImg != ''" >
+        fireengineaccessimg = #{fireEngineAccessImg,jdbcType=VARCHAR},
+      </if>
+      <if test="fireApplianceSarevalId != null and fireApplianceSarevalId != ''" >
+        fireappliancesarevalid = #{fireApplianceSarevalId,jdbcType=VARCHAR},
+      </if>
+      <if test="fireApplianceSarevalIdImg != null and fireApplianceSarevalIdImg != ''" >
+        fireappliancesarevalidimg = #{fireApplianceSarevalIdImg,jdbcType=VARCHAR},
+      </if>
+      <if test="fireBlanket != null and fireBlanket != ''" >
+        fireblanket = #{fireBlanket,jdbcType=VARCHAR},
+      </if>
+      <if test="fireBlanketImg != null and fireBlanketImg != ''" >
+        fireblanketimg = #{fireBlanketImg,jdbcType=VARCHAR},
+      </if>
+      <if test="theGasSwitch != null and theGasSwitch != ''" >
+        thegasswitch = #{theGasSwitch,jdbcType=VARCHAR},
+      </if>
+      <if test="theGasSwitchImg != null and theGasSwitchImg != ''" >
+        thegasswitchimg = #{theGasSwitchImg,jdbcType=VARCHAR},
+      </if>
+      <if test="gasMonitor != null and gasMonitor != ''" >
+        gasmonitor = #{gasMonitor,jdbcType=VARCHAR},
+      </if>
+      <if test="gasMonitorImg != null and gasMonitorImg != ''" >
+        gasmonitorimg = #{gasMonitorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark != ''" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 查询本月安全检查记录 start -->
+  <select id="findByMonth" resultType="java.util.Map">
+    SELECT
+    fsi.id,
+    fsi.checkcategories checkCategories,
+    fsi.checkperson checkPerson,
+    fsi.checktime checkTime,
+    fsi.cleanisqualified cleanIsQualified,
+    fsi.isplaceneatly isPlaceNeatly,
+    fsi.fireengineaccess fireEngineAccess,
+    fsi.fireappliancesarevalid fireApplianceSarevalId,
+    fsi.fireblanket fireBlanket,
+    fsi.thegasswitch theGasSwitch,
+    fsi.gasmonitor gasMonitor,
+    da.area mainArea,
+    da2.area smallArea,
+    da3.area area,
+    fsi.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM firesafetyinspection fsi
+    LEFT JOIN
+      displayarea da
+    ON
+      fsi.maincategoryid = da.id
+    LEFT JOIN
+      displayarea da2
+    ON
+      fsi.smallcategoryid = da2.id
+    LEFT JOIN
+      displayarea da3
+    ON
+      fsi.areaid = da3.id
+    WHERE
+      date_format( checktime, '%Y-%m' ) = date_format( now( ), '%Y-%m' ) AND fsi.sdid = #{sdId}
+    ORDER BY checktime DESC
+  </select>
+  <!-- 查询本月安全检查记录 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.hjjc.dmjsjb.SlipperyAlertMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.hjjc.dmjsjb.SlipperyAlert">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="ratplate_area" jdbcType="VARCHAR" property="ratplateArea" />
+		<result column="ratplate_sensor" jdbcType="VARCHAR" property="ratplateSensor" />
+		<result column="ratplate_status" jdbcType="VARCHAR" property="ratplateStatus" />
+		<result column="ratplate_description" jdbcType="VARCHAR" property="ratplateDescription" />
+		<result column="ratplate_rultions_time" jdbcType="VARCHAR" property="ratplateRultionsTime" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+		<result column="alerttime" jdbcType="VARCHAR" property="alertTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ratplate_area, ratplate_sensor, ratplate_status, ratplate_description, ratplate_rultions_time,sdid,alerttime
+	</sql>
+	<select id="findAll" resultType="com.zhixiangmain.api.module.hjjc.dmjsjb.SlipperyAlert">
+		SELECT
+			id,
+			ratplate_rultions_time,
+			ratplate_description,
+			sdid
+		FROM
+			slippery_alert
+		<where>
+			AND ratplate_status = '1'
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+		</where>
+		ORDER BY alerttime
+		DESC
+		LIMIT 1
+	</select>
+
+	<select id="findSlipperyAlerts" resultType="java.util.Map">
+		SELECT
+		  id,
+		  alerttime alertTime,
+		  ratplate_sensor ratplateSensor,
+		  ratplate_area ratplateArea,
+		  ratplate_rultions_time ratplateRultionsTime,
+		  ratplate_description ratplateDescription,
+		  ratplate_status ratplateStatus,
+		  sdid sdId,
+		  #{siteName} as siteName,
+	      #{sitePhoto} as sitePhoto
+		FROM
+		slippery_alert
+		<where>
+			<if test="ratplateSensor != null and ratplateSensor != ''">
+				AND ratplate_sensor = #{ratplateSensor}
+			</if>
+			<if test="ratplateStatus != null and ratplateStatus != ''">
+				AND ratplate_status = #{ratplateStatus}
+			</if>
+		</where>
+		ORDER BY id DESC
+		LIMIT #{start},#{count}
+	</select>
+	<select id="findSlipperyAlertTotal" resultType="java.lang.Integer">
+		SELECT
+		  count(id)
+		FROM
+		slippery_alert
+		<where>
+			<if test="ratplateSensor != null and ratplateSensor != ''">
+				AND ratplate_sensor = #{ratplateSensor}
+			</if>
+			<if test="ratplateStatus != null and ratplateStatus != ''">
+				AND ratplate_status = #{ratplateStatus}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查找头部预警-->
+	<select id="findTotalZoneAlarm" resultType="java.lang.Integer">
+		SELECT
+		count(id)
+		FROM
+		slippery_alert
+		WHERE ratplate_status = '1' AND alerttime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND alerttime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</select>
+
+	<!-- 查找头部预警-->
+	<select id="findMonthBySdId" resultType="java.util.Map">
+		SELECT
+		COUNT(id) dataCount,
+      	DATE_FORMAT(alerttime, '%Y-%m-%d') createTime
+		FROM
+		slippery_alert
+		WHERE ratplate_status = '1'
+		AND DATE_FORMAT( alerttime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+	  	GROUP BY DATE_FORMAT(alerttime, '%Y-%m-%d')
+	</select>
+</mapper>

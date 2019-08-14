@@ -1,0 +1,5 @@
+2019-06-21-16-22 [DubboServerHandler-192.168.137.1:20880-thread-2] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-21-16-22 [DubboServerHandler-192.168.137.1:20880-thread-3] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> User com.zhixiangmain.impl.user.UserServiceImpl.findUserByMobile(String)
+  2019-06-21-16-22 [DubboServerHandler-192.168.137.1:20880-thread-4] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.auth.AuthServiceImpl.getUserPerms(Integer)
+  2019-06-21-16-22 [DubboServerHandler-192.168.137.1:20880-thread-5] [com.zhixiangmain.config.DynamicDattaSourceAspect] [ERROR] - 数据源 default 不存在使用默认的数据源 -> List com.zhixiangmain.impl.site.SiteServiceImpl.getUserSites(Integer)
+  

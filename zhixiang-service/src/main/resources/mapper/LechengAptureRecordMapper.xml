@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.lechengAptureRecord.LechengAptureRecordMapper">
+	<resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.lechengAptureRecord.LechengAptureRecord">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="area_name" jdbcType="VARCHAR" property="areaName" />
+		<result column="devisenumber" jdbcType="VARCHAR" property="deviseNumber" />
+		<result column="sdid" jdbcType="INTEGER" property="sdId" />
+		<result column="createtime" jdbcType="VARCHAR" property="createTime" />
+		<result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="detection_status" jdbcType="VARCHAR" property="detectionStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, area_name, devisenumber, sdid, createtime, img_url,type,detection_status
+	</sql>
+	<select id="findTopOne" resultType="com.zhixiangmain.api.module.lechengAptureRecord.LechengAptureRecord">
+		SELECT
+			id,
+			createtime,
+			area_name,
+			sdid,
+			img_url
+		FROM
+			lecheng_apture_record
+		<where>
+			<if test="sdId!=0">
+				AND sdid = #{sdId}
+			</if>
+			<if test="type!=null and type!=''">
+				AND detection_status=#{type}
+			</if>
+		</where>
+		ORDER BY createtime
+		DESC
+		LIMIT 1
+	</select>
+
+	<select id="findTotalZoneAlarm" resultType="java.lang.Integer">
+		SELECT
+		  COUNT(id)
+		FROM
+		lecheng_apture_record
+		WHERE detection_status = '2' AND type = '2' AND createtime &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND createtime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+	</select>
+
+	<select id="findAbnormalSnapshot" resultType="java.util.Map">
+		SELECT
+		  COUNT(id) dataCount,
+		  DATE_FORMAT( createtime, '%Y-%m-%d' ) createTime
+		FROM
+		lecheng_apture_record
+		WHERE
+		detection_status = '2' AND type = '2' AND
+		DATE_FORMAT( createtime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+		GROUP BY DATE_FORMAT(createtime, '%Y-%m-%d')
+	</select>
+</mapper>

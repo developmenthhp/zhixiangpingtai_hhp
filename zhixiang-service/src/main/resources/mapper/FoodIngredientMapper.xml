@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.foodIngredient.FoodIngredientMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.foodIngredient.FoodIngredient" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ingredientid" property="ingredientId" jdbcType="INTEGER" />
+    <result column="ingredientname" property="ingredientName" jdbcType="VARCHAR" />
+    <result column="metering" property="metering" jdbcType="DECIMAL" />
+    <result column="meterunit" property="meterUnit" jdbcType="VARCHAR" />
+    <result column="foodid" property="foodId" jdbcType="INTEGER" />
+    <result column="unitprice" property="unitPrice" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ingredientid, ingredientname, metering,meterunit,foodid,unitprice,type,sdid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="ingredientId != null" >
+        ingredientid,
+      </if>
+      <if test="ingredientName != null and ingredientName != ''" >
+        ingredientname,
+      </if>
+      <if test="metering != null" >
+        metering,
+      </if>
+      <if test="meterUnit != null and meterUnit != ''" >
+        meterunit,
+      </if>
+      <if test="foodId != null" >
+        foodid,
+      </if>
+      <if test="unitPrice != null and unitPrice != ''" >
+        unitprice,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sdId != null" >
+        sdid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientId != null" >
+        #{ingredientId,jdbcType=INTEGER},
+      </if>
+      <if test="ingredientName != null and ingredientName != ''" >
+        #{ingredientName,jdbcType=VARCHAR},
+      </if>
+      <if test="metering != null" >
+        #{metering,jdbcType=DECIMAL},
+      </if>
+      <if test="meterUnit != null and meterUnit != ''" >
+        #{meterUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="foodId != null" >
+        #{foodId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null and unitPrice != ''" >
+        #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sdId != null" >
+        #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="ingredientId != null" >
+        ingredientid = #{ingredientId,jdbcType=INTEGER},
+      </if>
+      <if test="ingredientName != null and ingredientName != ''" >
+        ingredientname = #{ingredientName,jdbcType=VARCHAR},
+      </if>
+      <if test="metering != null" >
+        metering = #{metering,jdbcType=DECIMAL},
+      </if>
+      <if test="meterUnit != null and meterUnit != ''" >
+        meterunit = #{meterUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="foodId != null" >
+        foodid = #{foodId,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null and unitPrice != ''" >
+        unitPrice = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="sdId != null" >
+        sdid = #{sdId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 根据菜品id查询菜品组成成分 start -->
+  <select id="findByFoodId" resultType="java.util.Map">
+    SELECT
+    id,
+    ingredientid ingredientId,
+    ingredientname ingredientName,
+    metering,
+    meterunit meterUnit,
+    foodid foodId,
+    unitprice unitPrice,
+    type
+    FROM foodingredient
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND foodid =#{foodId}
+      <if test="sort != null">
+        ORDER BY id ASC
+      </if>
+      <if test="sort == null">
+        ORDER BY id DESC
+      </if>
+    </where>
+  </select>
+  <!-- 根据菜品id查询菜品组成成分 end -->
+
+    <!-- 不开放的分页查询 start -->
+    <select id="findInsideFoodBaseList" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.dto.FoodBaseDTO" resultType="java.util.Map">
+      SELECT
+      fb.id,
+      fb.scspimgpath scspImgPath,
+      fb.foodname foodName,
+      fb.menutype menuType,
+      fb.meteringname meteringName,
+      fb.price,
+      fb.weight,
+      fb.check_status checkStatus
+      FROM foodbase fb
+      <where>
+        AND fb.deletestatus = '1'
+        <if test="menuTypeDto!=null and menuTypeDto!=''">
+          AND fb.menutype &amp; #{menuTypeDto}
+        </if>
+        <if test="foodNameDto != null and foodNameDto != ''">
+          AND fb.foodname like CONCAT('%', #{foodNameDto} , '%')
+        </if>
+      </where>
+      ORDER BY id DESC
+    </select>
+    <!-- 不开放的分页查询 end -->
+
+  <!-- 校验食材名是否存在 start -->
+  <select id="checkNameTotal" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" resultType="java.lang.Object">
+    SELECT
+      IFNULL(id,0)
+    FROM
+      foodbase
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND foodname = #{foodName} AND deletestatus = '1'
+    </where>
+  </select>
+  <!-- 校验食材名是否存在 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodIngredient" parameterType="com.zhixiangmain.api.module.foodIngredient.FoodIngredient" >
+    insert into foodingredient(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodIngredient" parameterType="com.zhixiangmain.api.module.foodIngredient.FoodIngredient" >
+    update foodingredient
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="findFoodBaseById" resultType="java.util.Map">
+    SELECT
+    fb.id,
+    fb.scspimgpath scspImgPath,
+    fb.foodname foodName,
+    fb.menutype menuType,
+    fb.meteringname meteringName,
+    fb.price,
+    fb.weight,
+    fb.check_status checkStatus,
+    fb.foodcontext foodContext
+    FROM foodbase fb
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 根据id删除食材 start -->
+  <delete id="delFoodIngredientById">
+    DELETE
+    FROM
+    foodingredient
+    <where>
+      <if test="sdId!=null and sdId!=22">
+        AND sdid = #{sdId}
+      </if>
+      AND id=#{id}
+    </where>
+  </delete>
+  <!-- 根据id删除食材 end -->
+
+  <!-- 根据id查找食材 start -->
+  <select id="getBasicInfoFoodByIds" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    meteringname meteringName,edTerm,
+    maincategoryid mainCategoryId,
+    smallcategoryid smallCategoryId,
+    scspimgpath scspimgPath,
+    ratedterm ratedTerm
+    ratedtermdw ratedTermDW,
+    check_status checkStatus,
+    baseprice basePrice,
+    inventorylimit inventoryLimit,
+    ggxh,
+    ggxhdw,
+    suppid suppId,
+    whouseid whouseId,
+    boomtype boomType,
+    bigcategory bigCategory,
+    level level
+    FROM
+    ingredientbase
+    <where>
+      id=#{id}
+    </where>
+  </select>
+  <!-- 根据id查找食材 end -->
+
+  <!-- 根据菜品id查询菜品组成成分允许外部访问 start -->
+  <select id="findByOutFoodId" resultType="java.util.Map">
+    SELECT
+    id,
+    ingredientid ingredientId,
+    ingredientname ingredientName,
+    metering,
+    meterunit meterUnit,
+    foodid foodId,
+    unitprice unitPrice,
+    type
+    FROM foodingredient
+    <where>
+      AND foodid =#{foodId}
+    </where>
+  </select>
+  <!-- 根据菜品id查询菜品组成成分允许外部访问 end -->
+
+  <!-- 根据菜品id查询菜品组成成分 平台 start -->
+  <select id="findCompositionBySdIdId" resultType="java.util.Map">
+    SELECT
+    ingredientname ingredientName,
+    metering,
+    unitprice unitPrice
+    FROM foodingredient
+    <where>
+      AND foodid =#{id}
+    </where>
+  </select>
+  <!-- 根据菜品id查询菜品组成成分 平台 end -->
+</mapper>

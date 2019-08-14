@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.message.NoticeCementMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.message.NoticeCement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="notice_time" property="noticeTime" jdbcType="VARCHAR" />
+    <result column="notice_type" property="noticeType" jdbcType="VARCHAR" />
+    <result column="notice_receive" property="noticeReceive" jdbcType="VARCHAR" />
+    <result column="notice_imgs" property="noticeImgs" jdbcType="VARCHAR" />
+    <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR" />
+    <result column="notice_content" property="noticeContent" jdbcType="VARCHAR" />
+    <result column="notice_status" property="noticeStatus" jdbcType="VARCHAR" />
+    <result column="notice_releaseid" property="noticeReleaseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, notice_time, notice_type, notice_receive,notice_imgs,notice_title,notice_content,notice_status,notice_releaseid
+  </sql>
+
+  <!-- 定义sql片段，且唯一 动态insert start -->
+  <sql id="insertAllKey">
+    <trim suffixOverrides=",">
+      <if test="noticeTime != null and noticeTime != ''" >
+        notice_time,
+      </if>
+      <if test="noticeType != null and noticeType != ''" >
+        notice_type,
+      </if>
+      <if test="noticeReceive != null and noticeReceive != ''" >
+        notice_receive,
+      </if>
+      <if test="noticeImgs != null and noticeImgs != ''" >
+        notice_imgs,
+      </if>
+      <if test="noticeTitle != null and noticeTitle != ''" >
+        notice_title,
+      </if>
+      <if test="noticeContent != null and noticeContent != ''" >
+        notice_content,
+      </if>
+      <if test="noticeStatus != null and noticeStatus != ''" >
+        notice_status,
+      </if>
+      <if test="noticeReleaseId != null and noticeReleaseId != ''" >
+        notice_releaseid,
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 动态insert end -->
+
+  <!-- 定义sql片段，且唯一 value值 start -->
+  <sql id="insertAllValue">
+    <trim suffixOverrides=",">
+      <if test="noticeTime != null and noticeTime != ''" >
+        #{noticeTime},
+      </if>
+      <if test="noticeType != null and noticeType != ''" >
+        #{noticeType},
+      </if>
+      <if test="noticeReceive != null and noticeReceive != ''" >
+        #{noticeReceive},
+      </if>
+      <if test="noticeImgs != null and noticeImgs != ''" >
+        #{noticeImgs},
+      </if>
+      <if test="noticeTitle != null and noticeTitle != ''" >
+        #{noticeTitle},
+      </if>
+      <if test="noticeContent != null and noticeContent != ''" >
+        #{noticeContent},
+      </if>
+      <if test="noticeStatus != null and noticeStatus != ''" >
+        #{noticeStatus},
+      </if>
+      <if test="noticeReleaseId != null and noticeReleaseId != ''" >
+        #{noticeReleaseId},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义sql片段，且唯一 value值 end -->
+
+  <!-- 定义更新sql片段，且唯一 value值 start -->
+  <sql id="updateAllValue">
+    <trim suffixOverrides=",">
+      <if test="noticeTime != null and noticeTime != ''" >
+        notice_time = #{noticeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeType != null and noticeType != ''" >
+        notice_type = #{noticeType,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReceive != null and noticeReceive != ''" >
+        notice_receive = #{noticeReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeImgs != null and noticeImgs != ''" >
+        notice_imgs = #{noticeImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTitle != null and noticeTitle != ''" >
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null and noticeContent != ''" >
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeStatus != null and noticeStatus != ''" >
+        notice_status = #{noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeReleaseId != null and noticeReleaseId != ''" >
+        notice_releaseid = #{noticeReleaseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  <!-- 定义更新sql片段，且唯一 value值 end -->
+
+  <!-- 根据试点id主表id获取食材核准信息 start -->
+  <select id="findTopNoticeCements" resultType="java.util.Map">
+    SELECT
+    id,
+    notice_time noticeTime,
+    notice_imgs noticeImgs,
+    notice_title noticeTitle,
+    notice_content noticeContent,
+    '公告推送' noticeType,
+    #{sdId} as sdId,
+    #{siteName} as siteName,
+    #{sitePhoto} as sitePhoto
+    FROM notice_cement
+    <where>
+      AND notice_receive = #{sdId} AND notice_status = '1'
+      AND notice_time &gt;= DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:01')
+      AND notice_time &lt; DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+    </where>
+    LIMIT 0,1
+  </select>
+  <!-- 根据试点id主表id获取食材核准信息 end -->
+
+  <!-- CONCAT_WS(')',CONCAT_WS('(',CONCAT_WS('：',changetTime,ingredientName),meteringName),'') title, -->
+  <!-- 根据日期查询库存信息 start -->
+  <select id="findLibraryChanges" resultType="java.util.Map">
+    SELECT
+    lc.id,
+    ib.ingredientname title,
+    ib.meteringname meteringName,
+    lc.changenumber changeNumber,
+    lc.changeremarks changeRemarks,
+    lc.changepeople changePeople,
+    lc.changemode changeMode,
+    lc.changetime start,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') backgroundColor,
+    CONCAT_WS('',CONCAT_WS( ',', CONCAT_WS('','rgb(', FLOOR(0 + (RAND() * 255))),FLOOR(0 + (RAND() * 255)),FLOOR(0 + (RAND() * 255)) ),')') borderColor,
+    lc.sdid sdId
+    FROM librarychange lc
+    LEFT JOIN
+    ingredientbase ib
+    ON
+    lc.ingredientbaseid = ib.id
+    <where>
+      <if test="ingredientBaseId!=null">
+        AND lc.ingredientbaseid = #{ingredientBaseId}
+      </if>
+      <if test="changeMode != null and changeMode != ''" >
+        AND lc.changemode = #{changeMode}
+      </if>
+      <if test="startTime!=null and startTime!=''">
+        AND lc.changetime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lc.changetime &lt;= #{endTime}
+      </if>
+    </where>
+    ORDER BY lc.id DESC
+  </select>
+  <!-- 根据日期查询库存信息 end -->
+
+  <!-- 分页查询库存信息总条数 start -->
+  <select id="findLibraryPurchasesTotal" resultType="java.lang.Integer">
+    SELECT
+    count(lp.id)
+    FROM librarypurchase lp
+    LEFT JOIN
+    ingredientbase ingBase
+    ON
+    lp.ingredientbaseid = ingBase.id
+    LEFT JOIN
+    categorybase cb1
+    ON
+    ingBase.maincategoryid = cb1.id
+    LEFT JOIN
+    categorybase cb2
+    ON
+    ingBase.smallcategoryid = cb2.id
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        AND lp.purchtime &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        AND lp.purchtime &lt;= #{endTime}
+      </if>
+      <if test="mainCategoryId!=null">
+        AND ingBase.maincategoryid =#{mainCategoryId}
+      </if>
+      <if test="smallCategoryId!=null">
+        AND ingBase.smallcategoryid =#{smallCategoryId}
+      </if>
+    </where>
+  </select>
+  <!-- 分页查询库存信息总条数 end -->
+
+  <!-- 新增食材 start -->
+  <insert id="addFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    insert into foodbase(<include refid="insertAllKey"/>) values(<include refid="insertAllValue"/>);
+  </insert>
+  <!-- 新增食材 end -->
+
+  <!-- 更新食材 start -->
+  <update id="updateFoodBase" parameterType="com.zhixiangmain.api.module.cpjs.zdcpbom.FoodBase" >
+    update foodbase
+    <set >
+      <include refid="updateAllValue"/>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 更新食材 end -->
+
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhixiangmain.dao.warehouse.WarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhixiangmain.api.module.warehouse.Warehouse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="whname" property="whName" jdbcType="VARCHAR" />
+    <result column="whstatus" property="whStatus" jdbcType="VARCHAR" />
+    <result column="sdid" property="sdId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, whname, whstatus, sdid
+  </sql>
+
+  <!-- 根据pid查询类别 start -->
+  <select id="findAllWarehouse" parameterType="com.zhixiangmain.api.module.warehouse.Warehouse" resultType="java.util.Map">
+    SELECT
+    id,
+    whname whName,
+    sdid sdId
+    FROM ingredientwhouse
+    <where>
+      <if test="whStatus!=null and whStatus!=''">
+        AND whstatus =#{whStatus}
+      </if>
+      <if test="whName != null and whName != ''">
+        AND whname like CONCAT('%', #{whName} , '%')
+      </if>
+    </where>
+    ORDER BY id DESC
+  </select>
+  <!-- 根据pid查询类别 end -->
+
+</mapper>
