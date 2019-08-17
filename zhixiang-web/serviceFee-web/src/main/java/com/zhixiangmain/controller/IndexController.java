@@ -21,10 +21,10 @@ public class IndexController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(IndexController.class);
 	@RequestMapping("/") public String transIndex() {
-		return "home";
+		return "index";
 	}
 	@RequestMapping("/index") public String index() {
-		return "home";
+		return "index";
 	}
 	@RequestMapping("/home") public String toHome() {
 		return "index";

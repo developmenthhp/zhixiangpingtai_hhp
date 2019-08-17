@@ -40,6 +40,27 @@ function isKickOut(code){
                     }
                 }
             });
+        }else if(code==1533){
+            //被踢出
+            flag = true;
+
+            $.confirm({
+                icon: 'fa fa-frown-o',
+                theme: 'modern',
+                title: '权限不足',
+                content: "您的权限不足，该系统只可登录智飨内部账号",
+                animation: 'news',//动画
+                closeAnimation: 'news',//关闭动画
+                autoClose: 'showMyMsg|3000',
+                buttons: {
+                    showMyMsg: {
+                        text: '关闭',
+                        action: function () {
+                            window.location.href="/login";
+                        }
+                    }
+                }
+            });
         }
     }
 

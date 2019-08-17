@@ -10,6 +10,7 @@ import com.zhixiangmain.dao.site.SiteMapper;
 import com.zhixiangmain.dao.siteRole.SiteRoleMapper;
 import com.zhixiangmain.date.DateUtils;
 import com.zhixiangmain.module.site.Site;
+import com.zhixiangmain.module.site.dto.SiteDTO;
 import com.zhixiangmain.module.site.vo.SiteVO;
 import com.zhixiangmain.module.siteRole.SiteRole;
 import com.zhixiangmain.module.siteRole.dto.SiteRoleDTO;
@@ -337,6 +338,42 @@ public class SiteServiceImpl implements SiteService {
             resultBean.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
             resultBean.setMsg("No pilot expiration date has been set Please remind administrators to set the time");
         }
+        return resultBean;
+    }
+
+    @Override
+    public ResultBean getPageSiteList(SiteDTO siteDTO, Integer page, Integer limit) {
+        ResultBean resultBean = new ResultBean();
+        if (null == page) {
+            page = 1;
+        }
+        if (null == limit) {
+            limit = 10;
+        }
+        siteDTO.setPage(page);
+        siteDTO.setLimit(limit);
+        // 时间处理
+        /*if (null != site) {
+
+            if (StringUtils.isNotEmpty(userSearch.getInsertTimeStart())
+                    && StringUtils.isNotEmpty(userSearch.getInsertTimeEnd())) {
+                if (userSearch.getInsertTimeEnd().compareTo(
+                        userSearch.getInsertTimeStart()) < 0) {
+                    String temp = userSearch.getInsertTimeStart();
+                    userSearch
+                            .setInsertTimeStart(userSearch.getInsertTimeEnd());
+                    userSearch.setInsertTimeEnd(temp);
+                }
+            }
+        }*/
+
+        PageHelper.startPage(page, limit);
+        List<Site> siteList = siteMapper.findPageSiteList(siteDTO);
+        // 获取分页查询后的数据
+        PageInfo<Site> pageInfo = new PageInfo<>(siteList);
+        // 设置获取到的总记录数total：
+        resultBean.setTotal(Long.valueOf(pageInfo.getTotal()).intValue());
+        resultBean.setData(siteList);
         return resultBean;
     }
 

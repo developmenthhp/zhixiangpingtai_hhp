@@ -1,6 +1,7 @@
 package com.zhixiangmain.dao.site;
 
 import com.zhixiangmain.module.site.Site;
+import com.zhixiangmain.module.site.dto.SiteDTO;
 import com.zhixiangmain.module.site.vo.SiteVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,5 @@ public interface SiteMapper {
 
     Map<String,Object> findOverTimeSiteId(@Param("sdId") String sdId);
 
+    List<Site> findPageSiteList(SiteDTO siteDTO);
 }

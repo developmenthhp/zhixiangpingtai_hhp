@@ -200,7 +200,7 @@ function loadMyLChar(rloadSdIds) {
                         "</span>" +
                         "<div class='aui-flex aui-flex-clear'><em class='aui-flex-box'>" +
                         "<i class='aui-goods-price' style='font-size: 0.8em;color: #b8b8b8;'>-当前排行由智飨科技提供-</i></em><em>排名："+accAdd(ind,1)+"</em>" +
-                        "</div></div></a></div>")
+                        "</div></div></a></div>");
                 });
             }
 

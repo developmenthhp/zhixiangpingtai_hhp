@@ -53,7 +53,8 @@ public interface IStatusMessage {
         NAME_NOT_EXISTS("1529","NAME_NOT_EXISTS"),//名称不存在
         IMPORT_BASE_PRICE_DATA_MATCHING("1530","IMPORT_BASE_PRICE_DATA_MATCHING"),//导入基础食材价格食材名未匹配
         UPLOAD_FILE_TYPE_ERROR("1531","UPLOAD_FILE_TYPE_ERROR"),//不支持该文件类型
-        SITE_IS_NOT_SET_WARNING_OVER_TIME("1532","SITE_IS_NOT_SET_WARNING_OVER_TIME");//不支持该文件类型
+        SITE_IS_NOT_SET_WARNING_OVER_TIME("1532","SITE_IS_NOT_SET_WARNING_OVER_TIME"),
+        NO_PARAMETER("1533","NO_PARAMETER");//不支持该文件类型
         private String code;
         private String message;
 

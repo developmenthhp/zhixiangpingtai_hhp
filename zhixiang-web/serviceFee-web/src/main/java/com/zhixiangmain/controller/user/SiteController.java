@@ -3,6 +3,7 @@ package com.zhixiangmain.controller.user;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zhixiangmain.Base.IsEmptyUtils;
 import com.zhixiangmain.module.site.Site;
+import com.zhixiangmain.module.site.dto.SiteDTO;
 import com.zhixiangmain.module.site.vo.SiteVO;
 import com.zhixiangmain.module.siteRole.SiteRole;
 import com.zhixiangmain.module.siteRole.dto.SiteRoleDTO;
@@ -11,6 +12,7 @@ import com.zhixiangmain.module.siteRolePermission.SiteRolePermissionKey;
 import com.zhixiangmain.module.user.User;
 import com.zhixiangmain.overallParam.OpslabConfig;
 import com.zhixiangmain.service.siteService.SiteService;
+import com.zhixiangmain.web.requestdata.WebMassage;
 import com.zhixiangmain.web.responseConfig.IStatusMessage;
 import com.zhixiangmain.web.responseConfig.ResultBean;
 import org.apache.commons.lang3.StringUtils;
@@ -25,11 +27,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @项目名称：wyait-manage
- * @包名：com.wyait.manage.web.user
+ * @项目名称： zhixiangmain
+ * @包名：com.zhixiangmain.controller.user
  * @类描述：
- * @创建人：wyait
- * @创建时间：2017-12-20 15:42
+ * @创建人：hhp
+ * @创建时间：2018-12-20 15:42
  * @version：V1.0
  */
 @Controller
@@ -83,6 +85,25 @@ public class SiteController {
 			e.printStackTrace();
 			mav.addObject("msg", "fail");
 			logger.error("新增站点异常！", e);
+		}
+		return mav;
+	}
+
+	/**
+	 * 获取站点列表 智飨专属平台
+	 * @param site site_nomenu
+	 * @return ok/fail
+	 */
+	@RequestMapping(value = "/getSites", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView getSites(Site site) {
+		logger.debug("站点列表！");
+		ModelAndView mav = new ModelAndView("/auth/site_nomenu");
+		try {
+			mav.addObject("msg", "ok");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("站点查询异常！", e);
 		}
 		return mav;
 	}
@@ -565,6 +586,38 @@ public class SiteController {
 			logger.error("获取站点图标异常！", e);
 		}
 		resultBean.setObj(OpslabConfig.get("UPLOAD_PREFIX"));
+		return resultBean;
+	}
+
+	/**
+	 * 权限列表
+	 * @return ok/fail
+	 */
+	@PostMapping(value = "/getPageSiteList")
+	@ResponseBody
+	public ResultBean getPageSiteList(@RequestParam("page") Integer page,
+									  @RequestParam("limit") Integer limit, SiteDTO siteDTO) {
+		logger.debug("分页查询用户列表！搜索条件：siteDTO：" + siteDTO + ",page:" + page
+				+ ",每页记录数量limit:" + limit);
+		User existUser= (User) SecurityUtils.getSubject().getPrincipal();
+		ResultBean resultBean = new ResultBean();
+		try {
+			if(existUser.getIsZx()==true||existUser.getSdid()!=22){
+				resultBean.setCode(IStatusMessage.LogicStatus.NO_PARAMETER.getCode());
+				resultBean.setMsg(WebMassage.ONLY_ZHIXIANG_CAN_USE);
+			}else{
+				resultBean = siteService.getPageSiteList(siteDTO, page, limit);
+				resultBean.setCode(IStatusMessage.SystemStatus.SUCCESS.getCode());
+				resultBean.setMsg(WebMassage.INTERFACE_STATUS_SUCCESS);
+				resultBean.setObj(OpslabConfig.get("UPLOAD_PREFIX"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("用户列表查询异常！", e);
+			resultBean.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+			resultBean.setMsg(WebMassage.INTERFACE_STATUS_ERROR);
+		}
 		return resultBean;
 	}
 

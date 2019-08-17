@@ -1,58 +1,39 @@
 var tes = 0;
 var isShow = true;
 
-var limCount = 15;
+var allPage;
+
+var limCount = 10;
+var allDataTol;
+
+var initPageplugins = true;
+
+var curPag = 1;
 
 var maxLen = 0;
 
 var imgPrefix;
 
+var ajaxSCJCXXSearchFormOption = {
+    //target: '#output', //把服务器返回的内容放入id为output的元素中
+    beforeSubmit: showSCJCXXSearchRequest, //提交前的回调函数
+    success: showSCJCXXSearchResponse, //提交后的回调函数
+    url: "/site/getPageSiteList", //默认是form的action， 如果申明，则会覆盖
+    type: "post", //默认是form的method（get or post），如果申明，则会覆盖
+    data:{page:curPag,limit:limCount},
+    dataType: "json",//html(默认), xml, script, json...接受服务端返回的类型
+    //clearForm: true,   //成功提交后，清除所有表单元素的值
+    //resetForm: true,  //成功提交后，重置所有表单元素的值
+    timeout: 3000 //限制请求的时间，当请求大于3秒后，跳出请求
+};
+
+var map;
+
 $(function(){
-    //modelandview 返回的参数只能在html用[[${}}]]格式获取
-    var admName = $("#teShiro").html();
-    $("#showLAdm").html(admName);
-    var s_time = dateFormat($("#teShiro2").html(),'yyyy-MM-dd HH:mm:ss');
-    $("#headAdmDate").html(s_time+" 注册");
-
-    var leftMenuStorage = localStorage.getItem("leftMenuStorage");
-
-    $("#permUl").html(leftMenuStorage);
-    addActClass($("#liParent1").children(":eq(0)"));
-    $("#liParent1").children(":eq(1)").children(":eq(3)").find("a").css("color","#FFD600");
 
     loadUserList();
 
     $("#topShowLp").css("display","none");
-
-    /*var fixHelperModified = function(e, tr) {
-            //children() 方法返回返回被选元素的所有直接子元素
-            var $originals = tr.children();
-            //clone() 方法生成被选元素的副本，包含子节点、文本和属性
-            var $helper = tr.clone();
-            //each() 方法规定为每个匹配元素规定运行的函数
-            $helper.children().each(function(index) {
-                //width() 方法返回或设置匹配元素的宽度
-                //eq() 方法将匹配元素集缩减值指定 index 上的一个
-                $(this).width($originals.eq(index).width())
-            });
-            return $helper;
-        },
-        updateIndex = function(e, ui) {
-            //ui.item - 表示当前拖拽的元素
-            //parent() 获得当前匹配元素集合中每个元素的父元素，使用选择器进行筛选是可选的
-            $('td.index', ui.item.parent()).each(function(i) {
-                //html() 方法返回或设置被选元素的内容 (inner HTML)
-                $(this).html(i + 1);
-            });
-        };
-    $("#sort tbody").sortable({
-        //设置是否在拖拽元素时，显示一个辅助的元素。可选值：'original', 'clone'
-        helper: fixHelperModified,
-        //当排序动作结束时触发此事件。
-        stop: updateIndex
-    }).disableSelection();*/
-
-    $("i").tooltip();
 
     //初始化时间选择插件
     $("#dtBox").DateTimePicker({
@@ -78,6 +59,29 @@ $(function(){
         timeout: 3000 //限制请求的时间，当请求大于3秒后，跳出请求
     }
 
+    $("#select1").on("change",function (e) {
+        var curMapSelect = $(this).val();
+        if(curMapSelect!=undefined&&curMapSelect!=null&&curMapSelect!=""){
+            var curVal = curMapSelect[curMapSelect.length-1];
+            var lng = $("#select1 option[value="+curVal+"]").attr("data-lng");
+            var lat = $("#select1 option[value="+curVal+"]").attr("data-lat");
+            map.clearOverlays();    //清除地图上所有覆盖物
+            map.centerAndZoom(new BMap.Point(lng,lat), 18);
+        }
+        //重新加载charts
+    });
+
+    //监听模态框关闭时间 监听开启事件shown.bs.modal
+    $("#compose-modal-choson").on('hide.bs.modal', function (){
+        /*var choseSelVal = $('#select1').val();
+        if(choseSelVal!=undefined&&choseSelVal!=null&&choseSelVal!=''){
+            loadMyLChar(choseSelVal.toString());
+        }else{
+            loadMyLChar('');
+        }*/
+
+        $('#select1').selectator('destroy');
+    });
 
     //不需要submit按钮，可以是任何元素的click事件
     $("#myFormButton").click(function () {
@@ -99,6 +103,243 @@ $(function(){
     });
 });
 
+function showSCJCXXSearchRequest(formData, jqForm, options){
+    return true; //只要不返回false，表单都会提交,在这里可以对表单元素进行验证
+};
+function showSCJCXXSearchResponse(data, status){
+    initDateTableData(data);
+}
+
+/*
+     * 定义分页回掉函数
+     * @param  number:跳转页
+     * */
+function pageChange(i) {
+    curPag = accAdd(i,1);
+    loadUserList();
+    Pagination.Page($(".ht-page"), i, allDataTol, limCount);
+}
+
+/**
+ * 加载数据
+ * */
+function loadUserList(){
+    $("input[name='foodNameDto']").val($("#foodNameDtoShow").val());
+    ajaxSCJCXXSearchFormOption.data={page:curPag,limit:limCount};
+    $("#scjcxxSearchForm").ajaxSubmit(ajaxSCJCXXSearchFormOption);
+    return false;
+}
+
+function reloadMyDateTable() {
+    $("#scjcxxSearchForm").ajaxSubmit(ajaxSCJCXXSearchFormOption);
+    return false;
+}
+
+function initDateTableData(data){
+    if(!isKickOut(data.code)){
+        //没有被踢出
+        if(data.data!=null){
+            $("#userListUl").html("");
+            var photoPre = data.obj;
+
+            if(data.code==1000){
+
+                $("#userListUl").html("");
+                imgPrefix = data.obj;
+                $.each(data.data,function(ind,val){
+                    var warningTimeString = '';
+                    if(val.warningTime){
+                        warningTimeString = val.warningTime;
+                    }
+                    var overTimeString = '';
+                    if(val.overTime){
+                        overTimeString = val.overTime;
+                    }
+                    if (val.pid == 0) {
+
+                        $("#userListUl").append("<tr id='"+val.id+"-myStyleLi' onmouseover='showED("+val.id+")' onmouseleave='hideED("+val.id+")'>" +
+                            "<td data-label='站点名称' style='text-align: left'>" +
+                            "<span class='handle'>"+val.name+"</span>" +
+                            "</td>" +
+                            "<td data-label='预警时间'>" +
+                            "<small id='"+val.id+"-warningTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+warningTimeString+"</small>" +
+                            "</td>" +
+                            "<td data-label='到期时间'>" +
+                            "<small id='"+val.id+"-overTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+overTimeString+"</small>" +
+                            "</td>" +
+                            "<td data-label='站点图标'>" +
+                            "<div class='my-table-imgDiv'><img data-original='"+data.obj+val.photo+"' alt='站点图标' src='"+data.obj+val.photo+"' class='online' style='width:100%;cursor:zoom-in;'/></div>" +
+                            "</td>" +
+                            "<td data-label='站点地址描述'>" +
+                            "<small id='"+val.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val.address+"</small>" +
+                            "</td>" +
+                            "<td data-label='优先级'>" +
+                            "<small id='"+val.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val.zindex+"</small>" +
+                            "</td>" +
+                            "<td data-label='操作'>" +
+                            "<div class='tools' data-label='"+val.id+"' style='color: #f56954;display: none'>" +
+                            "<i class='iconfont iconxiaoxishijian' data-toggle='tooltip' title='' data-original-title='延期管理' style='cursor: pointer' onclick='deferredManagement("+val.id+","+"\""+val.name+"\")'></i>&nbsp;" +
+                            "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val.id+",1"+")'></i>&nbsp;" +
+                            "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val.id+",0"+")'></i>&nbsp;" +
+                            "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val.id+","+"\""+val.name+"\")'></i>" +
+                            "</div>" +
+                            "</td>" +
+                            "</tr>");
+
+                        var sonArray = getParentArry(val.id,data.data);
+
+                        if(sonArray.length>0){
+
+                            //给这个tr加一个图标
+                            $("#"+val.id+"-myStyleLi").find("td:eq(0) span").before("<i class='fa fa-caret-down' data-widget='collapse' style='cursor: pointer' onclick='showOrHideSun("+val.id+")'></i>&nbsp;");
+                            var warningTimeString2 = '';
+                            if(val2.warningTime){
+                                warningTimeString2 = val.warningTime;
+                            }
+                            var overTimeString2 = '';
+                            if(val2.overTime){
+                                overTimeString2 = val.overTime;
+                            }
+
+                            $.each(sonArray,function (ind2,val2) {
+                                $("#"+val.id+"-myStyleLi").after("<tr id='"+val2.id+"-myStyleLi' class='box-body"+val.id+"' onmouseover='showED("+val2.id+")' onmouseleave='hideED("+val2.id+")'>" +
+                                    "<td data-label='站点名称' style='text-align: left'>" +
+                                    "<span class='handle' style='padding-left: 15%;'>"+val2.name+"</span>" +
+                                    "</td>" +
+                                    "<td data-label='预警时间'>" +
+                                    "<small id='"+val2.id+"-warningTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+warningTimeString2+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='到期时间'>" +
+                                    "<small id='"+val2.id+"-overTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+overTimeString2+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='站点图标'>" +
+                                    "<div class='my-table-imgDiv'><img data-original='"+data.obj+val2.photo+"' alt='站点图标' src='"+data.obj+val2.photo+"' class='online' style='width:100%'/></div>" +
+                                    "</td>" +
+                                    "<td data-label='站点地址描述'>" +
+                                    "<small id='"+val2.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val2.address+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='优先级'>" +
+                                    "<small id='"+val2.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val2.zindex+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='操作'>" +
+                                    "<div class='tools' data-label='"+val2.id+"' style='color: #f56954;display: none'>" +
+                                    "<i class='iconfont iconxiaoxishijian' data-toggle='tooltip' title='' data-original-title='延期管理' style='cursor: pointer' onclick='deferredManagement("+val2.id+","+"\""+val2.name+"\")'></i>&nbsp;" +
+                                    "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val2.id+",1"+")'></i>&nbsp;" +
+                                    "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val2.id+",0"+")'></i>&nbsp;" +
+                                    "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val2.id+","+"\""+val2.name+"\")'></i>" +
+                                    "</div>" +
+                                    "</td>" +
+                                    "</tr>");
+
+                            });
+                        }
+
+                    }else{
+
+                        var sonArray = getParentArry(val.id,data.data);
+
+                        if(sonArray.length>0){
+                            var gParent = $("#"+val.id+"-myStyleLi").attr('class');
+
+                            $("#"+val.id+"-myStyleLi").find("td:eq(0) span").css("padding-left","0");
+                            //给这个tr加一个图标
+                            $("#"+val.id+"-myStyleLi").find("td:eq(0) span").before("<i class='fa fa-caret-down' style='cursor: pointer;padding-left: 16%;' onclick='showOrHideSun("+val.id+")'></i>&nbsp;");
+                            $.each(sonArray,function (ind2,val2) {
+
+                                $("#"+val.id+"-myStyleLi").after("<tr id='"+val2.id+"-myStyleLi' class='"+gParent+" box-body"+val.id+"' onmouseover='showED("+val2.id+")' onmouseleave='hideED("+val2.id+")'>" +
+                                    "<td data-label='权限名称' style='text-align: left'>" +
+                                    "<span class='handle' style='padding-left: 23%'>"+val2.name+"</span>" +
+                                    "</td>" +
+                                    "<td data-label='站点图标'>" +
+                                    "<div class='my-table-imgDiv'><img data-original='"+data.obj+val2.photo+"' alt='站点图标' src='"+data.obj+val2.photo+"' class='online' style='width:100%'/></div>" +
+                                    "</td>" +
+                                    "<td data-label='站点地址描述'>" +
+                                    "<small id='"+val2.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val2.address+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='优先级'>" +
+                                    "<small id='"+val2.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val2.zindex+"</small>" +
+                                    "</td>" +
+                                    "<td data-label='操作'>" +
+                                    "<div class='tools' data-label='"+val2.id+"' style='color: #f56954;display: none'>" +
+                                    "<i class='iconfont iconxiaoxishijian' data-toggle='tooltip' title='' data-original-title='延期管理' style='cursor: pointer' onclick='deferredManagement("+val2.id+","+"\""+val2.name+"\")'></i>&nbsp;" +
+                                    "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val2.id+",1"+")'></i>&nbsp;" +
+                                    "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val2.id+",0"+")'></i>&nbsp;" +
+                                    "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val2.id+","+"\""+val2.name+"\")'></i>" +
+                                    "</div>" +
+                                    "</td>" +
+                                    "</tr>");
+
+                            });
+                        }
+
+                    }
+
+                });
+
+            }else if(data.code==1001){
+                //系统接口错误
+                $.confirm({
+                    icon: '#icon-shangxin1',
+                    theme: 'modern',
+                    title: '提示',
+                    content: '获取站点数据失败',
+                    animation: 'news',//动画
+                    closeAnimation: 'news',//关闭动画
+                    autoClose: 'showMyMsg|3000',
+                    buttons: {
+                        showMyMsg: {
+                            text: '关闭',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+
+            }
+
+            $('#userListUl').viewer({
+                url: 'data-original',
+            });
+
+            allDataTol = data.total;
+
+            if(initPageplugins){
+                /*
+                 * 初始化插件
+                 * @param  object:翻页容器对象
+                 * @param  function:回调函数
+                 * */
+                Pagination.init($(".ht-page"), pageChange);
+
+                /*
+                * 首次调用
+                * @param  object:翻页容器对象
+                * @param  number:当前页
+                * @param  number:总页数
+                * @param  number:每页数据条数
+                * */
+                Pagination.Page($(".ht-page"), 0, allDataTol, limCount);
+                initPageplugins = false;
+            }else{
+                Pagination.Page($(".ht-page"), curPag-1, allDataTol, limCount);
+            }
+
+
+            $('#userListUl').viewer({
+                url: 'data-original',
+            });
+
+
+        }else{
+            //加一个字体图标无数据
+        }
+
+    }
+}
+/**
+ * 加载数据
+ * */
 function showRequest(formData, jqForm, options){
     //alert("-----------------------------errr");
     //formData: 数组对象，提交表单时，Form插件会以Ajax方式自动提交这些数据，
@@ -110,6 +351,7 @@ function showRequest(formData, jqForm, options){
     //var address = formElement.address.value; //访问jqForm的DOM元素
     return true; //只要不返回false，表单都会提交,在这里可以对表单元素进行验证
 };
+
 function showResponse(data, status){
 
     //responseText 返回的数据
@@ -208,173 +450,6 @@ function showResponse(data, status){
         });
     }
 
-}
-
-/**
- * 加载数据
- * */
-function loadUserList(){
-
-    $.post("/site/getSiteList",function(data){
-
-        if(data.code==1000){
-
-            $("#userListUl").html("");
-            imgPrefix = data.obj;
-            $.each(data.data,function(ind,val){
-                var warningTimeString = '';
-                if(val.warningTime){
-                    warningTimeString = val.warningTime;
-                }
-                var overTimeString = '';
-                if(val.overTime){
-                    overTimeString = val.overTime;
-                }
-                if (val.pid == 0) {
-
-                    $("#userListUl").append("<tr id='"+val.id+"-myStyleLi' onmouseover='showED("+val.id+")' onmouseleave='hideED("+val.id+")'>" +
-                        "<td data-label='站点名称' style='text-align: left'>" +
-                        "<span class='handle'>"+val.name+"</span>" +
-                        "</td>" +
-                        "<td data-label='预警时间'>" +
-                        "<small id='"+val.id+"-warningTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+warningTimeString+"</small>" +
-                        "</td>" +
-                        "<td data-label='到期时间'>" +
-                        "<small id='"+val.id+"-overTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+overTimeString+"</small>" +
-                        "</td>" +
-                        "<td data-label='站点图标'>" +
-                        "<div class='my-table-imgDiv'><img data-original='"+data.obj+val.photo+"' alt='站点图标' src='"+data.obj+val.photo+"' class='online' style='width:100%;cursor:zoom-in;'/></div>" +
-                        "</td>" +
-                        "<td data-label='站点地址描述'>" +
-                        "<small id='"+val.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val.address+"</small>" +
-                        "</td>" +
-                        "<td data-label='优先级'>" +
-                        "<small id='"+val.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val.zindex+"</small>" +
-                        "</td>" +
-                        "<td data-label='操作'>" +
-                        "<div class='tools' data-label='"+val.id+"' style='color: #f56954;display: none'>" +
-                        "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val.id+",1"+")'></i>&nbsp;" +
-                        "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val.id+",0"+")'></i>&nbsp;" +
-                        "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val.id+","+"\""+val.name+"\")'></i>" +
-                        "</div>" +
-                        "</td>" +
-                        "</tr>");
-
-                    var sonArray = getParentArry(val.id,data.data);
-
-                    if(sonArray.length>0){
-
-                        //给这个tr加一个图标
-                        $("#"+val.id+"-myStyleLi").find("td:eq(0) span").before("<i class='fa fa-caret-down' data-widget='collapse' style='cursor: pointer' onclick='showOrHideSun("+val.id+")'></i>&nbsp;");
-                        var warningTimeString2 = '';
-                        if(val2.warningTime){
-                            warningTimeString2 = val.warningTime;
-                        }
-                        var overTimeString2 = '';
-                        if(val2.overTime){
-                            overTimeString2 = val.overTime;
-                        }
-
-                        $.each(sonArray,function (ind2,val2) {
-                            $("#"+val.id+"-myStyleLi").after("<tr id='"+val2.id+"-myStyleLi' class='box-body"+val.id+"' onmouseover='showED("+val2.id+")' onmouseleave='hideED("+val2.id+")'>" +
-                                "<td data-label='站点名称' style='text-align: left'>" +
-                                "<span class='handle' style='padding-left: 15%;'>"+val2.name+"</span>" +
-                                "</td>" +
-                                "<td data-label='预警时间'>" +
-                                "<small id='"+val2.id+"-warningTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+warningTimeString2+"</small>" +
-                                "</td>" +
-                                "<td data-label='到期时间'>" +
-                                "<small id='"+val2.id+"-overTime' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+overTimeString2+"</small>" +
-                                "</td>" +
-                                "<td data-label='站点图标'>" +
-                                "<div class='my-table-imgDiv'><img data-original='"+data.obj+val2.photo+"' alt='站点图标' src='"+data.obj+val2.photo+"' class='online' style='width:100%'/></div>" +
-                                "</td>" +
-                                "<td data-label='站点地址描述'>" +
-                                "<small id='"+val2.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val2.address+"</small>" +
-                                "</td>" +
-                                "<td data-label='优先级'>" +
-                                "<small id='"+val2.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val2.zindex+"</small>" +
-                                "</td>" +
-                                "<td data-label='操作'>" +
-                                "<div class='tools' data-label='"+val2.id+"' style='color: #f56954;display: none'>" +
-                                "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val2.id+",1"+")'></i>&nbsp;" +
-                                "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val2.id+",0"+")'></i>&nbsp;" +
-                                "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val2.id+","+"\""+val2.name+"\")'></i>" +
-                                "</div>" +
-                                "</td>" +
-                                "</tr>");
-
-                        });
-                    }
-
-                }else{
-
-                    var sonArray = getParentArry(val.id,data.data);
-
-                    if(sonArray.length>0){
-                        var gParent = $("#"+val.id+"-myStyleLi").attr('class');
-
-                        $("#"+val.id+"-myStyleLi").find("td:eq(0) span").css("padding-left","0");
-                        //给这个tr加一个图标
-                        $("#"+val.id+"-myStyleLi").find("td:eq(0) span").before("<i class='fa fa-caret-down' style='cursor: pointer;padding-left: 16%;' onclick='showOrHideSun("+val.id+")'></i>&nbsp;");
-                        $.each(sonArray,function (ind2,val2) {
-
-                            $("#"+val.id+"-myStyleLi").after("<tr id='"+val2.id+"-myStyleLi' class='"+gParent+" box-body"+val.id+"' onmouseover='showED("+val2.id+")' onmouseleave='hideED("+val2.id+")'>" +
-                                "<td data-label='权限名称' style='text-align: left'>" +
-                                "<span class='handle' style='padding-left: 23%'>"+val2.name+"</span>" +
-                                "</td>" +
-                                "<td data-label='站点图标'>" +
-                                "<div class='my-table-imgDiv'><img data-original='"+data.obj+val2.photo+"' alt='站点图标' src='"+data.obj+val2.photo+"' class='online' style='width:100%'/></div>" +
-                                "</td>" +
-                                "<td data-label='站点地址描述'>" +
-                                "<small id='"+val2.id+"-descript' class='label label-danger' style='font-size: 90%'><i class='fa fa-link'></i>&nbsp;"+val2.address+"</small>" +
-                                "</td>" +
-                                "<td data-label='优先级'>" +
-                                "<small id='"+val2.id+"-zindex' class='label label-danger' style='font-size: 90%'><i class='fa fa-list-ol'></i>&nbsp;"+val2.zindex+"</small>" +
-                                "</td>" +
-                                "<td data-label='操作'>" +
-                                "<div class='tools' data-label='"+val2.id+"' style='color: #f56954;display: none'>" +
-                                "<i class='fa fa-plus' data-toggle='tooltip' title='' data-original-title='添加子站点' style='cursor: pointer' onclick='addSun("+val2.id+",1"+")'></i>&nbsp;" +
-                                "<i class='fa fa-edit' data-toggle='tooltip' title='' data-original-title='编辑' style='cursor: pointer' onclick='editPerm("+val2.id+",0"+")'></i>&nbsp;" +
-                                "<i class='fa fa-trash-o' data-toggle='tooltip' title='' data-original-title='删除' style='cursor: pointer' onclick='delPerm("+val2.id+","+"\""+val2.name+"\")'></i>" +
-                                "</div>" +
-                                "</td>" +
-                                "</tr>");
-
-                        });
-                    }
-
-                }
-
-            });
-
-        }else if(data.code==1001){
-            //系统接口错误
-            $.confirm({
-                icon: '#icon-shangxin1',
-                theme: 'modern',
-                title: '提示',
-                content: '获取站点数据失败',
-                animation: 'news',//动画
-                closeAnimation: 'news',//关闭动画
-                autoClose: 'showMyMsg|3000',
-                buttons: {
-                    showMyMsg: {
-                        text: '关闭',
-                        action: function () {
-
-                        }
-                    }
-                }
-            });
-
-        }
-
-        $('#userListUl').viewer({
-            url: 'data-original',
-        });
-
-    });
 }
 
 function showED(cur) {
@@ -974,6 +1049,11 @@ function delPerm(id,name){
 
 }
 
+function deferredManagement(id,siteName) {
+    alert(id+",,,"+siteName);
+    $("#compose-date").modal("show");
+}
+
 //根据菜单主键id获取下级菜单
 //id：菜单主键id
 //arry：菜单数组信息
@@ -991,7 +1071,6 @@ function getParentArry(id, arry) {
 
     return newArry;
 }
-
 
 function myResetForm(){
 
@@ -1040,7 +1119,7 @@ function uploadIcon() {
             }
 
         }, error: function (er) {
-           // 失败，回调函数
+            // 失败，回调函数
             $.confirm({
                 icon: '#icon-shangxin1',
                 theme: 'modern',
@@ -1068,16 +1147,15 @@ function uploadIcon() {
 /* 地图形式显示站点 */
 function showMap(){
     // 百度地图API功能
-    var map = new BMap.Map("my-map2");
-    map.centerAndZoom(new BMap.Point(116.4035,39.915),8);
+    var map2 = new BMap.Map("my-map2");
+    map2.centerAndZoom(new BMap.Point(116.4035,39.915),8);
     setTimeout(function(){
-        map.setZoom(14);
+        map2.setZoom(14);
     }, 2000);  //2秒后放大到14级
-    map.enableScrollWheelZoom(true);
+    map2.enableScrollWheelZoom(true);
 
     $("#compose-modal").modal("show");
 }
-
 
 // 百度地图API功能
 function G(id) {
@@ -1126,4 +1204,292 @@ function setPlace(map,myValue){
         onSearchComplete: myFun
     });
     local.search(myValue);
+}
+
+/* 地图形式显示站点 */
+function openMap() {
+    map = showMap2(map,'compose-modal-choson');
+}
+
+function showMap2(map,modalId){
+
+    $("#my-map").empty();
+    // 百度地图API功能
+    map = new BMap.Map("my-map");
+    map.centerAndZoom(new BMap.Point(120.578308,30.60934),6);
+    //设置主题样式
+    //map.setMapStyle({style:'midnight'});
+
+    map.enableScrollWheelZoom(true);
+
+    map.clearOverlays();
+    var allDat = getUserSites();
+    var siteData = allDat.rows;
+    var myImgPrefix = allDat.obj;
+    var markers = [];
+    if(modalId!=''&&modalId!=null){
+        //初始化之前选择的值
+        var bReloadSel = $('#select1').val();
+        $('#select1').empty();
+    }else{
+        $("#menuTypeId").html("");
+        $('#select1').empty();
+        $("#select1").append("<option value=''>--请选择--</option>");
+    }
+
+    $.each(siteData,function(ind,val){
+
+        if(modalId!=''&&modalId!=null){
+            if($.inArray(val.sdId.toString(),bReloadSel)>=0){
+                //加载所有站点数据下拉列表
+                $("#select1").append("<option value='"+val.sdId+"' data-lng='"+val.lng+"' data-lat='"+val.lat+"' data-subtitle='"+val.address+"' data-left='<img src="+myImgPrefix+val.photo+">' data-right='"+val.zindex+"' selected>"+val.name+"</option>")
+            }else{
+                //加载所有站点数据下拉列表
+                $("#select1").append("<option value='"+val.sdId+"' data-lng='"+val.lng+"' data-lat='"+val.lat+"' data-subtitle='"+val.address+"' data-left='<img src="+myImgPrefix+val.photo+">' data-right='"+val.zindex+"'>"+val.name+"</option>")
+            }
+        }else{
+            //加载所有站点数据下拉列表
+            $("#select1").append("<option value='"+val.id+"' data-lng='"+val.lng+"' data-lat='"+val.lat+"' data-subtitle='"+val.address+"' data-left='<img src="+myImgPrefix+val.photo+">' data-right='"+val.zindex+"'>"+val.name+"</option>")
+
+            $("#menuTypeId").append("<option value='"+val.sdId+"'>"+val.name+"</option>");
+            if(fruits!=null&&fruits!=undefined){
+                if($.inArray(val.sdId+"", fruits)!=-1){
+                    $("#menuTypeId").find("option[value='"+val.sdId+"']").attr("selected",'selected');
+                    $("#menuTypeId").trigger("chosen:updated");
+                }
+            }
+        }
+
+        if(val.pid==0){
+            //map.setCenter();
+            setTimeout(function () {
+                map.setCenter(new BMap.Point(val.lng,val.lat));
+            } ,1000 * 0.5);
+
+        }
+
+        if(val.lng!=null&&val.lat!=null){
+
+            var sContent =
+                "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>"+val.name+"</h4>" +
+                "<img style='float:right;margin:4px' id='imgDemo' src='"+myImgPrefix+val.photo+"' width='139' height='104' title='"+val.name+"'/>" +
+                "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>"+val.address+"</p>" +
+                "</div>";
+
+            var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+
+            if(val.photo!=undefined&&val.photo!=null&&val.photo!=""){
+                //创建自己的图标
+                var pp = new BMap.Point(val.lng, val.lat);
+                //原本小图标 myImgPrefix+val.photo --》 当前使用智飨logo
+                var myIcon = new BMap.Icon(
+                    '../../images/logo1.png', // 上传的站点图标
+                    new BMap.Size(38, 47), // 视窗大小
+                    {
+                        imageSize: new BMap.Size(50,57), // 引用图片实际大小
+                        imageOffset:new BMap.Size(0,0)  // 图片相对视窗的偏移
+                    }
+                );
+                var marker2 = new BMap.Marker(pp, {
+                    icon : myIcon
+                });  // 创建标注
+                marker2.setOffset(new BMap.Size(0,-20));
+                map.addOverlay(marker2);              // 将标注添加到地图中
+                //marker2.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                markers.push(marker2);
+
+                /*marker2.addEventListener("click", function(){
+                    setCurrentSdId(sdIdId,val.sdId);
+                    marker2.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                });*/
+                marker2.addEventListener("click", function(e) {    //鼠标点击下拉列表后的事件
+                    map.clearOverlays();    //清除地图上所有覆盖物
+                    map.centerAndZoom(this.point, 18);
+                });
+                //双击取消站点选择
+                marker2.addEventListener("dblclick", function(){
+                    marker2.setAnimation(null);
+                });
+
+                marker2.addEventListener("mouseover", function(){
+                    this.openInfoWindow(infoWindow);
+                    //图片加载完毕重绘infowindow
+                    document.getElementById('imgDemo').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }
+                });
+
+                marker2.addEventListener("mouseout", function(){
+                    this.closeInfoWindow();
+                });
+
+            }else{
+                //创建百度地图默认小狐狸图标
+                var pp = new BMap.Point(val.lng, val.lat);
+                var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
+                var marker2 = new BMap.Marker(pp,{icon:myIcon});  // 创建标注
+                map.addOverlay(marker2);              // 将标注添加到地图中
+                //marker2.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+
+                markers.push(marker2);
+
+                /*marker2.addEventListener("click", function(){
+                    //alert(val.lng+",,,"+val.lat+",,,,"+val.name+",,,"+val.address);
+                    setCurrentSdId(sdIdId,val.sdId);
+                    marker2.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                });*/
+                /*marker2.addEventListener("click", function() {    //鼠标点击下拉列表后的事件
+                    alert("lsjdflkjasdf");
+                    var _value = e.item.value;
+                    myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+                    G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+                    alert(_value);
+                    setPlace(map,myValue);
+                });*/
+                //双击取消站点选择
+                marker2.addEventListener("dblclick", function(){
+                    //alert(val.lng+",,,"+val.lat+",,,,"+val.name+",,,"+val.address);
+                    /*setCurrentSdId(sdIdId,val.sdid);
+                    marker2.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画*/
+                    marker2.setAnimation(null);
+                });
+
+                marker2.addEventListener("mouseover", function(){
+
+                    this.openInfoWindow(infoWindow);
+                    //图片加载完毕重绘infowindow
+                    document.getElementById('imgDemo').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }
+                });
+
+                marker2.addEventListener("mouseout", function(){
+                    this.closeInfoWindow();
+                });
+            }
+
+
+        }
+    });
+
+    if(modalId!=''&&modalId!=null){
+        if ($('#select1').data('selectator') === undefined) {
+            //初始化下拉插件
+            $('#select1').selectator({
+                labels: {
+                    search: '请输入站点'
+                },
+                showAllOptionsOnFocus: true//初始化复选
+            });
+        } else {
+            $('#select1').selectator('destroy');
+        }
+    }else{
+        //初始化下拉插件
+        $('#select1').selectator({
+            labels: {
+                search: '请输入站点'
+            }
+        });
+    }
+
+    $('#select1').next().css("width","100%");
+
+    //点聚合
+    //最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
+    var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
+
+
+    // 覆盖区域图层测试
+    map.addTileLayer(new BMap.PanoramaCoverageLayer());
+
+    var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+    stCtrl.setOffset(new BMap.Size(20, 20));
+    map.addControl(stCtrl);//添加全景控件
+
+    // 添加带有定位的导航控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        // 启用显示定位
+        enableGeolocation: true
+    });
+    map.addControl(navigationControl);
+
+
+    // 添加定位控件
+    var geolocationControl = new BMap.GeolocationControl();
+    geolocationControl.addEventListener("locationSuccess", function(e){
+        // 定位成功事件
+        var address = '';
+        address += e.addressComponent.province;
+        address += e.addressComponent.city;
+        address += e.addressComponent.district;
+        address += e.addressComponent.street;
+        address += e.addressComponent.streetNumber;
+
+    });
+    geolocationControl.addEventListener("locationError",function(e){
+        // 定位失败事件
+        alert(e.message);
+    });
+    map.addControl(geolocationControl);
+
+
+    var cr = new BMap.CopyrightControl({anchor: BMAP_ANCHOR_TOP_RIGHT});   //设置版权控件位置
+    map.addControl(cr); //添加版权控件
+
+    var bs = map.getBounds();   //返回地图可视区域
+    cr.addCopyright({id: 1, content: "Copyright © 2019.Company name All rights reserved.More Templates 智飨云 - Collect from 智飨云<a href='#'>智飨科技</a>", bounds: bs});
+    //Copyright(id,content,bounds)类作为CopyrightControl.addCopyright()方法
+
+
+    var geoc = new BMap.Geocoder();
+
+    //单击获取点击的经纬度
+    map.addEventListener("click",function(e){
+
+        //点击获取试点id
+
+    });
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId2"
+            ,"location" : map
+        });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel2").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel2").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace(map,myValue);
+    });
+
+    if(modalId!=undefined&&modalId!=''&&modalId!=null){
+        $("#"+modalId).modal("show");
+    }
+
+    return map;
 }

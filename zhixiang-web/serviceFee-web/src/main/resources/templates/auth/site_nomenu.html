@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>智飨科技食品餐饮安全网管理后台</title>
+
+    <!--告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。  -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="智飨科技-食品餐饮安全网 " />
+
+    <meta name="author" content="hhp" />
+
+    <!-- 网站关键字，排名关键 -->
+    <meta name="keyword" content="智能化餐饮,智飨科技,物联网,食品安全,智能厨房,家宴,餐饮标准化管理" />
+
+    <!-- 设置标签栏公司logo -->
+    <link rel="icon" href="../../images/logo1.png" type="image/x-icon"/>
+
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- bootstrap 3.0.2 -->
+    <link href="../../css/common/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- 带图片标题搜索框的下拉框样式 -->
+    <link href="../../css/common/fm.selectator.jquery.css" rel="stylesheet" type="text/css" />
+    <!-- 分页插件样式 -->
+    <link href="../../css/common/pagination.css" rel="stylesheet">
+
+    <!-- font Awesome -->
+    <link href="../../css/common/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="../../css/common/ionicon/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Morris chart -->
+    <link href="../../css/common/morris/morris.css" rel="stylesheet" type="text/css" />
+    <!-- jvectormap -->
+    <link href="../../css/common/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <!--  jquery confirm,alert -->
+    <link href="../../css/common/jquery/jquery-confirm.min.css" rel="stylesheet" type="text/css" />
+    <!-- fullCalendar -->
+    <link href="../../css/common/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
+    <!-- before -->
+    <link href="../../css/common/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <!-- Daterange picker -->
+    <link href="../css/common/dateTimePicker/DateTimePicker.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="../../css/common/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="../../css/common/adminLTE/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <!-- DATA TABLES -->
+    <link href="../../css/common/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <!-- 字体图标font-class引用方式 -->
+    <link href="//at.alicdn.com/t/font_1057246_u2d3dw2dcvf.css" rel="stylesheet" type="text/css" />
+    <!--使用单色图标时用-->
+    <!--<link href="../css/common/ionicon/ionicons.css" rel="stylesheet" type="text/css" />-->
+
+    <link href="../../css/animate.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/form.css" rel="stylesheet">
+    <!-- fullCalendar -->
+    <link href="../../css/calendar.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/icons.css" rel="stylesheet">
+
+    <link href="../../css/common/myCommon.css" rel="stylesheet" type="text/css" />
+
+    <link href="../../css/permList/permList.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script>document.documentElement.className = 'js';</script>
+</head>
+
+<body class="skin-blue">
+
+<!-- 头部logo 未读消息 任务通知 header logo: style can be found in header.less -->
+<!--<script src="../js/common/head.js" type="text/javascript"></script>-->
+
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <!-- 左边菜单 -->
+    <!--<script src="../js/common/leftNav.js" type="text/javascript"></script>-->
+
+    <div class="copyrights" style="display: none">
+        <span id="teShiro" style="display:none"><shiro:principal property="username"></shiro:principal></span>
+        <span id="teShiro2" style="display:none"><shiro:principal property="insertTime"></shiro:principal></span>
+    </div>
+    <!-- 用来获取modelandview 里的参数  复杂对象需要解析 -->
+    <span id="responseDate" style="display:none">
+        [[${resultBean}]]
+    </span>
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side" id="main" style="margin-left:4px;">
+
+        <section class="col-lg-12 connectedSortable">
+
+            <!-- 隐藏式搜索 -->
+            <svg class="hidden">
+                <defs>
+                    <symbol id="icon-search">
+                        <title>search</title><!-- 这个是search-->
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </symbol>
+                    <symbol id="icon-cross">
+                        <title>cross</title><!-- 这个是x-->
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </symbol>
+                </defs>
+            </svg>
+            <main>
+                <div class="search siteEcharTop">
+                    <div class="search__inner">
+                        <form class="search__form" id="scjcxxSearchForm">
+                            <input id="alertSdId" type="hidden" name="sdIds"/>
+                        </form>
+                    </div><!-- /search__inner -->
+                </div><!-- /search -->
+            </main>
+            <!-- 隐藏式搜索 -->
+
+            <!-- /jQuery 弹幕样式消息 -->
+            <div class="box box-primary">
+                <div class="box-header">
+                    <span class="box-title" style="font-size: 1.5em;" >站点服务</span>
+                    <div class="pull-right box-tools">
+                        <button class="btn btn-alt btn-sm" data-toggle="tooltip" title="选择站点" onclick="openMap()"><i class="iconfont iconditu" style="font-size: inherit;"></i></button>
+
+                        <button id="btn-search" class="btn btn-alt btn-sm" data-toggle="tooltip" title="搜索"><i class="iconfont iconmagnifiersearch" style="font-size: 1em;"></i></button>
+                        <button id="btn-search-close" class="btn btn-alt btn-sm btn--search-close btn--hidden" style="z-index: 9999999;"><i class="iconfont iconjibing" style="font-size: 1em;"></i></button>
+
+                        <button class="btn btn-alt btn-sm refresh-btn" data-toggle="tooltip" title="重新加载" onclick="loadUserList()"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-alt btn-sm" data-widget='collapse' data-toggle="tooltip" title="隐藏"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-alt btn-sm" data-widget='remove' data-toggle="tooltip" title="关闭"><i class="fa fa-times"></i></button>
+                    </div><!-- /. tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body no-padding main-wrap tabBody">
+                    <table id="sort" class="my-table">
+                        <thead>
+                        <tr>
+                            <th><i class='fa fa-tag'></i>&nbsp;站点名称</th>
+                            <th><i class='fa fa-tag'></i>&nbsp;预警时间</th>
+                            <th><i class='fa fa-tag'></i>&nbsp;到期时间</th>
+                            <th><i class='fa fa-flag'></i>&nbsp;站点图标</th>
+                            <th><i class='fa fa-link'></i>&nbsp;站点地址描述</th>
+                            <th><i class='fa fa-list-ol'></i>&nbsp;优先级</th>
+                            <th><i class='fa fa-link'></i>&nbsp;操作</th>
+                        </tr>
+                        <thead>
+                        <tbody id="userListUl">
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix no-border">
+                    <div class="ht-page"></div>
+                    <button class="btn btn-alt pull-right" onclick="addSun(0,0)" data-toggle="tooltip" title="开通站点"><i class="iconfont icontianjia2" style="font-weight: bold;color: blue;"></i></button>
+                </div>
+            </div><!-- 站点角色列表 -->
+        </section>
+
+        <!-- 响应式时间选择插件div -->
+        <div id="dtBox" style="display:none"></div>
+
+    </aside><!-- /.right-side -->
+
+</div><!-- ./wrapper -->
+
+<!-- COMPOSE MESSAGE MODAL -->
+<div class="modal fade" id="compose-modal-choson" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-key"></i>&nbsp;<span id="chgUpdTitle">请选择站点</span></h4>
+            </div>
+            <form id="userForm">
+                <!-- chosen版本 -->
+                <!--<div class="input-group" style="width:100%;">
+                    <select name="menuTypeSelect" multiple="multiple" id="menuTypeId" class="menuTypeDtoId tooltip-show" data-toggle="tooltip" title="请选择站点" style="width:100%">
+                    </select>
+                </div>-->
+                <select id="select1" name="select1" multiple>
+
+                </select>
+                <div class="form-group">
+                    <div class="input-group" style="top: 4em;z-index: 10;margin: 0 auto;width: 50%;">
+                        <input id="suggestId2" type="text" class="form-control" placeholder="地图检索">
+                    </div>
+                    <div id="searchResultPanel2" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;background-color:orange !important;height:40em;width:100%;z-index:99;"></div>
+
+                    <div id='my-map' style='width:100%;height:40em;'>
+                    </div>
+
+                </div>
+                <!--<div class="modal-footer clearfix">
+                    &lt;!&ndash; data-dismiss="modal" 加上这个属性click会关闭模态框 &ndash;&gt;
+                    <button type="button" class="btn btn-danger" onclick="myResetForm()"><i class="fa fa-eraser"></i>&nbsp;重置</button>
+
+                    <button id="myFormButton" type="button" class="btn btn-primary pull-left"><i class="fa fa-mail-forward"></i>&nbsp;立即提交</button>
+                </div>-->
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- COMPOSE MESSAGE MODAL -->
+<div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-key"></i>&nbsp;<span id="chgUpdTitle"></span></h4>
+            </div>
+            <form id="permForm" action="#" method="post">
+                <input id="type" type="hidden" name="type"/>
+                <input id="id" type="hidden" name="id"/>
+                <input id="pid" type="hidden" name="pid"/>
+                <input id="istype" type="hidden" name="istype"/>
+                <input id="iconImg" type="hidden" name="photo">
+                <input id="lng" type="hidden" name="lng">
+                <input id="lat" type="hidden" name="lat">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">站点名称:</span>
+                            <input name="name" type="text" class="form-control" placeholder="站点名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">预警时间:</span>
+                            <input name="warningTime" type="text" class="form-control" data-field="datetime" data-format="yyyy-MM-dd HH:mm:ss" readonly placeholder="预警时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">到期时间:</span>
+                            <input name="overTime" type="text" class="form-control" data-field="datetime" data-format="yyyy-MM-dd HH:mm:ss" readonly placeholder="到期时间">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">站点延期:</span>
+                            <input name="ggxh" type="text" class="form-control agile-ltext tooltip-show" data-toggle="tooltip" title="请输入延期时间并选择单位" autocomplete="off" placeholder="请输入延期时间并选择单位">
+                            <span id="ggxhDWSpan" class="input-group-addon dropdown-toggle" data-toggle="dropdown">单位</span>
+                            <ul class="dropdown-menu mySpecialUlUnit" role="menu" style="z-index: 99999;right: 0;">
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('克')"><a href="javascript:void(0)">克</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('斤')"><a href="javascript:void(0)">斤</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('公斤')"><a href="javascript:void(0)">公斤</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('g')"><a href="javascript:void(0)">g</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('kg')"><a href="javascript:void(0)">kg</a></li>
+                            </ul>
+
+                        </div>
+                    </div>-->
+                    <div id="zd_img" class="form-group">
+                        <div class="btn btn-success btn-file">
+                            <i class="fa fa-flag"></i> 站点图标
+                            <input id="file" type="file" style="left:-1px;top:-1px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">站点id:</span>
+                            <input name="sdId" type="text" class="form-control" placeholder="站点id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">站点优先级:</span>
+                            <input name="zindex" type="text" class="form-control" placeholder="站点优先级">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="address" id="descpt_message" class="form-control" placeholder="站点地址描述" style="height: 120px;"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="input-group" style="top: 4em;z-index: 10;margin: 0 auto;width: 50%;">
+                            <input id="suggestId" type="text" class="form-control" placeholder="站点名称">
+                        </div>
+                        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;background-color:orange !important;height:40em;width:100%;z-index:99;"></div>
+
+                        <div id='my-map2' style='width:100%;height:40em;'>
+
+                            <!--<div class="info">
+                                <div class="input-item">
+                                    <div class="input-item-prepend">
+                                        <span class="input-item-text" style="width:8rem;">请输入关键字</span>
+                                    </div>
+                                    <input id='tipinput' type="text">
+                                </div>-->
+                        </div>
+
+                    </div>
+                    <!--<div class="form-group">
+                        <textarea name="message" id="roles" class="form-control" placeholder="角色权限" style="height: 120px;"></textarea>
+                    </div>-->
+
+                    <!--<div class="form-group">
+                        <div class="btn btn-success btn-file">
+                            <i class="fa fa-paperclip"></i> 上传文件样式
+                            <input type="file" name="attachment"/>
+                        </div>
+                        <p class="help-block">Max. 32MB</p>
+                    </div>-->
+
+                </div>
+                <div class="modal-footer clearfix">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="myResetForm()"><i class="fa fa-eraser"></i>&nbsp;重置</button>
+
+                    <button id="myFormButton" type="button" class="btn btn-primary pull-left"><i class="fa fa-mail-forward"></i>&nbsp;立即提交</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- COMPOSE MESSAGE MODAL -->
+<div class="modal fade" id="compose-date" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-key"></i>&nbsp;<span id="chgUpdTitle">请选择站点</span></h4>
+            </div>
+            <form id="dateForm">
+                <input id="type" type="hidden" name="type"/>
+                <input id="id" type="hidden" name="id"/>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">站点延期:</span>
+                            <input name="ggxh" type="text" class="form-control agile-ltext tooltip-show" data-toggle="tooltip" title="请输入延期时间并选择单位" autocomplete="off" placeholder="请输入延期时间并选择单位">
+                            <span id="ggxhDWSpan" class="input-group-addon dropdown-toggle" data-toggle="dropdown">单位</span>
+                            <ul class="dropdown-menu mySpecialUlUnit" role="menu" style="z-index: 99999;right: 0;">
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('克')"><a href="javascript:void(0)">克</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('斤')"><a href="javascript:void(0)">斤</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('公斤')"><a href="javascript:void(0)">公斤</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('g')"><a href="javascript:void(0)">g</a></li>
+                                <li style="text-align:center;" onclick="chooseGGXHDWLi('kg')"><a href="javascript:void(0)">kg</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer clearfix">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="myResetForm()"><i class="fa fa-eraser"></i>&nbsp;重置</button>
+
+                    <button id="myDateButton" type="button" class="btn btn-primary pull-left"><i class="fa fa-mail-forward"></i>&nbsp;立即提交</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 返回顶部 -->
+<div class="toTopRocket"><a href="javascript:void(0);" title="返回顶部"></a></div>
+
+<!-- jQuery 2.0.2 -->
+<script src="../../js/common/jquery/jquery-2.2.3.min.js"></script>
+<script type="text/javascript">
+    $(".myHideMsg").css("display","none");
+    $(".myHideYJ").css("display","none");
+</script>
+<script src="../../js/common/jquery/jquery-ui-1.10.3.js" type="text/javascript"></script>
+
+<script src="../../js/common/jquery/jquery.form.js"></script>
+<!-- 带图片标题context和搜索框的下拉框-->
+<script src="../../js/common/fm.selectator.jquery.js"></script>
+<!-- 百度地图 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IpUYrmLOEKPvfZt74ZG9KO1Sinn1YtW7"></script>
+<!-- 点聚合js -->
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<!-- Bootstrap -->
+<script src="../../js/common/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<!-- Morris.js charts -->
+<script src="../../js/common/raphael/raphael-min.js"></script>
+<!--<script src="../../js/common/plugins/morris/morris.min.js" type="text/javascript"></script>-->
+<!-- Sparkline -->
+<!--<script src="../../js/common/plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>-->
+
+<!--<script src="../js/common/bmap.js" type="text/javascript"></script>
+<script src="../js/common/china.js" type="text/javascript"></script>-->
+<!-- daterangepicker -->
+<!--<script src="../../js/common/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>-->
+<!-- Bootstrap WYSIHTML5 -->
+<!--<script src="../../js/common/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>-->
+<!-- iCheck -->
+<!--<script src="../../js/common/plugins/iCheck/icheck.min.js" type="text/javascript"></script>-->
+
+<!-- AdminLTE App -->
+<script src="../../js/common/AdminLTE/app.js" type="text/javascript"></script>
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!--<script src="../js/common/AdminLTE/dashboard.js" type="text/javascript"></script>-->
+<script src="../../js/common/AdminLTE/dashboard-email-textarea-change.js" type="text/javascript"></script>
+<!-- 响应式日期选择插件 -->
+<script src="../../js/common/dateTimePicker/DateTimePicker.js" type="text/javascript"></script>
+<script src="../../js/common/dateTimePicker/DateTimePicker-i18n.js" type="text/javascript"></script>
+<!--<script src="../../js/common/moveTop/move-top.js" type="text/javascript"></script>-->
+<!-- 隐藏式搜索条件样式 -->
+<script src="../../js/common/hideSearch_noInput.js" type="text/javascript"></script>
+
+<!-- UX -->
+<script src="../../js/scroll.min.js"></script> <!-- Custom Scrollbar -->
+
+<!-- All JS functions -->
+<script src="../../js/functions.js"></script>
+
+<!-- 图片查看js -->
+<script src="../../js/common/picture/viewer-jquery.min.js"></script>
+<!--<script src="../js/common/jquery/jquery-confirm.min.js"></script>-->
+<!-- 改了confirm的i标签样式，换成阿里的多色图标 -->
+<script src="../../js/common/jquery/jquery-confirm-mychange.min.js"></script>
+
+<script src="../../js/common/pagination.js" typ="text/javascript"></script>
+
+<script src="../../js/common/sysConf/sysConf.js" type="text/javascript"></script>
+
+<script src="../../js/common/myCommon.js" type="text/javascript"></script>
+
+<script src="../../js/auth/site_nomenu.js" type="text/javascript"></script>
+
+</body>
+</html>

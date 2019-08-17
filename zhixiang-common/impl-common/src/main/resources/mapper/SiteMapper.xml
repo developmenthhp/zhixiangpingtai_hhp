@@ -318,4 +318,15 @@
   </select>
   <!-- 根据试点id获取临期过期时间 end -->
 
+  <!-- 分页查询所有站点 -->
+  <select id="findPageSiteList" resultType="com.zhixiangmain.module.site.Site" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from site
+    <where>
+      <if test="sdId != null">
+        AND sdid = #{sdId}
+      </if>
+    </where>
+  </select>
 </mapper>

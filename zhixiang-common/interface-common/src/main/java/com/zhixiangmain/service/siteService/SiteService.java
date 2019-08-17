@@ -1,6 +1,7 @@
 package com.zhixiangmain.service.siteService;
 
 import com.zhixiangmain.module.site.Site;
+import com.zhixiangmain.module.site.dto.SiteDTO;
 import com.zhixiangmain.module.site.vo.SiteVO;
 import com.zhixiangmain.module.siteRole.SiteRole;
 import com.zhixiangmain.module.siteRole.dto.SiteRoleDTO;
@@ -53,4 +54,6 @@ public interface SiteService {
     ResultBean getPhotoBySdId(String sdId);
 
     ResultBean isSiteOverTime(String sdId);
+
+    ResultBean getPageSiteList(SiteDTO siteDTO, Integer page, Integer limit);
 }

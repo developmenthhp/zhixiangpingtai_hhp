@@ -34,4 +34,7 @@ public class WebMassage {
     public static final String ANALYTICAL_EXCEL_ANOMALY_ERROR = "解析excel异常";
     public static final String FOOD_MENU_DETAIL_UPDATE_SUCCESS = "菜谱更新成功";
     public static final String FIND_LIBRARY_CHANGE_ERROR = "查找食材核准信息异常";
+    public static final String ONLY_ZHIXIANG_CAN_USE="该系统只可用于智飨内部人员使用";
+    public static final String INTERFACE_STATUS_SUCCESS="执行成功";
+    public static final String INTERFACE_STATUS_ERROR="执行失败";
 }
