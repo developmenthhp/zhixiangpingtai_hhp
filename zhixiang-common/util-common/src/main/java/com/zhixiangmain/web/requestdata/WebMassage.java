@@ -37,4 +37,5 @@ public class WebMassage {
     public static final String ONLY_ZHIXIANG_CAN_USE="该系统只可用于智飨内部人员使用";
     public static final String INTERFACE_STATUS_SUCCESS="执行成功";
     public static final String INTERFACE_STATUS_ERROR="执行失败";
+    public static final String PARAMETERS_IS_NULL="参数为空";
 }
